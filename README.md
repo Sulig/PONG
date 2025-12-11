@@ -13,7 +13,7 @@ The popular and mythic game of PONG, with 1x1 online and ofline versus, 1xCPU, t
 ***
 ## Content of this repository:
 - The only PONG game (In progress)
-- [Subject English](https://github.com/Sulig/Cub3D/blob/master/Cub3D_subject-en.pdf)
+- [Subject English](https://github.com/Sulig/PONG/blob/master/Transcendance.subject.pdf)
 
 > [!WARNING]\
 > This repository is JUST STARTED right now
