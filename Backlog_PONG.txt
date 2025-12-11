@@ -1,0 +1,91 @@
+***************
+*** DESCRIPT
+***************
+For the game -- Will be PONG --
+* (Si hay tiempo, se pueden anyadir mas juegos)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+****
+* TOOLS
+****
+- React (+ js vanilla)
+ > keydown and event hooks.
+ > All game mecanics.
+- Major - Implement advanced 3D graphics using a library like Three.js or Babylon.js.
+---------------------
+
+****
+* SETTINGS
+****
+
+### Style --
++ Create an immersive 3D environment.
++ Implement advanced rendering techniques.
++ Ensure smooth performance and user interaction.
+
+> Los colores del juego se podrian customizar a voluntad (frontend + css)
+
+### Controllers
++ Keyinput (keydown)
+++ IF 1 player vs 1 (CPU or online)
+	> Arrow up & Arrow down -> Mover la pala correspondiente
+	> (-- Podria anyadir una modificacion donde el jugador pueda decidir que tecla usar)
+	> (En mobil) -> Deslizar horizontalmente (tal vez un slider ubicado en el borde inferior de la pantalla) para mover la pala.
+
+++ IF 1 vs 1 in local.
+	> W & S -> Para mover la pala del J1
+	> Arrow Up & Down -> Mover la pala del J2
+	> Podria hacerlo customizable.
+
+### Rules
+Classic PONG game, the ball rebotes on the max top & max bottom height.
++ La pelota rebota en las palas
++ En la primera instancia, se decide aleatoriamente hacia donde se dirigira la bola (si J1 o J2)
++ Cuando un jugador marque, se le asignara un punto y la bola se sacara desde el jugador que ha perdido.
++ El juego termina cuando alguien haya ganado X puntos.
+
+> Podria customizar cuantos puntos se necesitan para ganar (Frontend)
+---------------------
+
+****
+* AI
+****
+
++ The AI must be challenging and able to win occasionally.
++ The AI should simulate human-like behavior (not perfect play).
++ If you implement game customization options, the AI must be able to use them.
++ You must be able to explain your AI implementation during evaluation.
+---------------------
+
+****
+* Game customatation
+****
+(like ball color + walls  + speed , etc..)
+---------------------
+~~~
+## TODO -->
+
+[] - Create a <div> whith where the entire PONG game will be running
+[] -- LATER - Style the components (Frontend)
+[] - Hacer las mecanicas de las palas.
+	[] - Keyhooks and eventlisteners for PC
+		[] - For 1 vs CPU
+		[] - For local 1 vs 1
+	[] - Eventlisteners for MOBILE
+[] - Phisics
+	[] - COLISIONES
+		[] - Rebotes de la pelota (tatno con la pared como con las palas)
+		[] - Marcar puntos
+	[] - Velocity
+		[] - Depende de donde rebote la bola, puede ir mas rapido o mas lento.
+		[] - -- AI -- Velocidad de respuesta (-- mas adelante podria anyadir un ajuste de dificultad)
+	[] - Ball Direccion
+		[] - Depende de las COLISIONES
+		[] - Depende de quien haya marcado (y a quien le toque sacar)
+		[] - (- later, podria anyadir una guia de donde va a rebotar la bola)
+[] - WIN / LOSE CONDITIONS
+	[] - Marcador
+	[] - Finalizar juego cuando un jugador consiga marcar suficientes puntos.
+	[] - Effects for win/lose?
+
+~~~
