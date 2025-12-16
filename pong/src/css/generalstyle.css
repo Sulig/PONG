@@ -17,8 +17,27 @@ body {
 /*  -----------------   */
 
 /* PONG */
-.game {
+#game {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+
+	background-color: crimson;
+	margin: 1rem;
+	border-radius: 4px;
+
+	height: 100%;
+}
+
+#gm-canvas
+{
 	background-color: black;
+	width: 100%;
+	display: block;
+	overflow: hidden;
+	margin-top: auto;
+	border-radius: 4px;
+	box-shadow: 0 0 20px crimson;
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

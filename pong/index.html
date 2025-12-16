@@ -8,23 +8,23 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <!-- CSS -->
-        <link rel="stylesheet" href="css/reset.css">
+        <link rel="stylesheet" href="src/css/reset.css">
 
-        <link rel="stylesheet" href="css/generalstyle.css">
-        <link rel="stylesheet" href="css/mediastyle.css">
+        <link rel="stylesheet" href="src/css/generalstyle.css">
+        <link rel="stylesheet" href="src/css/mediastyle.css">
 
         <!-- Favicon -->
-        <link rel="icon" type="image/png" sizes="64x64" href="img/error-tile_TV.png">
+        <link rel="icon" type="image/png" sizes="64x64" href="src/assets/error-tile_TV.png">
 
         <!-- JS Resources -->
 
     </head>
     <body>
-      <p>Hello world</p>
         <!-- PONG -->
         <!-- #region -->
-        <div class="game">
-          <canvas class="gm-canvas">
+        <div id="game">
+			<!-- HUD here? -->
+          <canvas id="gm-canvas">
               <!-- HUD -->
               <!-- --- -->
           </canvas>
@@ -33,13 +33,12 @@
 
         <!-- JS -->
         <!-- #region -->
-        <script type="module" src="/src/main.tsx"></script>
-		    <script src="js/pong.js" type="module"></script>
+		<script type="module" src="src/js/pong.js"></script>
         <!-- #endregion -->
         <!-- NOSCRIPT -->
         <noscript>
             <p class="noscript">
-                Sembla que JS esta bloquejat desde aquest navegador, es posible que la pagina no carregui correctament.
+                No JS. No game. No fun. :(
             </p>
         </noscript>
     </body>
