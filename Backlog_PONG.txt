@@ -30,12 +30,16 @@ For the game -- Will be PONG --
 ++ IF 1 player vs 1 (CPU or online)
 	> Arrow up & Arrow down -> Mover la pala correspondiente
 	> (-- Podria anyadir una modificacion donde el jugador pueda decidir que tecla usar)
+	> Idea: Podria hacerlo mediante el "scrol" del raton.
 	> (En mobil) -> Deslizar horizontalmente (tal vez un slider ubicado en el borde inferior de la pantalla) para mover la pala.
 
 ++ IF 1 vs 1 in local.
 	> W & S -> Para mover la pala del J1
 	> Arrow Up & Down -> Mover la pala del J2
 	> Podria hacerlo customizable.
+
+** Check this for keyinput -> https://www.w3schools.com/graphics/game_controllers.asp
+~~~
 
 ### Rules
 Classic PONG game, the ball rebotes on the max top & max bottom height.

@@ -29,7 +29,7 @@ body {
 	height: 100%;
 }
 
-#gm-canvas
+canvas
 {
 	background-color: black;
 	width: 100%;
