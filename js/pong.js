@@ -4,9 +4,9 @@
 import { GetJSONdata } from "./fetch.js";
 
 /**-- gmscale */
-const GAME_WIDTH	= 800;
+const GAME_WIDTH	= 1350;
 const GAME_HEIGHT	= 600;
-const gm_marginX	= 10;
+const gm_margin			= 10;
 
 const canvas = document.getElementById("gm-canvas");	// The game canvas
 const ctx = canvas.getContext("2d");
@@ -16,6 +16,8 @@ const _tx = new Image();
 _tx.src = "./assets/error-tile_TV.png";
 const ball_tex = ctx.createPattern(_tx, "no-repeat");
 /****/
+
+const padW = 16, padH = 100;
 
 /** BETTER RENDER */
 ctx.imageSmoothingEnabled = true;
@@ -27,15 +29,22 @@ let offsetX = 0, offsetY = 0;
 function resizeCanvas()
 {
 	const winWidth = window.innerWidth;
-	const winHeight = window.innerWidth;
+	const winHeight = window.innerHeight;
 
-	scale = Math.min(winWidth / GAME_WIDTH, winHeight / GAME_HEIGHT);
+	// Usa todo el espacio disponible (menos un pequeño margen opcional)
+	const availableWidth = winWidth - (gm_margin * 2);
+	const availableHeight = winHeight - (gm_margin * 2);
 
+	scale = Math.min(availableWidth / GAME_WIDTH, availableHeight / GAME_HEIGHT);
+
+	offsetX = (winWidth - GAME_WIDTH * scale) / 2;
 	offsetY = (winHeight - GAME_HEIGHT * scale) / 2;
-	console.log(offsetY);
 
-	canvas.style.width = `${GAME_WIDTH * scale - gm_marginX}px`;
+	canvas.style.width = `${GAME_WIDTH * scale}px`;
 	canvas.style.height = `${GAME_HEIGHT * scale}px`;
+	canvas.style.position = 'absolute';
+	canvas.style.left = `${offsetX}px`;	// pos of canvas (left) -- maybe need to change these with div cnt?
+	canvas.style.top = `${offsetY}px`;	// position of canvas (top)
 
 	const dpr = window.devicePixelRatio || 1;
 	canvas.width = GAME_WIDTH * dpr;
@@ -75,7 +84,6 @@ function gameToScreen(x, y)
 /**----------------- */
 //*********** */
 
-
 /** GAME GRAFICS */
 function draw()
 {
@@ -87,6 +95,24 @@ function draw()
 	drawMidLine();
 
 	// here i will need to comprove where's the ball bef draw it.
+	startBall();
+	startLPadd();
+	startRPadd();
+}
+
+/** Mid line (only grafic, has no collider) */
+function drawMidLine()
+{
+	const borderMH = 4;		// Margin Height (top - bottom)
+
+	ctx.strokeStyle = 'white';
+	ctx.lineWidth = 8;
+	// -- Dash line - long, spacing
+	ctx.setLineDash([30, 38]);
+	ctx.beginPath();
+	ctx.moveTo(GAME_WIDTH / 2, borderMH);
+	ctx.lineTo(GAME_WIDTH / 2, GAME_HEIGHT - borderMH);
+	ctx.stroke();
 }
 
 /** Boders of Pong Game -- Will add col-. later */
@@ -101,20 +127,6 @@ function drawBorders()
 	// -------- Xpos, Ypos, width, height
 	ctx.fillRect(borderMW, borderMH, GAME_WIDTH - (borderMW * 2), borderH);
 	ctx.fillRect(borderMW, GAME_HEIGHT - (borderMH + borderH), GAME_WIDTH - (borderMW * 2), borderH);
-}
-
-function drawMidLine()
-{
-	const borderMH = 4;		// Margin Height (top - bottom)
-
-	ctx.strokeStyle = 'white';
-	ctx.lineWidth = 8;
-	// -- Dash line - long, spacing
-	ctx.setLineDash([30, 38]);
-	ctx.beginPath();
-	ctx.moveTo(GAME_WIDTH / 2, borderMH);
-	ctx.lineTo(GAME_WIDTH / 2, GAME_HEIGHT - borderMH);
-	ctx.stroke();
 }
 
 /** Draw the ball --
@@ -138,12 +150,33 @@ function startBall()
 
 	ctx.fill();
 }
+
+/** Draw the left paddle --
+ * Same as the ball --
+ */
+function startLPadd()
+{
+	ctx.fillStyle = 'white';
+	const centerY = GAME_HEIGHT / 2;
+	// -------- Xpos, Ypos, width, height
+	ctx.fillRect(0, centerY - padH / 2, padW, padH);
+}
+
+/** Draw the left paddle --
+ * Same as the ball --
+ */
+function startRPadd()
+{
+	ctx.fillStyle = 'white';
+	const centerY = GAME_HEIGHT / 2;
+	// -------- Xpos, Ypos, width, height
+	ctx.fillRect(GAME_WIDTH - padW, centerY - padH / 2, padW, padH);
+}
 /**----------------- */
 //*********** */
 
 /** ON-START */
 resizeCanvas();
 draw();
-startBall();
 /**----------------- */
 //*********** */

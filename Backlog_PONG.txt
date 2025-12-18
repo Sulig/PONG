@@ -93,3 +93,26 @@ Classic PONG game, the ball rebotes on the max top & max bottom height.
 	[] - Effects for win/lose?
 
 ~~~
+
+[] (One class per file) --
+	[] - Ball
+	[] - Paddle'S
+	[] - Borders
+
+- So in the "main" file (maybe pong - as main), only will be called the `start` and update methods.
+[] - IN Pong, will define the objects (as `let`) and it will be asigned in one master object?
+* The event listeners also will be in that file
+--
+
+- In START -->
+	[] - Create an start function, will call to draw all objects to instance and SETTINGS
+	[] - Setting of the objects (class)
+
+- In Update -->
+	[] - Update the ball positions
+	[] - Have the code to update the paddles
+	[] - Here will be apply the collisions
+	[] - Will check for win/lose condition (but code will be appart?)
+
+- Need a file for lose and win conditions or maybe in pong too?
+~~~
