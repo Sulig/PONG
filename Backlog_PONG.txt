@@ -71,6 +71,7 @@ Classic PONG game, the ball rebotes on the max top & max bottom height.
 
 [OK] - Create a <div> whith where the entire PONG game will be running
 [OK --] -- LATER - Style the components (Frontend)
+
 [] - Hacer las mecanicas de las palas.
 	[] - Keyhooks and eventlisteners for PC
 		[] - For 1 vs CPU

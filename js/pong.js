@@ -6,7 +6,7 @@ import { GetJSONdata } from "./fetch.js";
 /**-- gmscale */
 const GAME_WIDTH	= 1350;
 const GAME_HEIGHT	= 600;
-const gm_margin			= 10;
+const gm_margin		= 10;
 
 const canvas = document.getElementById("gm-canvas");	// The game canvas
 const ctx = canvas.getContext("2d");
@@ -59,28 +59,6 @@ window.addEventListener("resize", () => {
 	resizeCanvas();
 	draw();
 });
-/**----------------- */
-//*********** */
-
-/** Utilities -- canvas <- * -> game */
-function screenToGame(x, y)
-{
-	const rect = canvas.getBoundingClientRect();
-	return {
-		x: (x - rect.left) / scale,
-		y: (y - rect.top) / scale
-	};
-}
-
-// Función para convertir coordenadas del juego a coordenadas de pantalla
-function gameToScreen(x, y)
-{
-	const rect = canvas.getBoundingClientRect();
-	return {
-		x: rect.left + x * scale,
-		y: rect.top + y * scale
-	};
-}
 /**----------------- */
 //*********** */
 
