@@ -5,12 +5,6 @@ import { GetJSONdata } from "./fetch.js";
 import { resizeCanvas } from "./render.js";
 import { pong } from "./OBPong.js";
 
-/** ON-START */
-resizeCanvas();
-pong.initializeGame();
-/**----------------- */
-//*********** */
-
 /** KEYBOARD INPUT */
 window.addEventListener("keydown", (e) => {
 	if (e.key === "ArrowUp") {
@@ -39,3 +33,46 @@ window.addEventListener("keyup", (e) => {
 	pong.updatePaddlePosition(pong.padL);
 	pong.updatePaddlePosition(pong.padR);
 });
+
+/** MOUSE INPUT */
+window.addEventListener("mousemove", (e) => {
+	const rect = pong.canvas.getBoundingClientRect();
+	const mouseY = e.clientY - rect.top;
+	pong.padL.y = mouseY - pong.padL.height / 2;
+});
+/*----------------- */
+
+/** MOBILE */
+window.addEventListener("touchmove", (e) => {
+	const rect = pong.canvas.getBoundingClientRect();
+	const touchY = e.touches[0].clientY - rect.top;
+	pong.padL.y = touchY - pong.padL.height / 2;
+});
+/*----------------- */
+/* **********************************************/
+
+/** GAME LOOP */
+function gameLoop()
+{
+	// Actualizar lógica
+	pong.updateBallPosition();
+	pong.updatePaddlePosition(pong.padL);
+	pong.updatePaddlePosition(pong.padR);
+
+	// Redibujar
+	pong.reDraw();
+
+	// Pedir el siguiente frame
+	requestAnimationFrame(gameLoop);
+}
+
+/** ON-START */
+resizeCanvas();
+pong.initializeGame();
+requestAnimationFrame(gameLoop);
+pong.decideServe();
+/**----------------- */
+
+/* **********************************************/
+/*                END OF PONG                   */
+/* **********************************************/

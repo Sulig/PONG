@@ -21,7 +21,7 @@ export const ball_tex = ctx.createPattern(_tx, "no-repeat");
 const BALL = {
 	color:	"white",
 	rad:	20,
-	vel:	5,
+	vel:	16,
 	x:		0,
 	y:		0,
 	dirX:	0,
@@ -30,7 +30,7 @@ const BALL = {
 
 // 	** PADDLES */
 // -- width, height, velocity
-const PADW = 16, PADH = 100, PADVEL = 25;
+const PADW = 16, PADH = 100, PADVEL = 22;
 const PAD = {
 	color:	"white",
 	width:	PADW,
@@ -51,22 +51,24 @@ const BORDER = {
 	y:		0
 };
 
-
-//** PLAYER  */
-export const PLAYER = {
-	score: 0,
-	name: "Player",
-	has_last_goal: false
-};
-
+//** GOAL CORNER */
 const GOAL_CORNER = {
 	color:	"red",
 	height:	20,
 	width:	20,
 	x:		0,
 	y:		0,
-	PLAYER: null
-}
+};
+
+//** PLAYER  */
+export const PLAYER = {
+	score: 0,
+	name: "Player",
+	has_last_goal: false,
+	serve:  false,
+	my_paddle: null,
+	corner: null
+};
 /** */
 /**----------------- */
 
@@ -80,13 +82,19 @@ export class Pong
 		this.height = GAME_HEIGHT;
 		this.margin = gm_margin;
 
-		this.ball = Object.create(BALL);	// Da ball
-		this.padL = Object.create(PAD);		// Left paddle
-		this.padR = Object.create(PAD);		// Right paddle
+		this.bodmh = BODMH;						// Border Margin Height
+		this.borT = Object.create(BORDER);		// border top
+		this.borB = Object.create(BORDER);		// border bottom
 
-		this.bodmh = BODMH;					// Border Margin Height
-		this.borT = Object.create(BORDER);	// border top
-		this.borB = Object.create(BORDER);	// border bottom
+		this.corL = Object.create(GOAL_CORNER);	// Left Goal Corner
+		this.corR = Object.create(GOAL_CORNER);	// Right Goal Corner
+
+		this.ball = Object.create(BALL);		// Da ball
+		this.padL = Object.create(PAD);			// Left paddle
+		this.padR = Object.create(PAD);			// Right paddle
+
+		this.playerL = Object.create(PLAYER);	// Left player
+		this.playerR = Object.create(PLAYER);	// Right player
 	}
 	//*********** */
 
@@ -131,10 +139,7 @@ export class Pong
 		// Start ball coordinates
 		this.ball.x = centerX;
 		this.ball.y = centerY;
-		console.log("Ball started at: ", this.ball.x, this.ball.y);
-		console.log(this.ball);
 	}
-
 	startPaddles()
 	{
 		// -- * LEFT PADDLE
@@ -151,25 +156,40 @@ export class Pong
 		this.padR.x = this.width - this.padR.width;
 		this.padR.y = centerY - this.padR.height / 2;
 		ctx.fillRect(this.padR.x, this.padR.y, this.padR.width, this.padR.height);
-
 	}
 	/**----------------- */
-
-	initializeGame()
+	startGamePosition()
 	{
 		this.drawBorders();
 		this.drawMidLine();
 		this.startBall();
 		this.startPaddles();
 	}
+	initializeGame()
+	{
+		this.startGamePosition();
 
-	/**--- */
+		//* Start players
+		// Player Left
+		this.playerL.my_paddle = this.padL;
+		this.playerL.corner = this.corL;
+
+		// Player Right
+		this.playerR.my_paddle = this.padR;
+		this.playerR.corner = this.corR;
+
+		let initialServe = Math.random() < 0.5 ? true : false;
+		this.playerL.serve = initialServe;
+		this.playerR.serve = !initialServe;
+	}
+	/**----------------- */
+
+	/** DRAWING */
 	drawPaddle(paddle)
 	{
 		ctx.fillStyle = paddle.color;
 		ctx.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
 	}
-
 	drawBall(ball)
 	{
 		ctx.beginPath();
@@ -178,7 +198,6 @@ export class Pong
 		ctx.fill();
 	}
 	/**--- */
-
 	/** Redraw the entire game screen */
 	reDraw()
 	{
@@ -196,7 +215,6 @@ export class Pong
 	}
 	//*********** */
 
-
 	/** MOVEMENT */
 	updatePaddlePosition(paddle)
 	{
@@ -209,6 +227,34 @@ export class Pong
 		}
 		this.reDraw();
 		console.log(paddle);
+	}
+
+	decideServe()
+	{
+		let nextS = Math.random() < 0.5 ? true : false;
+		this.playerL.serve = nextS;
+		this.playerR.serve = !nextS;
+
+		if (pong.playerL.serve) {
+			pong.ball.dirX = 1;
+		} else {
+			pong.ball.dirX = -1;
+		}
+	}
+
+	updateBallPosition()
+	{
+		this.ball.x += this.ball.dirX * this.ball.vel;
+		this.ball.y += this.ball.dirY * this.ball.vel;
+		this.reDraw();
+
+		if (this.ball.x + this.ball.rad > this.width || this.ball.x - this.ball.rad < 0) {
+			// Ball has gone past left or right edge
+			console.log("Goal!");
+			// Reset ball position to center
+			this.startBall();
+			this.decideServe();
+		}
 	}
 	/**----------------- */
 }

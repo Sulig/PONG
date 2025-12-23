@@ -76,7 +76,7 @@ Classic PONG game, the ball rebotes on the max top & max bottom height.
 	[] - Keyhooks and eventlisteners for PC
 		[IN PROGRESS] - For 1 vs CPU
 		[IN PR] - For local 1 vs 1
-	[] - Eventlisteners for MOBILE
+	[OK? -- Needs test] - Eventlisteners for MOBILE
 [] - Phisics
 	[] - COLISIONES
 		[] - Rebotes de la pelota (tatno con la pared como con las palas)
