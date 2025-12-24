@@ -72,21 +72,21 @@ Classic PONG game, the ball rebotes on the max top & max bottom height.
 [OK] - Create a <div> whith where the entire PONG game will be running
 [OK --] -- LATER - Style the components (Frontend)
 
-[] - Hacer las mecanicas de las palas.
+[TEST] - Hacer las mecanicas de las palas.
 	[] - Keyhooks and eventlisteners for PC
 		[IN PROGRESS] - For 1 vs CPU
-		[IN PR] - For local 1 vs 1
+		[IN PROGRESS] - For local 1 vs 1
 	[OK? -- Needs test] - Eventlisteners for MOBILE
 [] - Phisics
 	[] - COLISIONES
-		[] - Rebotes de la pelota (tatno con la pared como con las palas)
-		[] - Marcar puntos
+		[OK] - Rebotes de la pelota (tatno con la pared como con las palas)
+		[--] - Marcar puntos
 	[] - Velocity
-		[] - Depende de donde rebote la bola, puede ir mas rapido o mas lento.
+		[THINKING] - Depende de donde rebote la bola, puede ir mas rapido o mas lento.
 		[] - -- AI -- Velocidad de respuesta (-- mas adelante podria anyadir un ajuste de dificultad)
 	[] - Ball Direccion
-		[] - Depende de las COLISIONES
-		[] - Depende de quien haya marcado (y a quien le toque sacar)
+		[TESTING] - Depende de las COLISIONES
+		[THINKING] - Depende de quien haya marcado (y a quien le toque sacar)
 		[] - (- later, podria anyadir una guia de donde va a rebotar la bola)
 [] - WIN / LOSE CONDITIONS
 	[] - Marcador
@@ -101,3 +101,11 @@ Classic PONG game, the ball rebotes on the max top & max bottom height.
 
 - Need a file for lose and win conditions or maybe in pong too?
 ~~~
+
+IDEAS:
+
+* Implement Arkanoid Random "Ventajas" & Power-ups
+- Aumentar velocidad de la bola
+- Hacer aparecer mas bolas
+- Aumentar/Disminuir el tamaño de las palas
+.. Etc..

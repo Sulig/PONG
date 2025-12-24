@@ -4,6 +4,7 @@
 import { GetJSONdata } from "./fetch.js";
 import { resizeCanvas } from "./render.js";
 import { pong } from "./OBPong.js";
+import { checkPaddleCollision, checkWallCollision } from "./phisics.js";
 
 /** KEYBOARD INPUT */
 window.addEventListener("keydown", (e) => {
@@ -54,6 +55,12 @@ window.addEventListener("touchmove", (e) => {
 /** GAME LOOP */
 function gameLoop()
 {
+	/** Detectar colisiones */
+	checkPaddleCollision(pong.ball, pong.padL);
+	checkPaddleCollision(pong.ball, pong.padR);
+	checkWallCollision(pong.ball, pong.borT);
+	checkWallCollision(pong.ball, pong.borB);
+
 	// Actualizar lógica
 	pong.updateBallPosition();
 	pong.updatePaddlePosition(pong.padL);

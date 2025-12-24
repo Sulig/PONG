@@ -18,10 +18,14 @@ export const ball_tex = ctx.createPattern(_tx, "no-repeat");
 /****/
 
 /** OBJECTS -- */
+const WAIT_TIME = 2000; // Time to wait before serve (ms)
+
+// 	** BALL */
+const BALL_VEL = 12;	// Ball velocity
 const BALL = {
 	color:	"white",
 	rad:	20,
-	vel:	16,
+	vel:	BALL_VEL,
 	x:		0,
 	y:		0,
 	dirX:	0,
@@ -30,7 +34,7 @@ const BALL = {
 
 // 	** PADDLES */
 // -- width, height, velocity
-const PADW = 16, PADH = 100, PADVEL = 22;
+const PADW = 16, PADH = 100, PADVEL = 18;
 const PAD = {
 	color:	"white",
 	width:	PADW,
@@ -53,9 +57,9 @@ const BORDER = {
 
 //** GOAL CORNER */
 const GOAL_CORNER = {
-	color:	"red",
-	height:	20,
-	width:	20,
+	color:	"yellow",
+	height:	GAME_HEIGHT,
+	width:	PADW - 8,
 	x:		0,
 	y:		0,
 };
@@ -122,6 +126,16 @@ export class Pong
 		ctx.fillRect(0, GAME_HEIGHT - (BODMH + BODH), GAME_WIDTH, BODH);
 	}
 
+	//For visual testing of goal corners
+	drawCorners()
+	{
+		ctx.fillStyle = this.corL.color;
+		ctx.fillRect(this.corL.x, this.corL.y, this.corL.width, this.corL.height);
+		ctx.fillStyle = this.corR.color;
+		ctx.fillRect(this.corR.x - this.corR.width, this.corR.y, this.corR.width, this.corR.height);
+	}
+	/**----------------- */
+
 	/** ON-START */
 	startBall()
 	{
@@ -139,6 +153,12 @@ export class Pong
 		// Start ball coordinates
 		this.ball.x = centerX;
 		this.ball.y = centerY;
+
+		this.ball.vel = BALL_VEL;
+
+		// Random initial direction
+		this.ball.dirX = Math.random() < 0.5 ? -1 : 1;
+		this.ball.dirY = (Math.random() * 2 - 1); // between -1 and 1
 	}
 	startPaddles()
 	{
@@ -167,6 +187,19 @@ export class Pong
 	}
 	initializeGame()
 	{
+		// Set the corners
+		this.corL.x = 0;
+		this.corL.y = 0;
+		this.corR.x = this.width;
+		this.corR.y = 0;
+
+		// Set the borders
+		this.borT.x = 0;
+		this.borT.y = 0;
+		this.borB.x = 0;
+		this.borB.y = this.height - this.borB.height;
+
+		// Set initial positions
 		this.startGamePosition();
 
 		//* Start players
@@ -212,6 +245,8 @@ export class Pong
 		this.drawBall(this.ball);
 		this.drawPaddle(this.padL);
 		this.drawPaddle(this.padR);
+
+		//this.drawCorners();
 	}
 	//*********** */
 
@@ -225,8 +260,6 @@ export class Pong
 		} else if (paddle.y + paddle.height > this.height - this.bodmh) {
 			paddle.y = this.height - this.bodmh - paddle.height;
 		}
-		this.reDraw();
-		console.log(paddle);
 	}
 
 	decideServe()
@@ -235,9 +268,15 @@ export class Pong
 		this.playerL.serve = nextS;
 		this.playerR.serve = !nextS;
 
-		if (pong.playerL.serve) {
+		if (pong.playerL.serve)
+		{
+			//wait 2 seconds before serving
+
 			pong.ball.dirX = 1;
-		} else {
+		}
+		else
+		{
+
 			pong.ball.dirX = -1;
 		}
 	}
