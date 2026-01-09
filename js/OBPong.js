@@ -71,7 +71,8 @@ export const PLAYER = {
 	has_last_goal: false,
 	serve:  false,
 	my_paddle: null,
-	corner: null
+	corner: null,
+	is_ai: false
 };
 /** */
 /**----------------- */
@@ -268,17 +269,12 @@ export class Pong
 		this.playerL.serve = nextS;
 		this.playerR.serve = !nextS;
 
+		//wait 2 seconds before serving
+
 		if (pong.playerL.serve)
-		{
-			//wait 2 seconds before serving
-
 			pong.ball.dirX = 1;
-		}
 		else
-		{
-
 			pong.ball.dirX = -1;
-		}
 	}
 
 	updateBallPosition()

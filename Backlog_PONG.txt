@@ -2,15 +2,17 @@
 *** DESCRIPT
 ***************
 For the game -- Will be PONG --
-* (Si hay tiempo, se pueden anyadir mas juegos)
+* (Si hay tiempo, se pueden añadir mas juegos)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ****
 * TOOLS
 ****
-- React (+ js vanilla)
- > keydown and event hooks.
+- JS Vanilla
+ > Current Grafics
+ > Keydown and event hooks.
  > All game mecanics.
+
 - Major - Implement advanced 3D graphics using a library like Three.js or Babylon.js.
 ---------------------
 
@@ -19,28 +21,14 @@ For the game -- Will be PONG --
 ****
 
 ### Style --
+
+** 3D Module (Need to do, actually is in 2D grafics)
 + Create an immersive 3D environment.
 + Implement advanced rendering techniques.
 + Ensure smooth performance and user interaction.
 
 > Los colores del juego se podrian customizar a voluntad (frontend + css)
-
-### Controllers
-+ Keyinput (keydown)
-++ IF 1 player vs 1 (CPU or online)
-	> Arrow up & Arrow down -> Mover la pala correspondiente
-	> (-- Podria anyadir una modificacion donde el jugador pueda decidir que tecla usar)
-	> Idea: Podria hacerlo mediante el "scrol" del raton.
-	> (En mobil) -> Deslizar horizontalmente (tal vez un slider ubicado en el borde inferior de la pantalla) para mover la pala.
-
-++ IF 1 vs 1 in local.
-	> W & S -> Para mover la pala del J1
-	> Arrow Up & Down -> Mover la pala del J2
-	> Podria hacerlo customizable.
-
-** Check this for keyinput -> https://www.w3schools.com/graphics/game_controllers.asp
-~~~
-
+----------------
 ### Rules
 Classic PONG game, the ball rebotes on the max top & max bottom height.
 + La pelota rebota en las palas
@@ -48,7 +36,25 @@ Classic PONG game, the ball rebotes on the max top & max bottom height.
 + Cuando un jugador marque, se le asignara un punto y la bola se sacara desde el jugador que ha perdido.
 + El juego termina cuando alguien haya ganado X puntos.
 
-> Podria customizar cuantos puntos se necesitan para ganar (Frontend)
+>> Podria customizar cuantos puntos se necesitan para ganar (Frontend)
+
+### Controllers
++ 1 player vs 1 (CPU or online)
+	> Mediante el "scroll" del raton puedes subir/bajar la pala
+	> Arrow up & Arrow down -> Mover la pala correspondiente
+	>> (-- Podria anyadir una modificacion donde el jugador pueda decidir que tecla usar)
+
+	> (En mobil) -> Deslizar horizontalmente para mover la pala.
+
++ 1 vs 1 in local.
+	> W & S -> Para mover la pala del J1
+	> Arrow Up & Down -> Mover la pala del J2
+	>> Podria hacerlo customizable.
+
+	> No me planteo una version multijugador en mobil (Podria añadir dos sliders, pero podria ser algo engorroso)
+***
+
+** Check this for keyinput -> https://www.w3schools.com/graphics/game_controllers.asp
 ---------------------
 
 ****
@@ -62,46 +68,9 @@ Classic PONG game, the ball rebotes on the max top & max bottom height.
 ---------------------
 
 ****
-* Game customatation
+* Game customizatation
 ****
 (like ball color + walls  + speed , etc..)
----------------------
-~~~
-## TODO -->
-
-[OK] - Create a <div> whith where the entire PONG game will be running
-[OK --] -- LATER - Style the components (Frontend)
-
-[TEST] - Hacer las mecanicas de las palas.
-	[] - Keyhooks and eventlisteners for PC
-		[IN PROGRESS] - For 1 vs CPU
-		[IN PROGRESS] - For local 1 vs 1
-	[OK? -- Needs test] - Eventlisteners for MOBILE
-[] - Phisics
-	[] - COLISIONES
-		[OK] - Rebotes de la pelota (tatno con la pared como con las palas)
-		[--] - Marcar puntos
-	[] - Velocity
-		[THINKING] - Depende de donde rebote la bola, puede ir mas rapido o mas lento.
-		[] - -- AI -- Velocidad de respuesta (-- mas adelante podria anyadir un ajuste de dificultad)
-	[] - Ball Direccion
-		[TESTING] - Depende de las COLISIONES
-		[THINKING] - Depende de quien haya marcado (y a quien le toque sacar)
-		[] - (- later, podria anyadir una guia de donde va a rebotar la bola)
-[] - WIN / LOSE CONDITIONS
-	[] - Marcador
-	[] - Finalizar juego cuando un jugador consiga marcar suficientes puntos.
-	[] - Effects for win/lose?
-
-~~~
-- In Update -->
-	[] - Update the ball positions
-	[] - Here will be apply the collisions
-	[] - Will check for win/lose condition (but code will be appart?)
-
-- Need a file for lose and win conditions or maybe in pong too?
-~~~
-
 IDEAS:
 
 * Implement Arkanoid Random "Ventajas" & Power-ups
@@ -109,3 +78,75 @@ IDEAS:
 - Hacer aparecer mas bolas
 - Aumentar/Disminuir el tamaño de las palas
 .. Etc..
+---------------------
+~~~
+## TODO -->
+
+[OK] - Create a <div> where the entire PONG game will be running
+[OK --] -- LATER - Style the components (Frontend)
+
+[THIS IS FRONTEND & Game Backend] - Game customization
+	-- In a same page before the game: (This will be saved in Backend and recovered later in JS game)
+	[BACKEND] - Save this options:
+	-- PLAY MODE --
+	[] - Select if it will be 1 vs CPU
+		[] - Select difficulty (if applicable)
+	[] - Select if it will be 1 vs 1 (ONLINE)
+	[] - Select if it will be 1 vs 1 (Offline)
+	-- STYLE --
+	[-- Idea ] -- Chose 2D or 3D stile?
+	[]				- Change nick in game (Loaded with Backend server?)
+	[If applicable] - Change keyinput
+	[If applicable] - Change color
+	ONLY IF 1 VS 1 ONLINE [] - Ver que pala es la que controlas
+	ONLY IF 1 VS 1 OFFLINE [IDEA] - -verificar que los dos jugadores esten listos (pulsando el boton de mover)?
+	----
+	[NEXT] - Save/Load the game customization
+		[] - Save
+		[IN PROGRESS] - Load (Will be important changes)
+
+[TEST] - Hacer las mecanicas de las palas.
+	[] - Keyhooks and eventlisteners for PC
+		[IN PROGRESS] - For 1 vs CPU
+		[IN PROGRESS] - For local 1 vs 1
+		[- IDEA (not developed yet)] - Change the key-imput for move.
+	[OK? -- Needs test] - Eventlisteners for MOBILE
+[] - Phisics
+	[] - COLISIONES
+		[OK] - Rebotes de la pelota (tanto con la pared como con las palas)
+		[IN PROGRESS] - Saque de la bola
+		[--NEXT] - Marcar puntos
+	[] - Velocity
+		[THINKING] - Depende de donde rebote la bola, puede ir mas rapido o mas lento.
+		[NEXT] - -- AI -- Velocidad de respuesta (-- mas adelante podria anyadir un ajuste de dificultad)
+	[] - Ball Direccion
+		[TEST] - Depende de las COLISIONES
+		[THINKING] - Depende de quien haya marcado (y a quien le toque sacar)
+		[IDEA -] - (- later, podria anyadir una guia de donde va a rebotar la bola)
+[] - AI
+[] - WIN / LOSE CONDITIONS
+	[] - Marcador
+	[] - Finalizar juego cuando un jugador consiga marcar suficientes puntos.
+	[] - Effects for win/lose?
+
+//// --- Notas entre [[]] -->
+[OK] - > Ya terminado y no necesita TESTING
+[OK?] -> Puede que necesite verificarlo
+[TEST] -> Esto esta en test y necesita verificacion
+[IN PROGRESS] -> Estoy trabajando en esto
+[NEXT] -> Lo implementare despues
+[THINKING] -> Me lo estoy pensando
+[IDEA] -> Esto es una idea, pero que aun no he desarrollado (y si da tiempo, lo haria)
+[ Si pone cualquier cosa ] -- Necesito hablarlo con quien lleva este tema. (o es un apunte)
+[] - Vacio, aun lo tengo que hacer.
+~~~
+CODE -> FILE DISTRIBUITION (in progress)
+
+En ello.. ->
+- In Update -->
+	[Doed in other file] - Update the ball positions
+	[thinking] - Here will be apply the collisions
+	[] - Will check for win/lose condition (but code will be appart?)
+
+- Need a file for lose and win conditions or maybe in pong too?
+~~~
