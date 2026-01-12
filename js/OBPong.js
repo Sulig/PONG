@@ -59,20 +59,20 @@ const BORDER = {
 const GOAL_CORNER = {
 	color:	"yellow",
 	height:	GAME_HEIGHT,
-	width:	PADW - 8,
+	width:	6,
 	x:		0,
 	y:		0,
 };
 
 //** PLAYER  */
+export const MAX_SCORE = 3;
 export const PLAYER = {
-	score: 0,
+	is_ai: false,
 	name: "Player",
-	has_last_goal: false,
+	score: 0,
 	serve:  false,
-	my_paddle: null,
+	my_pad: null,
 	corner: null,
-	is_ai: false
 };
 /** */
 /**----------------- */
@@ -104,6 +104,20 @@ export class Pong
 	//*********** */
 
 	/** GAME GRAFICS */
+	/** DRAWING */
+	drawPaddle(paddle)
+	{
+		ctx.fillStyle = paddle.color;
+		ctx.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
+	}
+	drawBall(ball)
+	{
+		ctx.beginPath();
+		ctx.arc(ball.x, ball.y, ball.rad, 0, 2 * Math.PI, false);
+		ctx.fillStyle = ball.color;
+		ctx.fill();
+	}
+
 	/** Mid line (only grafic, has no collider) */
 	drawMidLine()
 	{
@@ -117,7 +131,7 @@ export class Pong
 		ctx.stroke();
 	}
 
-	/** Boders of Pong Game -- Will add col-. later */
+	/** Boders of Pong Game */
 	drawBorders()
 	{
 		ctx.fillStyle = this.borT.color;
@@ -135,31 +149,52 @@ export class Pong
 		ctx.fillStyle = this.corR.color;
 		ctx.fillRect(this.corR.x - this.corR.width, this.corR.y, this.corR.width, this.corR.height);
 	}
+
+	/** Redraw the entire game screen */
+	reDraw()
+	{
+		// Clear the canvas
+		ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+
+		// Draw borders and mid line
+		this.drawBorders();
+		this.drawMidLine();
+
+		// Draw paddles and ball
+		this.drawBall(this.ball);
+		this.drawPaddle(this.padL);
+		this.drawPaddle(this.padR);
+
+		this.drawCorners();
+	}
+	//*********** */
 	/**----------------- */
+
+	decideServe()
+	{
+		let nextS = Math.random() < 0.5 ? true : false;
+		this.playerL.serve = nextS;
+		this.playerR.serve = !nextS;
+
+		//wait 2 seconds before serving
+
+		// Random initial direction
+		this.ball.dirY = (Math.random() * 2 - 1); // between -1 and 1
+		if (pong.playerL.serve)
+			pong.ball.dirX = 1;
+		else
+			pong.ball.dirX = -1;
+	}
 
 	/** ON-START */
 	startBall()
 	{
-		// Usar coordenadas relativas al juego
-		const centerX = this.width / 2;
-		const centerY = this.height / 2;
-		const radius = this.ball.rad;
-
-		ctx.beginPath();
-		// ---- Xpos, Ypos, width, height
-		ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-		ctx.fillStyle = this.ball.color;
-		ctx.fill();
-
 		// Start ball coordinates
-		this.ball.x = centerX;
-		this.ball.y = centerY;
-
 		this.ball.vel = BALL_VEL;
+		this.ball.x = this.width / 2;
+		this.ball.y = this.height / 2;
 
-		// Random initial direction
-		this.ball.dirX = Math.random() < 0.5 ? -1 : 1;
-		this.ball.dirY = (Math.random() * 2 - 1); // between -1 and 1
+		this.drawBall(this.ball);
 	}
 	startPaddles()
 	{
@@ -182,7 +217,6 @@ export class Pong
 	startGamePosition()
 	{
 		this.drawBorders();
-		this.drawMidLine();
 		this.startBall();
 		this.startPaddles();
 	}
@@ -201,55 +235,26 @@ export class Pong
 		this.borB.y = this.height - this.borB.height;
 
 		// Set initial positions
+		this.drawMidLine();
 		this.startGamePosition();
 
 		//* Start players
 		// Player Left
+		//this.playerL.name = "" // set this with database info
+		this.playerL.score = 0;
 		this.playerL.my_paddle = this.padL;
 		this.playerL.corner = this.corL;
 
 		// Player Right
+		//this.playerR.name = "" // set this with database info
+		this.playerR.score = 0;
 		this.playerR.my_paddle = this.padR;
 		this.playerR.corner = this.corR;
 
-		let initialServe = Math.random() < 0.5 ? true : false;
-		this.playerL.serve = initialServe;
-		this.playerR.serve = !initialServe;
+		this.decideServe();
+		console.log(this.playerL);
 	}
 	/**----------------- */
-
-	/** DRAWING */
-	drawPaddle(paddle)
-	{
-		ctx.fillStyle = paddle.color;
-		ctx.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
-	}
-	drawBall(ball)
-	{
-		ctx.beginPath();
-		ctx.arc(ball.x, ball.y, ball.rad, 0, 2 * Math.PI, false);
-		ctx.fillStyle = ball.color;
-		ctx.fill();
-	}
-	/**--- */
-	/** Redraw the entire game screen */
-	reDraw()
-	{
-		// Clear the canvas
-		ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
-
-		// Draw borders and mid line
-		this.drawBorders();
-		this.drawMidLine();
-
-		// Draw paddles and ball
-		this.drawBall(this.ball);
-		this.drawPaddle(this.padL);
-		this.drawPaddle(this.padR);
-
-		//this.drawCorners();
-	}
-	//*********** */
 
 	/** MOVEMENT */
 	updatePaddlePosition(paddle)
@@ -263,32 +268,21 @@ export class Pong
 		}
 	}
 
-	decideServe()
+	updateBallPosition(ball)
 	{
-		let nextS = Math.random() < 0.5 ? true : false;
-		this.playerL.serve = nextS;
-		this.playerR.serve = !nextS;
+		ball.x += ball.dirX * ball.vel;
+		ball.y += ball.dirY * ball.vel;
 
-		//wait 2 seconds before serving
-
-		if (pong.playerL.serve)
-			pong.ball.dirX = 1;
-		else
-			pong.ball.dirX = -1;
-	}
-
-	updateBallPosition()
-	{
-		this.ball.x += this.ball.dirX * this.ball.vel;
-		this.ball.y += this.ball.dirY * this.ball.vel;
-		this.reDraw();
-
-		if (this.ball.x + this.ball.rad > this.width || this.ball.x - this.ball.rad < 0) {
+		if (ball.x >= this.width || ball.x <= 0)
+		{
 			// Ball has gone past left or right edge
 			console.log("Goal!");
 			// Reset ball position to center
 			this.startBall();
 			this.decideServe();
+
+			console.log(this.playerL.corner);
+			console.log(this.playerR.corner);
 		}
 	}
 	/**----------------- */

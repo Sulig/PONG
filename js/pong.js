@@ -6,6 +6,7 @@ import { resizeCanvas } from "./render.js";
 import { pong } from "./OBPong.js";
 import { checkPaddleCollision, checkWallCollision } from "./phisics.js";
 
+/********** EVENT && KEYINPUT LISTENERS *********/
 /** KEYBOARD INPUT */
 window.addEventListener("keydown", (e) => {
 	if (e.key === "ArrowUp") {
@@ -22,6 +23,8 @@ window.addEventListener("keydown", (e) => {
 
 	pong.updatePaddlePosition(pong.padL);
 	pong.updatePaddlePosition(pong.padR);
+
+	console.log("Key pressed: " + e.key);
 });
 
 window.addEventListener("keyup", (e) => {
@@ -36,6 +39,7 @@ window.addEventListener("keyup", (e) => {
 });
 
 /** MOUSE INPUT */
+// Change to scroll?
 window.addEventListener("mousemove", (e) => {
 	const rect = pong.canvas.getBoundingClientRect();
 	const mouseY = e.clientY - rect.top;
@@ -55,14 +59,14 @@ window.addEventListener("touchmove", (e) => {
 /** GAME LOOP */
 function gameLoop()
 {
-	/** Detectar colisiones */
+	/** Call to collision detection (phisics) */
 	checkPaddleCollision(pong.ball, pong.padL);
 	checkPaddleCollision(pong.ball, pong.padR);
 	checkWallCollision(pong.ball, pong.borT);
 	checkWallCollision(pong.ball, pong.borB);
 
-	// Actualizar lógica
-	pong.updateBallPosition();
+	// Update positions
+	pong.updateBallPosition(pong.ball);
 	pong.updatePaddlePosition(pong.padL);
 	pong.updatePaddlePosition(pong.padR);
 
@@ -77,7 +81,6 @@ function gameLoop()
 resizeCanvas();
 pong.initializeGame();
 requestAnimationFrame(gameLoop);
-pong.decideServe();
 /**----------------- */
 
 /* **********************************************/
