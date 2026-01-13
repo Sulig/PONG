@@ -45,12 +45,12 @@ const PAD = {
 	dirY:	0
 };
 
-export const BODMH = 4;	// Margin Height (top - bottom)
-const BODH = 10;		// Border Height (will need this for collisions)
+export const BODMH = 20;	// Border for MidLine grafic
+//const BODH = 10;		// Border Height (will need this for collisions)
 const BORDER = {
 	color:	"white",
 	width:	GAME_WIDTH,
-	height:	BODH,
+	height:	0,
 	x:		0,
 	y:		0
 };
@@ -65,15 +65,16 @@ const GOAL_CORNER = {
 };
 
 //** SCORE */
-const SCORE_SIZE = 38;
+const SCORE_SIZE = 120;
 const FONT_SIZE = SCORE_SIZE + "px";
 export const FONT_SCORE = FONT_SIZE + " Arial";
+const SCORE_MARGIN = 85;
 const SCORE = {
 	score: 0,
 	size: SCORE_SIZE,
 	font: "Arial",
 	x: 0,
-	y: SCORE_SIZE + 210
+	y: SCORE_SIZE + SCORE_MARGIN
 };
 
 //** PLAYER  */
@@ -99,7 +100,6 @@ export class Pong
 		this.height = GAME_HEIGHT;
 		this.margin = gm_margin;
 
-		this.bodmh = BODMH;						// Border Margin Height
 		this.borT = Object.create(BORDER);		// border top
 		this.borB = Object.create(BORDER);		// border bottom
 
@@ -128,7 +128,7 @@ export class Pong
 		this.borT.x = 0;
 		this.borT.y = 0;
 		this.borB.x = 0;
-		this.borB.y = this.height - this.borB.height;
+		this.borB.y = GAME_HEIGHT;
 
 		//* Start players
 		// Player Left
@@ -138,7 +138,7 @@ export class Pong
 		// -- score
 		this.playerL.score = Object.create(SCORE);
 		this.playerL.score.score = 0;
-		this.playerL.score.x = this.width / 2 - (200 + SCORE_SIZE);
+		this.playerL.score.x = this.width / 2 - SCORE_MARGIN * 2;
 
 		// Player Right
 		//this.playerR.name = "" // set this with database info
@@ -147,7 +147,7 @@ export class Pong
 		// -- score
 		this.playerR.score = Object.create(SCORE);
 		this.playerR.score.score = 0;
-		this.playerR.score.x = this.width / 2 + 100;
+		this.playerR.score.x = this.width / 2 + SCORE_MARGIN;
 
 		// Set initial positions
 		this.startGamePosition();
@@ -193,10 +193,9 @@ export class Pong
 	/** DRAWING */
 	drawScore(score)
 	{
-		var text = score.score + "";
-		ctx.font = "280px Arial";
-		ctx.fillText(score.score + "", score.x, score.y);
-		//ctx.strokeText("Test", score.x, score.y);
+		ctx.font = FONT_SCORE;
+		ctx.fillText(score.score + "", score.x, score.y); // Texto con relleno
+		//ctx.strokeText(score.score + "", score.x, score.y); // Solo letra con contorno (no se ve visualmente bien asi que usa "filled")
 	}
 	drawPaddle(paddle)
 	{
@@ -230,8 +229,8 @@ export class Pong
 		ctx.fillStyle = this.borT.color;
 
 		// -------- Xpos, Ypos, width, height
-		ctx.fillRect(0, BODMH, GAME_WIDTH, BODH);
-		ctx.fillRect(0, GAME_HEIGHT - (BODMH + BODH), GAME_WIDTH, BODH);
+		ctx.fillRect(this.borT.x, this.borT.y, GAME_WIDTH, this.borT.height);
+		ctx.fillRect(this.borB.x, this.borB.y, GAME_WIDTH, this.borB.height);
 	}
 
 	//For visual testing of goal corners
@@ -261,7 +260,7 @@ export class Pong
 		this.drawPaddle(this.padL);
 		this.drawPaddle(this.padR);
 
-		this.drawCorners();
+		//this.drawCorners();
 	}
 	//*********** */
 	/**----------------- */
@@ -289,10 +288,10 @@ export class Pong
 	{
 		paddle.y += paddle.dirY * paddle.vel;
 		// Ensure paddle stays within game bounds
-		if (paddle.y < this.bodmh) {
-			paddle.y = this.bodmh;
-		} else if (paddle.y + paddle.height > this.height - this.bodmh) {
-			paddle.y = this.height - this.bodmh - paddle.height;
+		if (paddle.y < 0) {
+			paddle.y = 0;
+		} else if (paddle.y + paddle.height > this.height - 0) {
+			paddle.y = this.height - 0 - paddle.height;
 		}
 	}
 
