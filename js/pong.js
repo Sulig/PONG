@@ -39,18 +39,22 @@ window.addEventListener("keyup", (e) => {
 });
 
 /** MOUSE INPUT */
-// Change to scroll?
+// Change to scroll? (look for - wheel -)
+/*
 window.addEventListener("mousemove", (e) => {
 	const rect = pong.canvas.getBoundingClientRect();
 	const mouseY = e.clientY - rect.top;
 	pong.padL.y = mouseY - pong.padL.height / 2;
 });
+*/
 /*----------------- */
 
 /** MOBILE */
 window.addEventListener("touchmove", (e) => {
 	const rect = pong.canvas.getBoundingClientRect();
 	const touchY = e.touches[0].clientY - rect.top;
+
+	// Realmente tendria que mover la pala asignada, pero eso ya lo configurare mas tarde
 	pong.padL.y = touchY - pong.padL.height / 2;
 });
 /*----------------- */

@@ -64,13 +64,23 @@ const GOAL_CORNER = {
 	y:		0,
 };
 
+//** SCORE */
+export const FONT_SCORE = "50px Arial";
+const SCORE = {
+	score: 0,
+	size: 50,
+	font: "Arial",
+	x: 0,
+	y: 0
+};
+
 //** PLAYER  */
-export const MAX_SCORE = 3;
+export const MAX_SCORE = 5;
 export const PLAYER = {
 	is_ai: false,
 	name: "Player",
-	score: 0,
 	serve:  false,
+	score: null,
 	my_pad: null,
 	corner: null,
 };
@@ -103,8 +113,85 @@ export class Pong
 	}
 	//*********** */
 
-	/** GAME GRAFICS */
+	/** ON-START */
+	initializeGame()
+	{
+		// Set the corners
+		this.corL.x = 0;
+		this.corL.y = 0;
+		this.corR.x = this.width;
+		this.corR.y = 0;
+
+		// Set the borders
+		this.borT.x = 0;
+		this.borT.y = 0;
+		this.borB.x = 0;
+		this.borB.y = this.height - this.borB.height;
+
+		//* Start players
+		// Player Left
+		//this.playerL.name = "" // set this with database info
+		this.playerL.score = Object.create(SCORE);
+		this.playerL.score.score = 0;
+		this.playerL.my_paddle = this.padL;
+		this.playerL.corner = this.corL;
+
+		// Player Right
+		//this.playerR.name = "" // set this with database info
+		this.playerR.score = Object.create(SCORE);
+		this.playerR.score.score = 0;
+		this.playerR.my_paddle = this.padR;
+		this.playerR.corner = this.corR;
+
+		// Set initial positions
+		this.startGamePosition();
+
+		// Draw Scenario
+		this.drawMidLine();
+		this.drawBorders();
+
+		this.decideServe();
+	}
+	startBall()
+	{
+		// Start ball coordinates
+		this.ball.vel = BALL_VEL;
+		this.ball.x = this.width / 2;
+		this.ball.y = this.height / 2;
+
+		this.drawBall(this.ball);
+	}
+	startPaddles()
+	{
+		// -- * LEFT PADDLE
+		ctx.fillStyle = this.padL.color;
+		const centerY = this.height / 2;
+		// -------- Xpos, Ypos, width, height
+		this.padL.x = 0;
+		this.padL.y = centerY - this.padL.height / 2;
+		ctx.fillRect(0, this.padL.y, this.padL.width, this.padL.height);
+
+		// -- * RIGHT PADDLE
+		ctx.fillStyle = this.padR.color;
+		// -------- Xpos, Ypos, width, height
+		this.padR.x = this.width - this.padR.width;
+		this.padR.y = centerY - this.padR.height / 2;
+		ctx.fillRect(this.padR.x, this.padR.y, this.padR.width, this.padR.height);
+	}
+	/**----------------- */
+	startGamePosition()
+	{
+		this.startBall();
+		this.startPaddles();
+	}
+	/**----------------- */
+
 	/** DRAWING */
+	drawScore(score)
+	{
+		ctx.font = "50px Arial";
+		ctx.strokeText(score, 10, 80);
+	}
 	drawPaddle(paddle)
 	{
 		ctx.fillStyle = paddle.color;
@@ -160,6 +247,9 @@ export class Pong
 		this.drawBorders();
 		this.drawMidLine();
 
+		this.drawScore(this.playerL.score);
+		this.drawScore(this.playerR.score);
+
 		// Draw paddles and ball
 		this.drawBall(this.ball);
 		this.drawPaddle(this.padL);
@@ -170,6 +260,7 @@ export class Pong
 	//*********** */
 	/**----------------- */
 
+	/** UTILITIES */
 	decideServe()
 	{
 		let nextS = Math.random() < 0.5 ? true : false;
@@ -184,75 +275,6 @@ export class Pong
 			pong.ball.dirX = 1;
 		else
 			pong.ball.dirX = -1;
-	}
-
-	/** ON-START */
-	startBall()
-	{
-		// Start ball coordinates
-		this.ball.vel = BALL_VEL;
-		this.ball.x = this.width / 2;
-		this.ball.y = this.height / 2;
-
-		this.drawBall(this.ball);
-	}
-	startPaddles()
-	{
-		// -- * LEFT PADDLE
-		ctx.fillStyle = this.padL.color;
-		const centerY = this.height / 2;
-		// -------- Xpos, Ypos, width, height
-		this.padL.x = 0;
-		this.padL.y = centerY - this.padL.height / 2;
-		ctx.fillRect(0, this.padL.y, this.padL.width, this.padL.height);
-
-		// -- * RIGHT PADDLE
-		ctx.fillStyle = this.padR.color;
-		// -------- Xpos, Ypos, width, height
-		this.padR.x = this.width - this.padR.width;
-		this.padR.y = centerY - this.padR.height / 2;
-		ctx.fillRect(this.padR.x, this.padR.y, this.padR.width, this.padR.height);
-	}
-	/**----------------- */
-	startGamePosition()
-	{
-		this.drawBorders();
-		this.startBall();
-		this.startPaddles();
-	}
-	initializeGame()
-	{
-		// Set the corners
-		this.corL.x = 0;
-		this.corL.y = 0;
-		this.corR.x = this.width;
-		this.corR.y = 0;
-
-		// Set the borders
-		this.borT.x = 0;
-		this.borT.y = 0;
-		this.borB.x = 0;
-		this.borB.y = this.height - this.borB.height;
-
-		// Set initial positions
-		this.drawMidLine();
-		this.startGamePosition();
-
-		//* Start players
-		// Player Left
-		//this.playerL.name = "" // set this with database info
-		this.playerL.score = 0;
-		this.playerL.my_paddle = this.padL;
-		this.playerL.corner = this.corL;
-
-		// Player Right
-		//this.playerR.name = "" // set this with database info
-		this.playerR.score = 0;
-		this.playerR.my_paddle = this.padR;
-		this.playerR.corner = this.corR;
-
-		this.decideServe();
-		console.log(this.playerL);
 	}
 	/**----------------- */
 
@@ -273,16 +295,44 @@ export class Pong
 		ball.x += ball.dirX * ball.vel;
 		ball.y += ball.dirY * ball.vel;
 
-		if (ball.x >= this.width || ball.x <= 0)
+		if (ball.x <= this.playerL.corner.x)
 		{
-			// Ball has gone past left or right edge
-			console.log("Goal!");
-			// Reset ball position to center
-			this.startBall();
-			this.decideServe();
-
-			console.log(this.playerL.corner);
-			console.log(this.playerR.corner);
+			this.playerL.score.score++;
+			console.log(this.playerL.score.score);
+			if (this.playerL.score.score >= MAX_SCORE)
+			{
+				// end game
+				console.log("Player L wins!");
+				// Saltar a la pantalla de estadisticas y resultados --
+				//--- here
+				//** Esto es solo para test y reinicia el juego -> */
+				this.initializeGame();
+			}
+			else
+			{
+				this.startBall();
+				this.decideServe();
+			}
+		}
+		if (ball.x >= this.playerR.corner.x)
+		{
+			console.log("Corner R touched!");
+			this.playerR.score.score++;
+			console.log(this.playerR.score.score);
+			if (this.playerR.score.score >= MAX_SCORE)
+			{
+				// end game
+				console.log("Player R wins!");
+				// Saltar a la pantalla de estadisticas y resultados --
+				//--- here
+				//** Esto es solo para test y reinicia el juego -> */
+				this.initializeGame();
+			}
+			else
+			{
+				this.startBall();
+				this.decideServe();
+			}
 		}
 	}
 	/**----------------- */
