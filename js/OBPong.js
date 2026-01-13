@@ -65,13 +65,15 @@ const GOAL_CORNER = {
 };
 
 //** SCORE */
-export const FONT_SCORE = "50px Arial";
+const SCORE_SIZE = 38;
+const FONT_SIZE = SCORE_SIZE + "px";
+export const FONT_SCORE = FONT_SIZE + " Arial";
 const SCORE = {
 	score: 0,
-	size: 50,
+	size: SCORE_SIZE,
 	font: "Arial",
 	x: 0,
-	y: 0
+	y: SCORE_SIZE + 210
 };
 
 //** PLAYER  */
@@ -131,17 +133,21 @@ export class Pong
 		//* Start players
 		// Player Left
 		//this.playerL.name = "" // set this with database info
-		this.playerL.score = Object.create(SCORE);
-		this.playerL.score.score = 0;
 		this.playerL.my_paddle = this.padL;
 		this.playerL.corner = this.corL;
+		// -- score
+		this.playerL.score = Object.create(SCORE);
+		this.playerL.score.score = 0;
+		this.playerL.score.x = this.width / 2 - (200 + SCORE_SIZE);
 
 		// Player Right
 		//this.playerR.name = "" // set this with database info
-		this.playerR.score = Object.create(SCORE);
-		this.playerR.score.score = 0;
 		this.playerR.my_paddle = this.padR;
 		this.playerR.corner = this.corR;
+		// -- score
+		this.playerR.score = Object.create(SCORE);
+		this.playerR.score.score = 0;
+		this.playerR.score.x = this.width / 2 + 100;
 
 		// Set initial positions
 		this.startGamePosition();
@@ -166,17 +172,15 @@ export class Pong
 		// -- * LEFT PADDLE
 		ctx.fillStyle = this.padL.color;
 		const centerY = this.height / 2;
-		// -------- Xpos, Ypos, width, height
 		this.padL.x = 0;
 		this.padL.y = centerY - this.padL.height / 2;
-		ctx.fillRect(0, this.padL.y, this.padL.width, this.padL.height);
+		this.drawPaddle(this.padL);
 
 		// -- * RIGHT PADDLE
 		ctx.fillStyle = this.padR.color;
-		// -------- Xpos, Ypos, width, height
 		this.padR.x = this.width - this.padR.width;
 		this.padR.y = centerY - this.padR.height / 2;
-		ctx.fillRect(this.padR.x, this.padR.y, this.padR.width, this.padR.height);
+		this.drawPaddle(this.padR);
 	}
 	/**----------------- */
 	startGamePosition()
@@ -189,8 +193,10 @@ export class Pong
 	/** DRAWING */
 	drawScore(score)
 	{
-		ctx.font = "50px Arial";
-		ctx.strokeText(score, 10, 80);
+		var text = score.score + "";
+		ctx.font = "280px Arial";
+		ctx.fillText(score.score + "", score.x, score.y);
+		//ctx.strokeText("Test", score.x, score.y);
 	}
 	drawPaddle(paddle)
 	{
@@ -298,7 +304,7 @@ export class Pong
 		if (ball.x <= this.playerL.corner.x)
 		{
 			this.playerL.score.score++;
-			console.log(this.playerL.score.score);
+			console.log(this.playerL.score);
 			if (this.playerL.score.score >= MAX_SCORE)
 			{
 				// end game
@@ -318,7 +324,7 @@ export class Pong
 		{
 			console.log("Corner R touched!");
 			this.playerR.score.score++;
-			console.log(this.playerR.score.score);
+			console.log(this.playerR.score);
 			if (this.playerR.score.score >= MAX_SCORE)
 			{
 				// end game
