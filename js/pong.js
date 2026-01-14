@@ -80,7 +80,7 @@ function gameLoop()
 	pong.updateBallPosition(pong.ball);
 
 	pong.ai(pong.ball, pong.playerR);
-	pong.ai(pong.ball, pong.playerL);
+	//pong.ai(pong.ball, pong.playerL);
 
 	pong.updatePaddlePosition(pong.padL);
 	pong.updatePaddlePosition(pong.padR);
