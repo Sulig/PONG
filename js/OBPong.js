@@ -136,6 +136,12 @@ export class Pong
 		//* Start players
 		// Player Left
 		//this.playerL.name = "" // set this with database info
+		// only just for FUN
+		/**/
+		this.playerL.is_ai = true;
+		// Puedes configurar la dificultad a: "easy", "mid" y "hard"
+		this.playerL.dificuty = "hard";
+		/**/
 		this.playerL.my_pad = this.padL;
 		this.playerL.corner = this.corL;
 		// -- score
@@ -146,6 +152,8 @@ export class Pong
 		// Player Right
 		// Por defecto, esta cnfigurada para que sea una ia
 		this.playerR.is_ai = true;
+		// Puedes configurar la dificultad a: "easy", "mid" y "hard"
+		this.playerR.dificuty = "hard";
 		//this.playerR.name = "" // set this with database info
 		this.playerR.my_pad = this.padR;
 		this.playerR.corner = this.corR;
@@ -338,9 +346,9 @@ export class Pong
 	}
 	/**----------------- */
 
-	ai(ball)
+	ai(ball, player)
 	{
-		if (!this.playerR.is_ai)
+		if (!player.is_ai)
 			return ;
 
 		/* Custom dificulty:
@@ -349,21 +357,44 @@ export class Pong
 		*/
 
 		var chance = 0;
-		if (this.playerR.dificuty == "easy")
+		if (player.dificuty == "easy")
 			chance = 20;
-		else if (this.playerR.dificuty == "mid")
-			chance = 55;
-		else if (this.playerR.dificuty == "hard")
-			chance = 85;
+		else if (player.dificuty == "mid")
+			chance = 50;
+		else if (player.dificuty == "hard")
+			chance = 80;
 
+		var random = Math.random() * 100;
 
-
-		if (ball.y < this.playerR.my_pad.y)
-			this.playerR.my_pad.dirY = -1;
-		else if (ball.y > this.playerR.my_pad.y)
-			this.playerR.my_pad.dirY = 1;
+		if (random <= chance)
+		{
+			if (ball.y < player.my_pad.y)
+				player.my_pad.dirY = -1;
+			else if (ball.y > player.my_pad.y)
+				player.my_pad.dirY = 1;
+			else
+				player.my_pad.dirY = 0;
+		}
+		else if (random <= chance + 15)
+		{
+			if (ball.y < player.my_pad.y)
+				player.my_pad.dirY = -0.5;
+			else if (ball.y > player.my_pad.y)
+				player.my_pad.dirY = 0.5;
+			else
+				player.my_pad.dirY = 0;
+		}
+		else if (random <= chance + 20)
+		{
+			if (ball.y < player.my_pad.y)
+				player.my_pad.dirY = -0.25;
+			else if (ball.y > player.my_pad.y)
+				player.my_pad.dirY = 0.25;
+			else
+				player.my_pad.dirY = 0;
+		}
 		else
-			this.playerR.my_pad.dirY = 0;
+			player.my_pad.dirY = 0;
 	}
 }
 
