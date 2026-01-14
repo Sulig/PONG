@@ -57,6 +57,8 @@ window.addEventListener("mousemove", (e) => {
 /*----------------- */
 
 /** MOBILE */
+// -- Tal vez utilizar la inclinacion? o incluir un slider
+// Deberia hacer el disenyo en vertical para movil??
 window.addEventListener("touchmove", (e) => {
 	const rect = pong.canvas.getBoundingClientRect();
 	const touchY = e.touches[0].clientY - rect.top;
