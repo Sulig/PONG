@@ -40,12 +40,4 @@ export function resizeCanvas()
 	ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 }
 
-// Event listeners - Only when window is resized
-window.addEventListener("resize", () => {
-	resizeCanvas();
-	pong.reDraw();
-});
-/**----------------- */
-
-
 /* **********************************************/

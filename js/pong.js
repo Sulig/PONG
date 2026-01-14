@@ -1,12 +1,19 @@
 /* **********************************************/
 /*                    PONG                      */
 /* **********************************************/
-import { GetJSONdata } from "./fetch.js";
+import "./fetch.js";
 import { resizeCanvas } from "./render.js";
 import { pong } from "./OBPong.js";
 import { checkPaddleCollision, checkWallCollision } from "./phisics.js";
 
 /********** EVENT && KEYINPUT LISTENERS *********/
+// Event listeners - Only when window is resized
+window.addEventListener("resize", () => {
+	resizeCanvas();
+	pong.reDraw();
+});
+/**----------------- */
+
 /** KEYBOARD INPUT */
 window.addEventListener("keydown", (e) => {
 	if (e.key === "ArrowUp") {
