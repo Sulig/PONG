@@ -21,7 +21,9 @@ export const ball_tex = ctx.createPattern(_tx, "no-repeat");
 const WAIT_TIME = 2000; // Time to wait before serve (ms)
 
 // 	** BALL */
-const BALL_VEL = 12;	// Ball velocity
+const START_BALL_VEL = 0;
+const BALL_ACCELERATION = 0.15;
+const BALL_VEL = 12;
 const BALL = {
 	color:	"white",
 	rad:	20,
@@ -81,6 +83,7 @@ const SCORE = {
 export const MAX_SCORE = 5;
 export const PLAYER = {
 	is_ai: false,
+	dificuty: "easy",
 	name: "Player",
 	serve:  false,
 	score: null,
@@ -133,7 +136,7 @@ export class Pong
 		//* Start players
 		// Player Left
 		//this.playerL.name = "" // set this with database info
-		this.playerL.my_paddle = this.padL;
+		this.playerL.my_pad = this.padL;
 		this.playerL.corner = this.corL;
 		// -- score
 		this.playerL.score = Object.create(SCORE);
@@ -141,27 +144,28 @@ export class Pong
 		this.playerL.score.x = this.width / 2 - SCORE_MARGIN * 2;
 
 		// Player Right
+		// Por defecto, esta cnfigurada para que sea una ia
+		this.playerR.is_ai = true;
 		//this.playerR.name = "" // set this with database info
-		this.playerR.my_paddle = this.padR;
+		this.playerR.my_pad = this.padR;
 		this.playerR.corner = this.corR;
 		// -- score
 		this.playerR.score = Object.create(SCORE);
 		this.playerR.score.score = 0;
 		this.playerR.score.x = this.width / 2 + SCORE_MARGIN;
 
-		// Set initial positions
-		this.startGamePosition();
-
 		// Draw Scenario
 		this.drawMidLine();
 		this.drawBorders();
 
+		// Set initial positions
+		this.startGamePosition();
 		this.decideServe();
 	}
 	startBall()
 	{
 		// Start ball coordinates
-		this.ball.vel = BALL_VEL;
+		this.ball.vel = START_BALL_VEL;
 		this.ball.x = this.width / 2;
 		this.ball.y = this.height / 2;
 
@@ -169,15 +173,13 @@ export class Pong
 	}
 	startPaddles()
 	{
-		// -- * LEFT PADDLE
-		ctx.fillStyle = this.padL.color;
 		const centerY = this.height / 2;
+		// -- * LEFT PADDLE
 		this.padL.x = 0;
 		this.padL.y = centerY - this.padL.height / 2;
 		this.drawPaddle(this.padL);
 
 		// -- * RIGHT PADDLE
-		ctx.fillStyle = this.padR.color;
 		this.padR.x = this.width - this.padR.width;
 		this.padR.y = centerY - this.padR.height / 2;
 		this.drawPaddle(this.padR);
@@ -268,11 +270,11 @@ export class Pong
 	/** UTILITIES */
 	decideServe()
 	{
+		this.startBall();
+
 		let nextS = Math.random() < 0.5 ? true : false;
 		this.playerL.serve = nextS;
 		this.playerR.serve = !nextS;
-
-		//wait 2 seconds before serving
 
 		// Random initial direction
 		this.ball.dirY = (Math.random() * 2 - 1); // between -1 and 1
@@ -300,10 +302,12 @@ export class Pong
 		ball.x += ball.dirX * ball.vel;
 		ball.y += ball.dirY * ball.vel;
 
+		if (ball.vel <= BALL_VEL)
+			ball.vel += BALL_ACCELERATION;
+
 		if (ball.x <= this.playerL.corner.x)
 		{
 			this.playerL.score.score++;
-			console.log(this.playerL.score);
 			if (this.playerL.score.score >= MAX_SCORE)
 			{
 				// end game
@@ -314,16 +318,11 @@ export class Pong
 				this.initializeGame();
 			}
 			else
-			{
-				this.startBall();
 				this.decideServe();
-			}
 		}
 		if (ball.x >= this.playerR.corner.x)
 		{
-			console.log("Corner R touched!");
 			this.playerR.score.score++;
-			console.log(this.playerR.score);
 			if (this.playerR.score.score >= MAX_SCORE)
 			{
 				// end game
@@ -334,13 +333,38 @@ export class Pong
 				this.initializeGame();
 			}
 			else
-			{
-				this.startBall();
 				this.decideServe();
-			}
 		}
 	}
 	/**----------------- */
+
+	ai(ball)
+	{
+		if (!this.playerR.is_ai)
+			return ;
+
+		/* Custom dificulty:
+			- for more dificulty, more chance to move
+			- for les dificulty, less chance to move
+		*/
+
+		var chance = 0;
+		if (this.playerR.dificuty == "easy")
+			chance = 20;
+		else if (this.playerR.dificuty == "mid")
+			chance = 55;
+		else if (this.playerR.dificuty == "hard")
+			chance = 85;
+
+
+
+		if (ball.y < this.playerR.my_pad.y)
+			this.playerR.my_pad.dirY = -1;
+		else if (ball.y > this.playerR.my_pad.y)
+			this.playerR.my_pad.dirY = 1;
+		else
+			this.playerR.my_pad.dirY = 0;
+	}
 }
 
 export let pong = new Pong();

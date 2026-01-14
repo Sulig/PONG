@@ -117,16 +117,16 @@ IDEAS:
 		[IN PROGRESS] - Saque de la bola
 		[--NEXT] - Marcar puntos
 	[] - Velocity
+		[THINKING] - Starter velocity (Sobretodo en los saques, y luego se incrementaria)
 		[THINKING] - Depende de donde rebote la bola, puede ir mas rapido o mas lento.
 		[NEXT] - -- AI -- Velocidad de respuesta (-- mas adelante podria anyadir un ajuste de dificultad)
 	[] - Ball Direccion
 		[TEST] - Depende de las COLISIONES
-		[THINKING] - Depende de quien haya marcado (y a quien le toque sacar)
 		[IDEA -] - (- later, podria anyadir una guia de donde va a rebotar la bola)
-[] - AI
+[NEXT] - AI
 [] - WIN / LOSE CONDITIONS
-	[] - Marcador
-	[] - Finalizar juego cuando un jugador consiga marcar suficientes puntos.
+	[OK] - Marcador
+	[IN PROGRESS] - Finalizar juego cuando un jugador consiga marcar suficientes puntos.
 	[] - Effects for win/lose?
 
 //// --- Notas entre [[]] -->
