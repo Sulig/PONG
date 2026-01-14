@@ -138,7 +138,7 @@ export class Pong
 		//this.playerL.name = "" // set this with database info
 		// only just for FUN
 		/**/
-		this.playerL.is_ai = true;
+		this.playerL.is_ai = false;
 		// Puedes configurar la dificultad a: "easy", "mid" y "hard"
 		this.playerL.dificuty = "hard";
 		/**/
@@ -153,7 +153,7 @@ export class Pong
 		// Por defecto, esta cnfigurada para que sea una ia
 		this.playerR.is_ai = true;
 		// Puedes configurar la dificultad a: "easy", "mid" y "hard"
-		this.playerR.dificuty = "hard";
+		this.playerR.dificuty = "mid";
 		//this.playerR.name = "" // set this with database info
 		this.playerR.my_pad = this.padR;
 		this.playerR.corner = this.corR;
