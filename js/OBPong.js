@@ -34,21 +34,8 @@ const BALL = {
 	dirY:	0
 };
 
-// 	** PADDLES */
-// -- width, height, velocity
-const PADW = 16, PADH = 100, PADVEL = 18;
-const PAD = {
-	color:	"white",
-	width:	PADW,
-	height:	PADH,
-	vel:	PADVEL,
-	x:		0,
-	y:		0,
-	dirY:	0
-};
-
 export const BODMH = 20;	// Border for MidLine grafic
-//const BODH = 10;		// Border Height (will need this for collisions)
+//const BODH = 10;			// Border Height (will need this for collisions)
 const BORDER = {
 	color:	"white",
 	width:	GAME_WIDTH,
@@ -77,6 +64,23 @@ const SCORE = {
 	font: "Arial",
 	x: 0,
 	y: SCORE_SIZE + SCORE_MARGIN
+};
+
+// 	** PADDLES */
+// -- width, height, velocity
+const PADW = 16, PADH = 100, PADVEL = 18;
+const PAD = {
+	color:	"white",
+	width:	PADW,
+	height:	PADH,
+	vel:	PADVEL,
+	smoothVel:	0,		// Velocidad actual suavizada
+	maxAcc:		1,	// Aceleración máxima
+	damping:	0.9,	// Amortiguación
+	reactionDelay:	0,	// Retardo de reacción
+	x:		0,
+	y:		0,
+	dirY:	0
 };
 
 //** PLAYER  */
@@ -304,6 +308,37 @@ export class Pong
 			paddle.y = this.height - 0 - paddle.height;
 		}
 	}
+
+	/*
+	updatePaddlePosition(paddle, nextPos)
+	{
+		paddle.smoothVel *= paddle.damping;
+
+		if (Math.abs(paddle.smoothVel) < 0.1)
+			paddle.smoothVel = 0;
+
+		if (paddle.dirY !== 0) {
+			const acceleration = paddle.dirY * paddle.maxAcc;
+			paddle.smoothVel += acceleration;
+
+			// Limitar velocidad máxima (más permisivo)
+			const maxSpeed = paddle.vel * 1.2;  // Aumentado el límite
+			paddle.smoothVel = Math.max(
+				Math.min(paddle.smoothVel, maxSpeed),
+				-maxSpeed
+			);
+		}
+
+		paddle.y += paddle.smoothVel;
+
+		// Ensure paddle stays within game bounds
+		if (paddle.y < 0) {
+			paddle.y = 0;
+		} else if (paddle.y + paddle.height > this.height - 0) {
+			paddle.y = this.height - 0 - paddle.height;
+		}
+	}
+	*/
 
 	updateBallPosition(ball)
 	{
