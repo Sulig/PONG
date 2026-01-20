@@ -66,18 +66,15 @@ const SCORE = {
 	y: SCORE_SIZE + SCORE_MARGIN
 };
 
-// 	** PADDLES */
+// 	** PADDLE */
 // -- width, height, velocity
-const PADW = 16, PADH = 100, PADVEL = 18;
-const PAD = {
+const PADW = 16, PADH = 100;
+export const PADVEL = 18;
+export const PAD = {
 	color:	"white",
 	width:	PADW,
 	height:	PADH,
 	vel:	PADVEL,
-	smoothVel:	0,		// Velocidad actual suavizada
-	maxAcc:		1,	// Aceleración máxima
-	damping:	0.9,	// Amortiguación
-	reactionDelay:	0,	// Retardo de reacción
 	x:		0,
 	y:		0,
 	dirY:	0
@@ -86,8 +83,6 @@ const PAD = {
 //** PLAYER  */
 export const MAX_SCORE = 5;
 export const PLAYER = {
-	is_ai: false,
-	dificuty: "easy",
 	name: "Player",
 	serve:  false,
 	score: null,
@@ -96,7 +91,6 @@ export const PLAYER = {
 };
 /** */
 /**----------------- */
-
 export class Pong
 {
 	constructor()
@@ -140,12 +134,6 @@ export class Pong
 		//* Start players
 		// Player Left
 		//this.playerL.name = "" // set this with database info
-		// only just for FUN
-		/**/
-		this.playerL.is_ai = false;
-		// Puedes configurar la dificultad a: "easy", "mid" y "hard"
-		this.playerL.dificuty = "hard";
-		/**/
 		this.playerL.my_pad = this.padL;
 		this.playerL.corner = this.corL;
 		// -- score
@@ -154,10 +142,6 @@ export class Pong
 		this.playerL.score.x = this.width / 2 - SCORE_MARGIN * 2;
 
 		// Player Right
-		// Por defecto, esta cnfigurada para que sea una ia
-		this.playerR.is_ai = true;
-		// Puedes configurar la dificultad a: "easy", "mid" y "hard"
-		this.playerR.dificuty = "mid";
 		//this.playerR.name = "" // set this with database info
 		this.playerR.my_pad = this.padR;
 		this.playerR.corner = this.corR;
@@ -298,47 +282,27 @@ export class Pong
 	/**----------------- */
 
 	/** MOVEMENT */
+	movePaddle(paddle, nextY)
+	{
+		paddle.y += paddle.vel * nextY;
+		// Ensure paddle stays within game bounds
+		if (paddle.y < 0) {
+			paddle.y = 0;
+		} else if (paddle.y + paddle.height > this.height) {
+			paddle.y = this.height - paddle.height;
+		}
+	}
+
 	updatePaddlePosition(paddle)
 	{
 		paddle.y += paddle.dirY * paddle.vel;
 		// Ensure paddle stays within game bounds
 		if (paddle.y < 0) {
 			paddle.y = 0;
-		} else if (paddle.y + paddle.height > this.height - 0) {
-			paddle.y = this.height - 0 - paddle.height;
+		} else if (paddle.y + paddle.height > this.height) {
+			paddle.y = this.height - paddle.height;
 		}
 	}
-
-	/*
-	updatePaddlePosition(paddle, nextPos)
-	{
-		paddle.smoothVel *= paddle.damping;
-
-		if (Math.abs(paddle.smoothVel) < 0.1)
-			paddle.smoothVel = 0;
-
-		if (paddle.dirY !== 0) {
-			const acceleration = paddle.dirY * paddle.maxAcc;
-			paddle.smoothVel += acceleration;
-
-			// Limitar velocidad máxima (más permisivo)
-			const maxSpeed = paddle.vel * 1.2;  // Aumentado el límite
-			paddle.smoothVel = Math.max(
-				Math.min(paddle.smoothVel, maxSpeed),
-				-maxSpeed
-			);
-		}
-
-		paddle.y += paddle.smoothVel;
-
-		// Ensure paddle stays within game bounds
-		if (paddle.y < 0) {
-			paddle.y = 0;
-		} else if (paddle.y + paddle.height > this.height - 0) {
-			paddle.y = this.height - 0 - paddle.height;
-		}
-	}
-	*/
 
 	updateBallPosition(ball)
 	{
@@ -380,57 +344,6 @@ export class Pong
 		}
 	}
 	/**----------------- */
-
-	ai(ball, player)
-	{
-		if (!player.is_ai)
-			return ;
-
-		/* Custom dificulty:
-			- for more dificulty, more chance to move
-			- for les dificulty, less chance to move
-		*/
-
-		var chance = 0;
-		if (player.dificuty == "easy")
-			chance = 20;
-		else if (player.dificuty == "mid")
-			chance = 50;
-		else if (player.dificuty == "hard")
-			chance = 80;
-
-		var random = Math.random() * 100;
-
-		if (random <= chance)
-		{
-			if (ball.y < player.my_pad.y)
-				player.my_pad.dirY = -1;
-			else if (ball.y > player.my_pad.y)
-				player.my_pad.dirY = 1;
-			else
-				player.my_pad.dirY = 0;
-		}
-		else if (random <= chance + 15)
-		{
-			if (ball.y < player.my_pad.y)
-				player.my_pad.dirY = -0.5;
-			else if (ball.y > player.my_pad.y)
-				player.my_pad.dirY = 0.5;
-			else
-				player.my_pad.dirY = 0;
-		}
-		else if (random <= chance + 20)
-		{
-			if (ball.y < player.my_pad.y)
-				player.my_pad.dirY = -0.25;
-			else if (ball.y > player.my_pad.y)
-				player.my_pad.dirY = 0.25;
-			else
-				player.my_pad.dirY = 0;
-		}
-		else
-			player.my_pad.dirY = 0;
-	}
 }
 
 export let pong = new Pong();

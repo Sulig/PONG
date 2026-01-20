@@ -5,6 +5,7 @@ import "./fetch.js";
 import { resizeCanvas } from "./render.js";
 import { pong } from "./OBPong.js";
 import { checkPaddleCollision, checkWallCollision } from "./phisics.js";
+import { ai } from "./AI.js"
 
 /********** EVENT && KEYINPUT LISTENERS *********/
 // Event listeners - Only when window is resized
@@ -28,8 +29,8 @@ window.addEventListener("keydown", (e) => {
 		pong.padL.dirY = 1;
 	}
 
-	pong.updatePaddlePosition(pong.padL);
-	pong.updatePaddlePosition(pong.padR);
+	pong.movePaddle(pong.padL, pong.padL.dirY);
+	//pong.movePaddle(pong.padR, pong.padR.dirY);
 
 	console.log("Key pressed: " + e.key);
 });
@@ -41,8 +42,8 @@ window.addEventListener("keyup", (e) => {
 		pong.padL.dirY = 0;
 	}
 
-	pong.updatePaddlePosition(pong.padL);
-	pong.updatePaddlePosition(pong.padR);
+	pong.movePaddle(pong.padL, pong.padL.dirY);
+	//pong.movePaddle(pong.padR, pong.padR.dirY);
 });
 
 /** MOUSE INPUT */
@@ -81,11 +82,10 @@ function gameLoop()
 	// Update positions
 	pong.updateBallPosition(pong.ball);
 
-	pong.ai(pong.ball, pong.playerR);
-	//pong.ai(pong.ball, pong.playerL);
-
 	pong.updatePaddlePosition(pong.padL);
-	pong.updatePaddlePosition(pong.padR);
+	//pong.updatePaddlePosition(pong.padR);
+
+	ai.ai(pong.ball, pong.padR);
 
 	// Redibujar
 	pong.reDraw();
