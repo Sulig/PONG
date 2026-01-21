@@ -10,42 +10,39 @@ export class AI
 	constructor()
 	{
 		this.enabled = true;
-		this.dificuty = "hard";
+		this.level = "hard";
 		this.chance = 35;
+
+		this.setLevel(pong.padR, this.level);
 	}
 
-	setPad(pad)
+	setLevel(pad, level)
 	{
-		switch (this.dificuty)
+		if (!level)
+			level = this.level;
+		switch (level)
 		{
 			case "easy":
-				pad.smoothVel		=	0;		// Velocidad actual suavizada
-				pad.maxAcc			=	1;		// Aceleración máxima
-				pad.damping			=	0.9;	// Amortiguación
-				pad.reactionDelay	=	0;		// Retardo de reacción
+				pad.maxAcc			=	0.8;	// Aceleración máxima
+				pad.damping			=	0.88;	// Amortiguación
 				break;
 
 			case "mid":
-				pad.smoothVel		=	0;		// Velocidad actual suavizada
 				pad.maxAcc			=	1;		// Aceleración máxima
 				pad.damping			=	0.9;	// Amortiguación
-				pad.reactionDelay	=	0;		// Retardo de reacción
 				break;
 
 			case "hard":
-				pad.smoothVel		=	0;		// Velocidad actual suavizada
-				pad.maxAcc			=	1;		// Aceleración máxima
-				pad.damping			=	0.9;	// Amortiguación
-				pad.reactionDelay	=	0;		// Retardo de reacción
+				pad.maxAcc			=	1.2;	// Aceleración máxima
+				pad.damping			=	0.92;	// Amortiguación
 				break;
 
 			default:
-				pad.smoothVel		=	0;		// Velocidad actual suavizada
 				pad.maxAcc			=	1;		// Aceleración máxima
 				pad.damping			=	0.9;	// Amortiguación
-				pad.reactionDelay	=	0;		// Retardo de reacción
 				break;
 		}
+		pad.smoothVel = 0;
 	}
 	smoothIT(paddle)
 	{
@@ -86,7 +83,6 @@ export class AI
 			- for les dificulty, less chance to move
 		*/
 
-		this.setPad(pad);
 		var chance = 0;
 		if (this.dificuty == "easy")
 			chance = 20;

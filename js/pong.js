@@ -97,6 +97,7 @@ function gameLoop()
 /** ON-START */
 resizeCanvas();
 pong.initializeGame();
+ai.setLevel(pong.padR, "hard"); // "easy", "mid", "hard"
 requestAnimationFrame(gameLoop);
 /**----------------- */
 
