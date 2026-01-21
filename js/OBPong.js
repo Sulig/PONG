@@ -75,6 +75,10 @@ export const PAD = {
 	width:	PADW,
 	height:	PADH,
 	vel:	PADVEL,
+	smoothVel:	0,		// Velocidad actual suavizada
+	maxAcc:		1,	// Aceleración máxima
+	damping:	0.9,	// Amortiguación
+	reactionDelay:	0,	// Retardo de reacción
 	x:		0,
 	y:		0,
 	dirY:	0

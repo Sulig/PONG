@@ -2,24 +2,7 @@
 /*                   AI PONG                    */
 /* **********************************************/
 
-import { pong, PAD, PADVEL } from "./OBPong.js";
-
-// 	** AI PADDLE */
-// -- width, height, velocity
-// PADVEL = 18;
-const AIPAD = {
-	color:	PAD.color,
-	width:	PAD.width,
-	height:	PAD.height,
-	vel:	PADVEL,
-	smoothVel:	0,		// Velocidad actual suavizada
-	maxAcc:		1,	// Aceleración máxima
-	damping:	0.9,	// Amortiguación
-	reactionDelay:	0,	// Retardo de reacción
-	x:		0,
-	y:		0,
-	dirY:	0
-};
+import { pong } from "./OBPong.js";
 
 //** AI  */
 export class AI
@@ -27,37 +10,63 @@ export class AI
 	constructor()
 	{
 		this.enabled = true;
-		this.aipad = Object.create(AIPAD);
-		this.dificuty = "mid";
+		this.dificuty = "hard";
+		this.chance = 35;
 	}
 
+	setPad(pad)
+	{
+		switch (this.dificuty)
+		{
+			case "easy":
+				pad.smoothVel		=	0;		// Velocidad actual suavizada
+				pad.maxAcc			=	1;		// Aceleración máxima
+				pad.damping			=	0.9;	// Amortiguación
+				pad.reactionDelay	=	0;		// Retardo de reacción
+				break;
+
+			case "mid":
+				pad.smoothVel		=	0;		// Velocidad actual suavizada
+				pad.maxAcc			=	1;		// Aceleración máxima
+				pad.damping			=	0.9;	// Amortiguación
+				pad.reactionDelay	=	0;		// Retardo de reacción
+				break;
+
+			case "hard":
+				pad.smoothVel		=	0;		// Velocidad actual suavizada
+				pad.maxAcc			=	1;		// Aceleración máxima
+				pad.damping			=	0.9;	// Amortiguación
+				pad.reactionDelay	=	0;		// Retardo de reacción
+				break;
+
+			default:
+				pad.smoothVel		=	0;		// Velocidad actual suavizada
+				pad.maxAcc			=	1;		// Aceleración máxima
+				pad.damping			=	0.9;	// Amortiguación
+				pad.reactionDelay	=	0;		// Retardo de reacción
+				break;
+		}
+	}
 	smoothIT(paddle)
 	{
-		// set
-		this.aipad.x = paddle.x;
-		this.aipad.y = paddle.y;
-		this.aipad.dirY = paddle.dirY;
+		paddle.smoothVel *= paddle.damping;
 
-		// move
-		this.aipad.smoothVel *= this.aipad.damping;
+		if (Math.abs(paddle.smoothVel) < 0.1)
+			paddle.smoothVel = 0;
 
-		if (Math.abs(this.aipad.smoothVel) < 0.1)
-			this.aipad.smoothVel = 0;
-
-		if (this.aipad.dirY !== 0) {
-			const acceleration = this.aipad.dirY * this.aipad.maxAcc;
-			this.aipad.smoothVel += acceleration;
+		if (paddle.dirY !== 0) {
+			const acceleration = paddle.dirY * paddle.maxAcc;
+			paddle.smoothVel += acceleration;
 
 			// Limitar velocidad máxima (más permisivo)
-			const maxSpeed = this.aipad.vel * 1.2;  // Aumentado el límite
-			this.aipad.smoothVel = Math.max(
-				Math.min(this.aipad.smoothVel, maxSpeed),
+			const maxSpeed = paddle.vel * 1.2;  // Aumentado el límite
+			paddle.smoothVel = Math.max(
+				Math.min(paddle.smoothVel, maxSpeed),
 				-maxSpeed
 			);
 		}
 
-		this.aipad.y += this.aipad.smoothVel;
-		paddle.y = this.aipad.y;
+		paddle.y += paddle.smoothVel;
 
 		// Ensure paddle stays within game bounds
 		if (paddle.y < 0) {
@@ -67,7 +76,6 @@ export class AI
 		}
 	}
 	//*********** */
-
 	ai(ball, pad)
 	{
 		if (!this.enabled)
@@ -78,6 +86,7 @@ export class AI
 			- for les dificulty, less chance to move
 		*/
 
+		this.setPad(pad);
 		var chance = 0;
 		if (this.dificuty == "easy")
 			chance = 20;
@@ -119,7 +128,6 @@ export class AI
 			pad.dirY = 0;
 
 		this.smoothIT(pad);
-		pong.updatePaddlePosition(pad);
 	}
 	/**----------------- */
 }
