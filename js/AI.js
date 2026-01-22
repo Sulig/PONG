@@ -14,32 +14,42 @@ export class AI
 		this.chance = 35;
 
 		this.setLevel(pong.padR, this.level);
+		this.setLevel(pong.padL, this.level);
 	}
 
 	setLevel(pad, level)
 	{
 		if (!level)
 			level = this.level;
+
+		/* Custom dificulty:
+			- for more dificulty, more chance to move
+			- for les dificulty, less chance to move
+		*/
 		switch (level)
 		{
-			case "easy":
-				pad.maxAcc			=	0.8;	// Aceleración máxima
-				pad.damping			=	0.88;	// Amortiguación
+			case	"easy":
+				this.chance		=	30;
+				pad.maxAcc		=	0.8;	// Aceleración máxima
+				pad.damping		=	0.88;	// Amortiguación
 				break;
 
-			case "mid":
-				pad.maxAcc			=	1;		// Aceleración máxima
-				pad.damping			=	0.9;	// Amortiguación
+			case	"mid":
+				this.chance		=	55;
+				pad.maxAcc		=	1;		// Aceleración máxima
+				pad.damping		=	0.9;	// Amortiguación
 				break;
 
-			case "hard":
-				pad.maxAcc			=	1.2;	// Aceleración máxima
-				pad.damping			=	0.92;	// Amortiguación
+			case	"hard":
+				this.chance		=	100;
+				pad.maxAcc		=	1.25;	// Aceleración máxima
+				pad.damping		=	0.99;	// Amortiguación
 				break;
 
 			default:
-				pad.maxAcc			=	1;		// Aceleración máxima
-				pad.damping			=	0.9;	// Amortiguación
+				this.chance		=	35;
+				pad.maxAcc		=	1;		// Aceleración máxima
+				pad.damping		=	0.9;	// Amortiguación
 				break;
 		}
 		pad.smoothVel = 0;
@@ -78,45 +88,24 @@ export class AI
 		if (!this.enabled)
 			return ;
 
-		/* Custom dificulty:
-			- for more dificulty, more chance to move
-			- for les dificulty, less chance to move
-		*/
-
-		var chance = 0;
-		if (this.dificuty == "easy")
-			chance = 20;
-		else if (this.dificuty == "mid")
-			chance = 50;
-		else if (this.dificuty == "hard")
-			chance = 80;
+		const centerY = ball.y - pad.height / 2;
+		const currentCenter = pad.y + pad.height / 2;
+		const diff = centerY - currentCenter;
 
 		var random = Math.random() * 100;
-
-		if (random <= chance)
+		if (random <= this.chance)
+			pad.dirY = diff > 0 ? 1 : -1;
+		else if (random <= this.chance + 15)
 		{
-			if (ball.y < pad.y)
-				pad.dirY = -1;
-			else if (ball.y > pad.y)
-				pad.dirY = 1;
+			if (Math.abs(diff) > 15)
+				pad.dirY = diff > 0 ? 0.7 : -0.7;
 			else
 				pad.dirY = 0;
 		}
-		else if (random <= chance + 15)
+		else if (random <= this.chance + 20)
 		{
-			if (ball.y < pad.y)
-				pad.dirY = -0.5;
-			else if (ball.y > pad.y)
-				pad.dirY = 0.5;
-			else
-				pad.dirY = 0;
-		}
-		else if (random <= chance + 20)
-		{
-			if (ball.y < pad.y)
-				pad.dirY = -0.25;
-			else if (ball.y > pad.y)
-				pad.dirY = 0.25;
+			if (Math.random() < 0.4)
+				pad.dirY = (Math.random() * 2 - 1) * 0.3;
 			else
 				pad.dirY = 0;
 		}

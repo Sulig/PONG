@@ -86,6 +86,7 @@ function gameLoop()
 	//pong.updatePaddlePosition(pong.padR);
 
 	ai.ai(pong.ball, pong.padR);
+	//ai.ai(pong.ball, pong.padL); // yes, you can set the other paddle as ai too.
 
 	// Redibujar
 	pong.reDraw();
@@ -98,6 +99,7 @@ function gameLoop()
 resizeCanvas();
 pong.initializeGame();
 ai.setLevel(pong.padR, "hard"); // "easy", "mid", "hard"
+ai.setLevel(pong.padL, "hard"); // Funny
 requestAnimationFrame(gameLoop);
 /**----------------- */
 

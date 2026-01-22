@@ -31,7 +31,8 @@ const BALL = {
 	x:		0,
 	y:		0,
 	dirX:	0,
-	dirY:	0
+	dirY:	0,
+	frameStuck: 0
 };
 
 export const BODMH = 20;	// Border for MidLine grafic
@@ -44,8 +45,8 @@ const BORDER = {
 	y:		0
 };
 
-//** GOAL CORNER */
-const GOAL_CORNER = {
+//** GOAL */
+const GOAL = {
 	color:	"yellow",
 	height:	GAME_HEIGHT,
 	width:	6,
@@ -108,8 +109,8 @@ export class Pong
 		this.borT = Object.create(BORDER);		// border top
 		this.borB = Object.create(BORDER);		// border bottom
 
-		this.corL = Object.create(GOAL_CORNER);	// Left Goal Corner
-		this.corR = Object.create(GOAL_CORNER);	// Right Goal Corner
+		this.corL = Object.create(GOAL);	// Left Goal Corner
+		this.corR = Object.create(GOAL);	// Right Goal Corner
 
 		this.ball = Object.create(BALL);		// Da ball
 		this.padL = Object.create(PAD);			// Left paddle
@@ -165,6 +166,7 @@ export class Pong
 	startBall()
 	{
 		// Start ball coordinates
+		this.ball.frameStuck = 0;
 		this.ball.vel = START_BALL_VEL;
 		this.ball.x = this.width / 2;
 		this.ball.y = this.height / 2;
@@ -177,11 +179,13 @@ export class Pong
 		// -- * LEFT PADDLE
 		this.padL.x = 0;
 		this.padL.y = centerY - this.padL.height / 2;
+		this.padL.smoothVel = 0;
 		this.drawPaddle(this.padL);
 
 		// -- * RIGHT PADDLE
 		this.padR.x = this.width - this.padR.width;
 		this.padR.y = centerY - this.padR.height / 2;
+		this.padR.smoothVel = 0;
 		this.drawPaddle(this.padR);
 	}
 	/**----------------- */
@@ -282,6 +286,15 @@ export class Pong
 			pong.ball.dirX = 1;
 		else
 			pong.ball.dirX = -1;
+	}
+
+	checkIfBallStuck()
+	{
+
+		//only for tests:
+		ctx.beginPath();
+		ctx.arc(95, 50, 40, 0, 2 * Math.PI);
+		ctx.stroke();
 	}
 	/**----------------- */
 
