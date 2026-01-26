@@ -23,10 +23,11 @@ const WAIT_TIME = 2000; // Time to wait before serve (ms)
 // 	** BALL */
 const START_BALL_VEL = 0;
 const BALL_ACCELERATION = 0.15;
-const BALL_VEL = 12;
+const BALL_VEL	=	12;
+const BALL_RAD	=	20;
 const BALL = {
-	color:	"white",
-	rad:	20,
+	color:	"orange",
+	rad:	BALL_RAD,
 	vel:	BALL_VEL,
 	x:		0,
 	y:		0,
@@ -36,11 +37,19 @@ const BALL = {
 };
 
 export const BODMH = 20;	// Border for MidLine grafic
-//const BODH = 10;			// Border Height (will need this for collisions)
 const BORDER = {
 	color:	"white",
 	width:	GAME_WIDTH,
 	height:	0,
+	x:		0,
+	y:		0
+};
+
+const CWIDTH = 70, CHEIGHT = 70;
+const CORNER = {
+	color:	"red",
+	width:	CWIDTH + BALL_RAD,
+	height:	CHEIGHT + BALL_RAD,
 	x:		0,
 	y:		0
 };
@@ -72,7 +81,7 @@ const SCORE = {
 const PADW = 16, PADH = 100;
 export const PADVEL = 18;
 export const PAD = {
-	color:	"white",
+	color:	"burlywood",
 	width:	PADW,
 	height:	PADH,
 	vel:	PADVEL,
@@ -92,7 +101,7 @@ export const PLAYER = {
 	serve:  false,
 	score: null,
 	my_pad: null,
-	corner: null,
+	goal: null,
 };
 /** */
 /**----------------- */
@@ -109,26 +118,37 @@ export class Pong
 		this.borT = Object.create(BORDER);		// border top
 		this.borB = Object.create(BORDER);		// border bottom
 
-		this.corL = Object.create(GOAL);	// Left Goal Corner
-		this.corR = Object.create(GOAL);	// Right Goal Corner
+		this.corTL = Object.create(CORNER);
+		this.corTR = Object.create(CORNER);
+		this.corBL = Object.create(CORNER);
+		this.corBR = Object.create(CORNER);
+
+		this.gL = Object.create(GOAL);		// Left Goal Corner
+		this.gR = Object.create(GOAL);		// Right Goal Corner
 
 		this.ball = Object.create(BALL);		// Da ball
+		this.max_ball_vel	=	BALL_VEL;
+
 		this.padL = Object.create(PAD);			// Left paddle
 		this.padR = Object.create(PAD);			// Right paddle
 
 		this.playerL = Object.create(PLAYER);	// Left player
 		this.playerR = Object.create(PLAYER);	// Right player
+
+		this.log_app = 0;	// Limit the console logs at only 1
 	}
 	//*********** */
 
 	/** ON-START */
 	initializeGame()
 	{
-		// Set the corners
-		this.corL.x = 0;
-		this.corL.y = 0;
-		this.corR.x = this.width;
-		this.corR.y = 0;
+		this.log_app = 0;
+
+		// Set the goals
+		this.gL.x = 0;
+		this.gL.y = 0;
+		this.gR.x = this.width;
+		this.gR.y = 0;
 
 		// Set the borders
 		this.borT.x = 0;
@@ -136,11 +156,21 @@ export class Pong
 		this.borB.x = 0;
 		this.borB.y = GAME_HEIGHT;
 
+		// Set the corners
+		this.corTL.x = 0;
+		this.corTL.y = 0;
+		this.corTR.x = this.width - CWIDTH;
+		this.corTR.y = 0;
+		this.corBL.x = 0;
+		this.corBL.y = this.height - CHEIGHT;
+		this.corBR.x = this.width - CWIDTH;
+		this.corBR.y = this.height - CHEIGHT;
+
 		//* Start players
 		// Player Left
 		//this.playerL.name = "" // set this with database info
 		this.playerL.my_pad = this.padL;
-		this.playerL.corner = this.corL;
+		this.playerL.goal = this.gL;
 		// -- score
 		this.playerL.score = Object.create(SCORE);
 		this.playerL.score.score = 0;
@@ -149,7 +179,7 @@ export class Pong
 		// Player Right
 		//this.playerR.name = "" // set this with database info
 		this.playerR.my_pad = this.padR;
-		this.playerR.corner = this.corR;
+		this.playerR.goal = this.gR;
 		// -- score
 		this.playerR.score = Object.create(SCORE);
 		this.playerR.score.score = 0;
@@ -200,8 +230,10 @@ export class Pong
 	drawScore(score)
 	{
 		ctx.font = FONT_SCORE;
-		ctx.fillText(score.score + "", score.x, score.y); // Texto con relleno
-		//ctx.strokeText(score.score + "", score.x, score.y); // Solo letra con contorno (no se ve visualmente bien asi que usa "filled")
+		ctx.strokeStyle = 'yellow';
+		ctx.setLineDash([0, 0]);
+		//ctx.fillText(score.score + "", score.x, score.y); // Texto con relleno
+		ctx.strokeText(score.score + "", score.x, score.y); // Texto con contorno (sin relleno)
 	}
 	drawPaddle(paddle)
 	{
@@ -210,6 +242,8 @@ export class Pong
 	}
 	drawBall(ball)
 	{
+		ctx.strokeStyle = 'red';
+		ctx.setLineDash([0, 0]);
 		ctx.beginPath();
 		ctx.arc(ball.x, ball.y, ball.rad, 0, 2 * Math.PI, false);
 		ctx.fillStyle = ball.color;
@@ -219,11 +253,11 @@ export class Pong
 	/** Mid line (only grafic, has no collider) */
 	drawMidLine()
 	{
-		ctx.strokeStyle = 'white';
+		ctx.strokeStyle = 'red';
 		ctx.lineWidth = 8;
 		// -- Dash line - long, spacing
 		ctx.setLineDash([30, 38]);
-		ctx.beginPath();
+		//ctx.beginPath();
 		ctx.moveTo(GAME_WIDTH / 2, BODMH);
 		ctx.lineTo(GAME_WIDTH / 2, GAME_HEIGHT - BODMH);
 		ctx.stroke();
@@ -239,13 +273,13 @@ export class Pong
 		ctx.fillRect(this.borB.x, this.borB.y, GAME_WIDTH, this.borB.height);
 	}
 
-	//For visual testing of goal corners
-	drawCorners()
+	//For visual testing of goal goals
+	drawGoals()
 	{
-		ctx.fillStyle = this.corL.color;
-		ctx.fillRect(this.corL.x, this.corL.y, this.corL.width, this.corL.height);
-		ctx.fillStyle = this.corR.color;
-		ctx.fillRect(this.corR.x - this.corR.width, this.corR.y, this.corR.width, this.corR.height);
+		ctx.fillStyle = this.gL.color;
+		ctx.fillRect(this.gL.x, this.gL.y, this.gL.width, this.gL.height);
+		ctx.fillStyle = this.gR.color;
+		ctx.fillRect(this.gR.x - this.gR.width, this.gR.y, this.gR.width, this.gR.height);
 	}
 
 	/** Redraw the entire game screen */
@@ -266,7 +300,7 @@ export class Pong
 		this.drawPaddle(this.padL);
 		this.drawPaddle(this.padR);
 
-		//this.drawCorners();
+		//this.drawGoals();
 	}
 	//*********** */
 	/**----------------- */
@@ -288,12 +322,20 @@ export class Pong
 			pong.ball.dirX = -1;
 	}
 
-	checkIfBallStuck()
+	checkIfBallStuck(ball)
 	{
+		ball.color = "orange";
 
 		//only for tests:
-		ctx.beginPath();
-		ctx.arc(95, 50, 40, 0, 2 * Math.PI);
+		ctx.setLineDash([0, 0]);
+		//ctx.strokeStyle = 'white';
+		ctx.fillStyle = "orange";
+		//-----  x, y,  width, height
+		ctx.rect(this.corTL.x, this.corTL.y, CWIDTH, CHEIGHT);
+		ctx.rect(this.corTR.x, this.corTR.y, CWIDTH, CHEIGHT);
+		ctx.rect(this.corBL.x, this.corBL.y, CWIDTH, CHEIGHT);
+		ctx.rect(this.corBR.x, this.corBR.y, CWIDTH, CHEIGHT);
+
 		ctx.stroke();
 	}
 	/**----------------- */
@@ -326,10 +368,10 @@ export class Pong
 		ball.x += ball.dirX * ball.vel;
 		ball.y += ball.dirY * ball.vel;
 
-		if (ball.vel <= BALL_VEL)
+		if (ball.vel <= this.max_ball_vel)
 			ball.vel += BALL_ACCELERATION;
 
-		if (ball.x <= this.playerL.corner.x)
+		if (ball.x <= this.playerL.goal.x)
 		{
 			this.playerL.score.score++;
 			if (this.playerL.score.score >= MAX_SCORE)
@@ -344,7 +386,7 @@ export class Pong
 			else
 				this.decideServe();
 		}
-		if (ball.x >= this.playerR.corner.x)
+		if (ball.x >= this.playerR.goal.x)
 		{
 			this.playerR.score.score++;
 			if (this.playerR.score.score >= MAX_SCORE)

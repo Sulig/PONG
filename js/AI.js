@@ -10,11 +10,8 @@ export class AI
 	constructor()
 	{
 		this.enabled = true;
-		this.level = "hard";
-		this.chance = 35;
-
-		this.setLevel(pong.padR, this.level);
-		this.setLevel(pong.padL, this.level);
+		this.level = "mid";
+		this.chance = 55;
 	}
 
 	setLevel(pad, level)
@@ -29,27 +26,35 @@ export class AI
 		switch (level)
 		{
 			case	"easy":
-				this.chance		=	30;
-				pad.maxAcc		=	0.8;	// Aceleración máxima
-				pad.damping		=	0.88;	// Amortiguación
+				this.chance			=	30;
+				pad.maxAcc			=	0.8;
+				pad.damping			=	0.88;
+				pad.vel				=	16;
+				pong.max_ball_vel	=	10;
 				break;
 
 			case	"mid":
-				this.chance		=	55;
-				pad.maxAcc		=	1;		// Aceleración máxima
-				pad.damping		=	0.9;	// Amortiguación
+				this.chance			=	55;
+				pad.maxAcc			=	1;
+				pad.damping			=	0.78;
+				pad.vel				=	18;
+				pong.max_ball_vel	=	12;
 				break;
 
 			case	"hard":
-				this.chance		=	100;
-				pad.maxAcc		=	1.25;	// Aceleración máxima
-				pad.damping		=	0.99;	// Amortiguación
+				this.chance			=	100;
+				pad.maxAcc			=	2.35;
+				pad.damping			=	0.8855;
+				pad.vel				=	55;
+				pong.max_ball_vel	=	14;
 				break;
 
 			default:
-				this.chance		=	35;
-				pad.maxAcc		=	1;		// Aceleración máxima
-				pad.damping		=	0.9;	// Amortiguación
+				this.chance			=	35;
+				pad.maxAcc			=	1;
+				pad.damping			=	0.9;
+				pad.vel				=	18;
+				pong.max_ball_vel	=	12;
 				break;
 		}
 		pad.smoothVel = 0;
@@ -92,9 +97,20 @@ export class AI
 		const currentCenter = pad.y + pad.height / 2;
 		const diff = centerY - currentCenter;
 
+		//console.log("my d: " + ((ball.y ) - currentCenter));
+		//console.log("Diff: " + (diff));
+
 		var random = Math.random() * 100;
 		if (random <= this.chance)
-			pad.dirY = diff > 0 ? 1 : -1;
+		{
+			if (ball.y < pad.y)
+				pad.dirY = -1;
+			else if (ball.y > pad.y + pad.height)
+				pad.dirY = 1;
+			else
+				pad.dirY = 0;
+			//pad.dirY = diff > 0 ? 1 : -1;
+		}
 		else if (random <= this.chance + 15)
 		{
 			if (Math.abs(diff) > 15)
