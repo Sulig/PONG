@@ -20,7 +20,7 @@ export const ball_tex = ctx.createPattern(_tx, "no-repeat");
 /****/
 
 /** OBJECTS -- */
-const WAIT_TIME = 2000; // Time to wait before serve (ms)
+const WAIT_SERVE = 180; // Time to wait before serve (ms so 180 is 3s)
 
 // 	** BALL */
 const START_BALL_VEL = 0;
@@ -75,6 +75,7 @@ const SCORE = {
 	score: 0,
 	size: SCORE_SIZE,
 	font: "Arial",
+	color:	'yellow',
 	x: 0,
 	y: SCORE_SIZE + SCORE_MARGIN
 };
@@ -89,7 +90,7 @@ export const PAD = {
 	height:	PADH,
 	vel:	PADVEL,
 	smoothVel:	0,		// Velocidad actual suavizada
-	maxAcc:		1,	// Aceleración máxima
+	maxAcc:		1,		// Aceleración máxima
 	damping:	0.9,	// Amortiguación
 	reactionDelay:	0,	// Retardo de reacción
 	x:		0,
@@ -138,6 +139,9 @@ export class Pong
 		this.playerL = Object.create(PLAYER);	// Left player
 		this.playerR = Object.create(PLAYER);	// Right player
 
+		this.serveNow = false;
+		this.waitServe = WAIT_SERVE;
+		this.screenText = Object.create(SCORE);
 		this.log_app = 0;	// Limit the console logs at only 1
 	}
 	//*********** */
@@ -145,6 +149,11 @@ export class Pong
 	/** ON-START */
 	initializeGame()
 	{
+		this.serveNow = false;
+		this.waitServe = WAIT_SERVE;
+		this.screenText.score = WAIT_SERVE / 60;
+		this.screenText.x = this.width / 2 - SCORE_SIZE / 2 + 25;
+		this.screenText.y = this.height / 2 + SCORE_SIZE / 2 - 25;
 		this.log_app = 0;
 
 		// Set the goals
@@ -225,6 +234,9 @@ export class Pong
 	/**----------------- */
 	startGamePosition()
 	{
+		this.serveNow = false;
+		this.waitServe = WAIT_SERVE;
+		this.screenText.score = WAIT_SERVE / 60;
 		this.startBall();
 		this.startPaddles();
 	}
@@ -234,7 +246,7 @@ export class Pong
 	drawScore(score)
 	{
 		ctx.font = FONT_SCORE;
-		ctx.strokeStyle = 'yellow';
+		ctx.strokeStyle = score.color;
 		ctx.setLineDash([0, 0]);
 		//ctx.fillText(score.score + "", score.x, score.y); // Texto con relleno
 		ctx.strokeText(score.score + "", score.x, score.y); // Texto con contorno (sin relleno)
@@ -305,6 +317,9 @@ export class Pong
 		this.drawPaddle(this.padL);
 		this.drawPaddle(this.padR);
 
+		if (!this.serveNow)
+			this.drawScore(this.screenText);
+
 		//this.drawGoals();
 	}
 	//*********** */
@@ -325,6 +340,23 @@ export class Pong
 			pong.ball.dirX = 1;
 		else
 			pong.ball.dirX = -1;
+	}
+
+	countDownServe()
+	{
+		if (this.waitServe > 0)
+		{
+			this.serveNow = false;
+			this.drawScore(this.screenText);
+			if (this.waitServe % 60 == 0)
+			{
+				this.screenText.score = this.waitServe / 60;
+				this.drawScore(this.screenText);
+			}
+			this.waitServe--;
+		}
+		else
+			this.serveNow = true;
 	}
 
 	checkIfBallStuck(ball)

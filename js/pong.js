@@ -73,20 +73,27 @@ window.addEventListener("touchmove", (e) => {
 /** GAME LOOP */
 function gameLoop()
 {
-	/** Call to collision detection (phisics) */
-	checkPaddleCollision(pong.ball, pong.padL);
-	checkPaddleCollision(pong.ball, pong.padR);
-	checkWallCollision(pong.ball, pong.borT);
-	checkWallCollision(pong.ball, pong.borB);
+	pong.countDownServe();
 
-	// Update positions
-	pong.updateBallPosition(pong.ball);
+	if (pong.serveNow)
+	{
+		/** Call to collision detection (phisics) */
+		checkPaddleCollision(pong.ball, pong.padL);
+		checkPaddleCollision(pong.ball, pong.padR);
+		checkWallCollision(pong.ball, pong.borT);
+		checkWallCollision(pong.ball, pong.borB);
 
-	pong.updatePaddlePosition(pong.padL);
-	//pong.updatePaddlePosition(pong.padR);
+		// Update positions
+		pong.updateBallPosition(pong.ball);
 
-	ai.ai(pong.ball, pong.padR);
-	//ai.ai(pong.ball, pong.padL); // yes, you can set the other paddle as ai too.
+		pong.updatePaddlePosition(pong.padL);
+		//pong.updatePaddlePosition(pong.padR);
+
+		ai.ai(pong.ball, pong.padR);
+		//ai.ai(pong.ball, pong.padL); // yes, you can set the other paddle as ai too.
+
+		pong.checkIfBallStuck(pong.ball);
+	}
 
 	if (pong.log_app != 1)
 	{
@@ -97,7 +104,6 @@ function gameLoop()
 
 	// Redibujar
 	pong.reDraw();
-	pong.checkIfBallStuck(pong.ball);
 
 	// Pedir el siguiente frame
 	requestAnimationFrame(gameLoop);
