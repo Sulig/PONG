@@ -49,4 +49,25 @@ export function checkWallCollision(ball, border)
 	}
 }
 /*----------------- */
+
+export function checkCornerCollision(ball, corner)
+{
+	// AABB - Circle collision detection
+	const ballLeft = ball.x - ball.rad;
+	const ballRight = ball.x + ball.rad;
+	const ballTop = ball.y - ball.rad;
+	const ballBottom = ball.y + ball.rad;
+
+	const cornerL = corner.x;
+	const cornerR = corner.x + corner.width;
+	const cornerT = corner.y;
+	const cornerB = corner.y + corner.height;
+
+	if ( ballRight > cornerL && ballLeft < cornerR
+		&& ballBottom > cornerT && ballTop < cornerB ){
+		return true;
+	}
+	else
+		return false;
+}
 /* **********************************************/

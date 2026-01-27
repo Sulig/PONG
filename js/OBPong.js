@@ -2,6 +2,8 @@
 /*                 Objects PONG                 */
 /* **********************************************/
 
+import { checkCornerCollision } from "./phisics.js";
+
 /** The canvas of the game */
 export const canvas = document.getElementById("gm-canvas");	// The game canvas
 export const ctx = canvas.getContext("2d");
@@ -26,14 +28,15 @@ const BALL_ACCELERATION = 0.15;
 const BALL_VEL	=	12;
 const BALL_RAD	=	20;
 const BALL = {
-	color:	"orange",
+	color:	"black",
 	rad:	BALL_RAD,
 	vel:	BALL_VEL,
 	x:		0,
 	y:		0,
 	dirX:	0,
 	dirY:	0,
-	frameStuck: 0
+	is_stuck:	false,
+	frameStuck:	0
 };
 
 export const BODMH = 20;	// Border for MidLine grafic
@@ -196,6 +199,7 @@ export class Pong
 	startBall()
 	{
 		// Start ball coordinates
+		this.ball.is_stuck = false;
 		this.ball.frameStuck = 0;
 		this.ball.vel = START_BALL_VEL;
 		this.ball.x = this.width / 2;
@@ -248,12 +252,13 @@ export class Pong
 		ctx.arc(ball.x, ball.y, ball.rad, 0, 2 * Math.PI, false);
 		ctx.fillStyle = ball.color;
 		ctx.fill();
+		ctx.stroke();
 	}
 
 	/** Mid line (only grafic, has no collider) */
 	drawMidLine()
 	{
-		ctx.strokeStyle = 'red';
+		ctx.strokeStyle = 'darkviolet';
 		ctx.lineWidth = 8;
 		// -- Dash line - long, spacing
 		ctx.setLineDash([30, 38]);
@@ -324,19 +329,26 @@ export class Pong
 
 	checkIfBallStuck(ball)
 	{
-		ball.color = "orange";
+		ball.is_stuck = false;
 
-		//only for tests:
-		ctx.setLineDash([0, 0]);
-		//ctx.strokeStyle = 'white';
-		ctx.fillStyle = "orange";
-		//-----  x, y,  width, height
-		ctx.rect(this.corTL.x, this.corTL.y, CWIDTH, CHEIGHT);
-		ctx.rect(this.corTR.x, this.corTR.y, CWIDTH, CHEIGHT);
-		ctx.rect(this.corBL.x, this.corBL.y, CWIDTH, CHEIGHT);
-		ctx.rect(this.corBR.x, this.corBR.y, CWIDTH, CHEIGHT);
+		if (checkCornerCollision(ball, this.corTL) ||
+			checkCornerCollision(ball, this.corTR) ||
+			checkCornerCollision(ball, this.corBL) ||
+			checkCornerCollision(ball, this.corBR)) {
+				ball.is_stuck = true;
+		}
 
-		ctx.stroke();
+		if (ball.is_stuck)
+		{
+			ball.frameStuck++;
+			if (ball.frameStuck > 180)
+			{
+				ball.frameStuck = 0;
+				this.startBall();
+			}
+		}
+		else
+			ball.frameStuck = 0;
 	}
 	/**----------------- */
 

@@ -26,14 +26,6 @@ export class AI
 		switch (level)
 		{
 			case	"easy":
-				this.chance			=	30;
-				pad.maxAcc			=	0.8;
-				pad.damping			=	0.88;
-				pad.vel				=	16;
-				pong.max_ball_vel	=	10;
-				break;
-
-			case	"mid":
 				this.chance			=	55;
 				pad.maxAcc			=	1;
 				pad.damping			=	0.78;
@@ -41,20 +33,28 @@ export class AI
 				pong.max_ball_vel	=	12;
 				break;
 
-			case	"hard":
+			case	"mid":
 				this.chance			=	100;
-				pad.maxAcc			=	2.35;
+				pad.maxAcc			=	3;
 				pad.damping			=	0.8855;
-				pad.vel				=	55;
+				pad.vel				=	65;
 				pong.max_ball_vel	=	14;
 				break;
 
+			case	"hard":
+				this.chance			=	100;
+				pad.maxAcc			=	5;
+				pad.damping			=	0.89;
+				pad.vel				=	75;
+				pong.max_ball_vel	=	15;
+				break;
+
 			default:
-				this.chance			=	35;
-				pad.maxAcc			=	1;
-				pad.damping			=	0.9;
-				pad.vel				=	18;
-				pong.max_ball_vel	=	12;
+				this.chance			=	100;
+				pad.maxAcc			=	3;
+				pad.damping			=	0.8855;
+				pad.vel				=	65;
+				pong.max_ball_vel	=	14;
 				break;
 		}
 		pad.smoothVel = 0;
@@ -109,7 +109,6 @@ export class AI
 				pad.dirY = 1;
 			else
 				pad.dirY = 0;
-			//pad.dirY = diff > 0 ? 1 : -1;
 		}
 		else if (random <= this.chance + 15)
 		{
