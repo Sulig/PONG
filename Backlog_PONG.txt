@@ -22,7 +22,7 @@ For the game -- Will be PONG --
 
 ### Style --
 
-** 3D Module (Need to do, actually is in 2D grafics)
+** 3D Module (i will think it to do, actually is in 2D grafics)
 + Create an immersive 3D environment.
 + Implement advanced rendering techniques.
 + Ensure smooth performance and user interaction.
@@ -99,11 +99,10 @@ IDEAS:
 	[If applicable] - Change keyinput
 	[If applicable] - Change color
 	ONLY IF 1 VS 1 ONLINE [] - Ver que pala es la que controlas
-	ONLY IF 1 VS 1 OFFLINE [IDEA] - -verificar que los dos jugadores esten listos (pulsando el boton de mover)?
 	----
 	[NEXT] - Save/Load the game customization
 		[] - Save
-		[IN PROGRESS] - Load (Will be important changes)
+		[NEXT] - Load (Will be important changes)
 
 [TEST] - Hacer las mecanicas de las palas.
 	[] - Keyhooks and eventlisteners for PC
@@ -114,16 +113,14 @@ IDEAS:
 [] - Phisics
 	[] - COLISIONES
 		[OK] - Rebotes de la pelota (tanto con la pared como con las palas)
-		[IN PROGRESS] - Saque de la bola
-		[--NEXT] - Marcar puntos
+		[OK] - Saque de la bola
+		[OK] - Marcar puntos
 	[] - Velocity
-		[THINKING] - Starter velocity (Sobretodo en los saques, y luego se incrementaria)
-		[THINKING] - Depende de donde rebote la bola, puede ir mas rapido o mas lento.
-		[NEXT] - -- AI -- Velocidad de respuesta (-- mas adelante podria anyadir un ajuste de dificultad)
-	[] - Ball Direccion
-		[TEST] - Depende de las COLISIONES
+		[OK] - Starter velocity (Sobretodo en los saques, y luego se incrementaria)
+		[IN PROGRESS] - -- AI -- Velocidad de respuesta (-- mas adelante podria anyadir un ajuste de dificultad)
+	[OK] - Ball Direccion
 		[IDEA -] - (- later, podria anyadir una guia de donde va a rebotar la bola)
-[NEXT] - AI
+[TESTING] - AI
 [] - WIN / LOSE CONDITIONS
 	[OK] - Marcador
 	[IN PROGRESS] - Finalizar juego cuando un jugador consiga marcar suficientes puntos.
@@ -140,13 +137,36 @@ IDEAS:
 [ Si pone cualquier cosa ] -- Necesito hablarlo con quien lleva este tema. (o es un apunte)
 [] - Vacio, aun lo tengo que hacer.
 ~~~
-CODE -> FILE DISTRIBUITION (in progress)
+~~~
+## CODE -> FILE DISTRIBUITION:
 
-En ello.. ->
-- In Update -->
-	[Doed in other file] - Update the ball positions
-	[thinking] - Here will be apply the collisions
-	[] - Will check for win/lose condition (but code will be appart?)
+- AI -->
+	- Only the AI mechanic and choses of difficulty of it.
 
-- Need a file for lose and win conditions or maybe in pong too?
+- fetch -->
+	- The method for restoring data saved in a JSON
+
+- OBJPong -->
+	- All the necessary objects and structs for pong game
+	- All the "Deffault" attributes and inicializations
+	- All the Object Drawing for pong
+	- An update function position for ball
+	- An update function position for paddles
+	- Some utilities:
+		- Check if ball is stucked
+		- Decide serve
+		- First count down before first serve
+
+- phisics -->
+	- All the collisions of the ball with the environment
+	- *Includes the collision of ball in corners for "is ball stuck?"
+
+- In "pong" -->
+	- All the key-input event listeners
+	- Update method
+	- Call for start - inicializations of game
+
+- Render -->
+	- Only the render method when scaling the window
+
 ~~~

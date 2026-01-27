@@ -20,7 +20,7 @@ export const ball_tex = ctx.createPattern(_tx, "no-repeat");
 /****/
 
 /** OBJECTS -- */
-const WAIT_SERVE = 180; // Time to wait before serve (ms so 180 is 3s)
+const WAIT_SERVE = 180; // Time to wait before serve (fps so 180 is 3s)
 
 // 	** BALL */
 const START_BALL_VEL = 0;
@@ -31,6 +31,7 @@ const BALL = {
 	color:	"black",
 	rad:	BALL_RAD,
 	vel:	BALL_VEL,
+	maxVel:	BALL_VEL,
 	x:		0,
 	y:		0,
 	dirX:	0,
@@ -95,6 +96,7 @@ export const PAD = {
 	reactionDelay:	0,	// Retardo de reacción
 	x:		0,
 	y:		0,
+	maxY:	GAME_HEIGHT,
 	dirY:	0
 };
 
@@ -131,7 +133,6 @@ export class Pong
 		this.gR = Object.create(GOAL);		// Right Goal Corner
 
 		this.ball = Object.create(BALL);		// Da ball
-		this.max_ball_vel	=	BALL_VEL;
 
 		this.padL = Object.create(PAD);			// Left paddle
 		this.padR = Object.create(PAD);			// Right paddle
@@ -247,7 +248,6 @@ export class Pong
 	{
 		ctx.font = FONT_SCORE;
 		ctx.strokeStyle = score.color;
-		ctx.setLineDash([0, 0]);
 		//ctx.fillText(score.score + "", score.x, score.y); // Texto con relleno
 		ctx.strokeText(score.score + "", score.x, score.y); // Texto con contorno (sin relleno)
 	}
@@ -259,7 +259,6 @@ export class Pong
 	drawBall(ball)
 	{
 		ctx.strokeStyle = 'red';
-		ctx.setLineDash([0, 0]);
 		ctx.beginPath();
 		ctx.arc(ball.x, ball.y, ball.rad, 0, 2 * Math.PI, false);
 		ctx.fillStyle = ball.color;
@@ -278,6 +277,8 @@ export class Pong
 		ctx.moveTo(GAME_WIDTH / 2, BODMH);
 		ctx.lineTo(GAME_WIDTH / 2, GAME_HEIGHT - BODMH);
 		ctx.stroke();
+		//reset style
+		ctx.setLineDash([0, 0]);
 	}
 
 	/** Boders of Pong Game */
@@ -349,10 +350,7 @@ export class Pong
 			this.serveNow = false;
 			this.drawScore(this.screenText);
 			if (this.waitServe % 60 == 0)
-			{
 				this.screenText.score = this.waitServe / 60;
-				this.drawScore(this.screenText);
-			}
 			this.waitServe--;
 		}
 		else
@@ -412,7 +410,7 @@ export class Pong
 		ball.x += ball.dirX * ball.vel;
 		ball.y += ball.dirY * ball.vel;
 
-		if (ball.vel <= this.max_ball_vel)
+		if (ball.vel <= ball.maxVel)
 			ball.vel += BALL_ACCELERATION;
 
 		if (ball.x <= this.playerL.goal.x)

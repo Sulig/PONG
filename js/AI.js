@@ -2,8 +2,6 @@
 /*                   AI PONG                    */
 /* **********************************************/
 
-import { pong } from "./OBPong.js";
-
 //** AI  */
 export class AI
 {
@@ -14,7 +12,7 @@ export class AI
 		this.chance = 55;
 	}
 
-	setLevel(pad, level)
+	setLevel(ball, pad, level)
 	{
 		if (!level)
 			level = this.level;
@@ -30,7 +28,7 @@ export class AI
 				pad.maxAcc			=	1;
 				pad.damping			=	0.78;
 				pad.vel				=	18;
-				pong.max_ball_vel	=	12;
+				ball.maxVel			=	12;
 				break;
 
 			case	"mid":
@@ -38,7 +36,7 @@ export class AI
 				pad.maxAcc			=	3;
 				pad.damping			=	0.8855;
 				pad.vel				=	65;
-				pong.max_ball_vel	=	14;
+				ball.maxVel			=	14;
 				break;
 
 			case	"hard":
@@ -46,7 +44,7 @@ export class AI
 				pad.maxAcc			=	5;
 				pad.damping			=	0.89;
 				pad.vel				=	75;
-				pong.max_ball_vel	=	15;
+				ball.maxVel			=	15;
 				break;
 
 			default:
@@ -54,7 +52,7 @@ export class AI
 				pad.maxAcc			=	3;
 				pad.damping			=	0.8855;
 				pad.vel				=	65;
-				pong.max_ball_vel	=	14;
+				ball.maxVel			=	14;
 				break;
 		}
 		pad.smoothVel = 0;
@@ -83,22 +81,17 @@ export class AI
 		// Ensure paddle stays within game bounds
 		if (paddle.y < 0) {
 			paddle.y = 0;
-		} else if (paddle.y + paddle.height > pong.height) {
-			paddle.y = pong.height - paddle.height;
+		} else if (paddle.y + paddle.height > paddle.maxY) {
+			paddle.y = paddle.maxY - paddle.height;
 		}
 	}
 	//*********** */
-	ai(ball, pad)
-	{
-		if (!this.enabled)
-			return ;
 
+	basicAI(ball, pad)
+	{
 		const centerY = ball.y - pad.height / 2;
 		const currentCenter = pad.y + pad.height / 2;
 		const diff = centerY - currentCenter;
-
-		//console.log("my d: " + ((ball.y ) - currentCenter));
-		//console.log("Diff: " + (diff));
 
 		var random = Math.random() * 100;
 		if (random <= this.chance)
@@ -128,6 +121,19 @@ export class AI
 			pad.dirY = 0;
 
 		this.smoothIT(pad);
+	}
+
+
+
+	ai(ball, pad)
+	{
+		if (!this.enabled)
+			return ;
+
+		if (this.level === "hard")
+			this.basicAI(ball, pad);
+		else
+			this.basicAI(ball, pad);
 	}
 	/**----------------- */
 }

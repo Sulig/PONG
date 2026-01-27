@@ -29,9 +29,6 @@ window.addEventListener("keydown", (e) => {
 		pong.padL.dirY = 1;
 	}
 
-	pong.movePaddle(pong.padL, pong.padL.dirY);
-	//pong.movePaddle(pong.padR, pong.padR.dirY);
-
 	console.log("Key pressed: " + e.key);
 });
 
@@ -41,9 +38,6 @@ window.addEventListener("keyup", (e) => {
 	} else if (e.key === "w" || e.key === "s") {
 		pong.padL.dirY = 0;
 	}
-
-	pong.movePaddle(pong.padL, pong.padL.dirY);
-	//pong.movePaddle(pong.padR, pong.padR.dirY);
 });
 
 /** MOUSE INPUT */
@@ -112,8 +106,8 @@ function gameLoop()
 /** ON-START */
 resizeCanvas();
 pong.initializeGame();
-ai.setLevel(pong.padR, "hard"); // "easy", "mid", "hard"
-//ai.setLevel(pong.padL, "hard"); // Funny
+ai.setLevel(pong.ball, pong.padR, "hard"); // "easy", "mid", "hard"
+//ai.setLevel(pong.ball, pong.padL, "hard"); // Funny
 requestAnimationFrame(gameLoop);
 /**----------------- */
 
