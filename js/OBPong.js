@@ -337,10 +337,10 @@ export class Pong
 
 		// Random initial direction
 		this.ball.dirY = (Math.random() * 2 - 1); // between -1 and 1
-		if (pong.playerL.serve)
-			pong.ball.dirX = 1;
+		if (this.playerL.serve)
+			this.ball.dirX = 1;
 		else
-			pong.ball.dirX = -1;
+			this.ball.dirX = -1;
 	}
 
 	countDownServe()
@@ -415,11 +415,11 @@ export class Pong
 
 		if (ball.x <= this.playerL.goal.x)
 		{
-			this.playerL.score.score++;
-			if (this.playerL.score.score >= MAX_SCORE)
+			this.playerR.score.score++;
+			if (this.playerR.score.score >= MAX_SCORE)
 			{
 				// end game
-				console.log("Player L wins!");
+				console.log("Player R wins!");
 				// Saltar a la pantalla de estadisticas y resultados --
 				//--- here
 				//** Esto es solo para test y reinicia el juego -> */
@@ -430,11 +430,11 @@ export class Pong
 		}
 		if (ball.x >= this.playerR.goal.x)
 		{
-			this.playerR.score.score++;
-			if (this.playerR.score.score >= MAX_SCORE)
+			this.playerL.score.score++;
+			if (this.playerL.score.score >= MAX_SCORE)
 			{
 				// end game
-				console.log("Player R wins!");
+				console.log("Player L wins!");
 				// Saltar a la pantalla de estadisticas y resultados --
 				//--- here
 				//** Esto es solo para test y reinicia el juego -> */
