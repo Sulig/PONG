@@ -118,19 +118,23 @@ export class AI
 
 	predictiveAI(ball, pad)
 	{
+		/*
 		if (ball.y < pad.y)
 			pad.dirY = -1;
 		else if (ball.y > pad.y + pad.height)
 			pad.dirY = 1;
 		else
 			pad.dirY = 0;
+		*/
 
-		if (ball.y * ball.dirY < pad.y)
+		if (ball.y + ball.dirY < pad.y)
 			pad.dirY = -1;
-		else if (ball.y * ball.dirY > pad.y + pad.height)
+		else if (ball.y + ball.dirY > pad.y + pad.height)
 			pad.dirY = 1;
 		else
 			pad.dirY = 0;
+
+		console.log(pad);
 
 		this.smoothIT(pad);
 	}
