@@ -80,11 +80,11 @@ function gameLoop()
 		// Update positions
 		pong.updateBallPosition(pong.ball);
 
-		pong.updatePaddlePosition(pong.padL);
+		//pong.updatePaddlePosition(pong.padL);
 		//pong.updatePaddlePosition(pong.padR);
 
 		ai.ai(pong.ball, pong.padR);
-		//ai.ai(pong.ball, pong.padL); // yes, you can set the other paddle as ai too.
+		ai.ai(pong.ball, pong.padL); // yes, you can set the other paddle as ai too.
 
 		pong.checkIfBallStuck(pong.ball);
 	}
@@ -107,7 +107,7 @@ function gameLoop()
 resizeCanvas();
 pong.initializeGame();
 ai.setLevel(pong.ball, pong.padR, "hard"); // "easy", "mid", "hard"
-//ai.setLevel(pong.ball, pong.padL, "hard"); // Funny
+ai.setLevel(pong.ball, pong.padL, "hard"); // Funny
 requestAnimationFrame(gameLoop);
 /**----------------- */
 

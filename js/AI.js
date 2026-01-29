@@ -7,9 +7,10 @@ export class AI
 {
 	constructor()
 	{
-		this.enabled = true;	// Enable/Disable the AI
-		this.level = "mid";		// Level of AI (easy - mid - hard)
-		this.chance = 55;		// Chance of AI for mistakes
+		this.enabled	=	true;	// Enable/Disable the AI
+		this.level		=	"mid";	// Level of AI (easy - mid - hard)
+		this.chance		=	55;		// Chance of AI for mistakes
+		this.velMax		=	60;		// Max velocoty of pad
 	}
 
 	setLevel(ball, pad, level)
@@ -25,10 +26,11 @@ export class AI
 		{
 			case	"easy":
 				this.level			=	"easy";
-				this.chance			=	45;
-				pad.maxAcc			=	1.5;
-				pad.damping			=	0.78;
-				pad.vel				=	35;
+				this.chance			=	20;
+				pad.maxAcc			=	2;
+				pad.damping			=	0.8;
+				pad.vel				=	40;
+				this.velMax			=	40;
 				ball.maxVel			=	12;
 				break;
 
@@ -38,16 +40,18 @@ export class AI
 				pad.maxAcc			=	2.5;
 				pad.damping			=	0.88;
 				pad.vel				=	60;
+				this.velMax			=	60;
 				ball.maxVel			=	14;
 				break;
 
 			case	"hard":
 				this.level			=	"hard";
-				this.chance			=	-1;
+				this.chance			=	2;
 				pad.maxAcc			=	5;
 				pad.damping			=	0.89;
 				pad.vel				=	75;
-				ball.maxVel			=	15;
+				this.velMax			=	75;
+				ball.maxVel			=	16;
 				break;
 
 			default:
@@ -56,6 +60,7 @@ export class AI
 				pad.maxAcc			=	3;
 				pad.damping			=	0.88;
 				pad.vel				=	60;
+				this.velMax			=	60;
 				ball.maxVel			=	14;
 				break;
 		}
@@ -72,8 +77,8 @@ export class AI
 			const acceleration = paddle.dirY * paddle.maxAcc;
 			paddle.smoothVel += acceleration;
 
-			// Limitar velocidad máxima (más permisivo)
-			const maxSpeed = paddle.vel * 1.2;  // Aumentado el límite
+			// Limitar velocidad máxima
+			const maxSpeed = paddle.vel * 1.2;
 			paddle.smoothVel = Math.max(
 				Math.min(paddle.smoothVel, maxSpeed),
 				-maxSpeed
@@ -93,11 +98,6 @@ export class AI
 
 	basicAI(ball, pad)
 	{
-		const centerY = ball.y - pad.height / 2;
-		const currentCenter = pad.y + pad.height / 2;
-		const diff = centerY - currentCenter;
-
-		var random = Math.floor(Math.random() * 100);
 		if (ball.y < pad.y)
 			pad.dirY = -1;
 		else if (ball.y > pad.y + pad.height)
@@ -105,13 +105,16 @@ export class AI
 		else
 			pad.dirY = 0;
 
-		if (random <= this.chance)
+		var random = Math.floor(Math.random() * 100);
+		if (random < this.chance)
 		{
+			console.log("I will stop for you");
 			if (Math.random() < 0.4)
 				pad.dirY = (Math.random() * 2 - 1) * 0.3;
-			else
-				pad.dirY = 0;
+			pad.vel /= 2;
 		}
+		else if (pad.vel < this.velMax)
+			pad.vel++;
 
 		this.smoothIT(pad);
 	}
@@ -134,6 +137,17 @@ export class AI
 		else
 			pad.dirY = 0;
 
+		var random = Math.floor(Math.random() * 100);
+		if (random < this.chance)
+		{
+			console.log("I will stop for you");
+			if (Math.random() < 0.4)
+				pad.dirY = (Math.random() * 2 - 1) * 0.3;
+			pad.vel /= 5;
+		}
+		else if (pad.vel < this.velMax)
+			pad.vel++;
+
 		console.log(pad);
 
 		this.smoothIT(pad);
@@ -148,6 +162,8 @@ export class AI
 			this.predictiveAI(ball, pad);
 		else
 			this.basicAI(ball, pad);
+
+		//console.log(this);
 	}
 	/**----------------- */
 }
