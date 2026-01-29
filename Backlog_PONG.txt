@@ -70,8 +70,18 @@ Classic PONG game, the ball rebotes on the max top & max bottom height.
 ****
 * Game customizatation
 ****
-(like ball color + walls  + speed , etc..)
-IDEAS:
+		->	Seleccionar cuantos puntos se necesitan para ganar una partida.
+[--]	->	Cambiar los colores del juego
+		->	Seleccionar en que lado de la pantalla se movera a AI
+		->	Seleccionar la dificultad de la AI
+[Next]	->	Seleccionar si se jugara 1 vs 1 (offline)
+[Next]	->	Seleccionar si se jugara 1 vs AI
+[--]	->	Seleccionar 1 vs 1 (online) (esto requiriria tener un websockets)
+
+
+****
+* IDEAS
+****
 
 * Implement Arkanoid Random "Ventajas" & Power-ups
 - Aumentar velocidad de la bola
