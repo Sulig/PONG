@@ -17,27 +17,33 @@ window.addEventListener("resize", () => {
 
 /** KEYBOARD INPUT */
 window.addEventListener("keydown", (e) => {
-	if (e.key === "ArrowUp") {
-		pong.padR.dirY = -1;
-	} else if (e.key === "ArrowDown") {
-		pong.padR.dirY = 1;
-	}
-
-	if (e.key === "w") {
+	if (e.key == pong.playerL.mov_u)
 		pong.padL.dirY = -1;
-	} else if (e.key === "s") {
-		pong.padL.dirY = 1;
-	}
 
-	console.log("Key pressed: " + e.key);
+	if (e.key == pong.playerL.mov_d)
+		pong.padL.dirY = 1;
+
+	if (e.key == pong.playerR.mov_u)
+		pong.padR.dirY = -1;
+
+	if (e.key == pong.playerR.mov_d)
+		pong.padR.dirY = 1;
+
+	// console.log("Key pressed: " + e.key);
 });
 
 window.addEventListener("keyup", (e) => {
-	if (e.key === "ArrowUp" || e.key === "ArrowDown") {
-		pong.padR.dirY = 0;
-	} else if (e.key === "w" || e.key === "s") {
+	if (e.key == pong.playerL.mov_u)
 		pong.padL.dirY = 0;
-	}
+
+	if (e.key == pong.playerL.mov_d)
+		pong.padL.dirY = 0;
+
+	if (e.key == pong.playerR.mov_u)
+		pong.padR.dirY = 0;
+
+	if (e.key == pong.playerR.mov_d)
+		pong.padR.dirY = 0;
 });
 
 /** MOUSE INPUT */
@@ -80,11 +86,15 @@ function gameLoop()
 		// Update positions
 		pong.updateBallPosition(pong.ball);
 
-		//pong.updatePaddlePosition(pong.padL);
-		//pong.updatePaddlePosition(pong.padR);
+		if (pong.padL.ai_enable)
+			ai.ai(pong.ball, pong.padL); // yes, you can set the other paddle as ai too.
+		else
+			pong.updatePaddlePosition(pong.padL);
 
-		ai.ai(pong.ball, pong.padR);
-		ai.ai(pong.ball, pong.padL); // yes, you can set the other paddle as ai too.
+		if (pong.padR.ai_enable)
+			ai.ai(pong.ball, pong.padR);
+		else
+			pong.updatePaddlePosition(pong.padR);
 
 		pong.checkIfBallStuck(pong.ball);
 	}
@@ -107,7 +117,8 @@ function gameLoop()
 resizeCanvas();
 pong.initializeGame();
 ai.setLevel(pong.ball, pong.padR, "hard"); // "easy", "mid", "hard"
-ai.setLevel(pong.ball, pong.padL, "hard"); // Funny
+//ai.setLevel(pong.ball, pong.padL, "hard"); // Funny
+
 requestAnimationFrame(gameLoop);
 /**----------------- */
 

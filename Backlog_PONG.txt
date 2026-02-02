@@ -14,6 +14,7 @@ For the game -- Will be PONG --
  > All game mecanics.
 
 - Major - Implement advanced 3D graphics using a library like Three.js or Babylon.js.
+* i'm not implementing this .. unless 8=[]
 ---------------------
 
 ****
@@ -21,6 +22,8 @@ For the game -- Will be PONG --
 ****
 
 ### Style --
+
+* Actual style is 2D (with the posibilitie for change the colors)
 
 ** 3D Module (i will think it to do, actually is in 2D grafics)
 + Create an immersive 3D environment.
@@ -49,7 +52,7 @@ Classic PONG game, the ball rebotes on the max top & max bottom height.
 + 1 vs 1 in local.
 	> W & S -> Para mover la pala del J1
 	> Arrow Up & Down -> Mover la pala del J2
-	>> Podria hacerlo customizable.
+	>> Podria hacerlo customizable. (ademas es facil de aplicar)
 
 	> No me planteo una version multijugador en mobil (Podria añadir dos sliders, pero podria ser algo engorroso)
 ***

@@ -40,11 +40,11 @@ const BALL = {
 	frameStuck:	0
 };
 
-export const BODMH = 20;	// Border for MidLine grafic
+const BODMH = 20;	// Border for MidLine grafic
 const BORDER = {
 	color:	"white",
 	width:	GAME_WIDTH,
-	height:	0,
+	height:	1,
 	x:		0,
 	y:		0
 };
@@ -68,11 +68,13 @@ const GOAL = {
 };
 
 //** SCORE */
+const MAX_SCORE = 5;
 const SCORE_SIZE = 120;
 const FONT_SIZE = SCORE_SIZE + "px";
-export const FONT_SCORE = FONT_SIZE + " Arial";
+const FONT_SCORE = FONT_SIZE + " Arial";
 const SCORE_MARGIN = 85;
 const SCORE = {
+	max_score:	MAX_SCORE,
 	score: 0,
 	size: SCORE_SIZE,
 	font: "Arial",
@@ -83,9 +85,9 @@ const SCORE = {
 
 // 	** PADDLE */
 // -- width, height, velocity
-const PADW = 16, PADH = 100;
-export const PADVEL = 18;
-export const PAD = {
+const PADW = 16, PADH = 100, PADVEL = 18;
+const PAD = {
+	ai_enable:	false,	// Enable/disable
 	color:	"burlywood",
 	width:	PADW,
 	height:	PADH,
@@ -101,13 +103,14 @@ export const PAD = {
 };
 
 //** PLAYER  */
-export const MAX_SCORE = 5;
-export const PLAYER = {
+const PLAYER = {
 	name: "Player",
 	serve:  false,
 	score: null,
 	my_pad: null,
 	goal: null,
+	mov_u:	"w",	//	Move up key
+	mov_d:	"s"		//	Move down key
 };
 /** */
 /**----------------- */
@@ -129,8 +132,8 @@ export class Pong
 		this.corBL = Object.create(CORNER);
 		this.corBR = Object.create(CORNER);
 
-		this.gL = Object.create(GOAL);		// Left Goal Corner
-		this.gR = Object.create(GOAL);		// Right Goal Corner
+		this.gL = Object.create(GOAL);			// Left Goal Corner
+		this.gR = Object.create(GOAL);			// Right Goal Corner
 
 		this.ball = Object.create(BALL);		// Da ball
 
@@ -139,6 +142,8 @@ export class Pong
 
 		this.playerL = Object.create(PLAYER);	// Left player
 		this.playerR = Object.create(PLAYER);	// Right player
+		this.playerR.mov_u = "ArrowUp";
+		this.playerR.mov_d = "ArrowDown";
 
 		this.serveNow = false;
 		this.waitServe = WAIT_SERVE;
@@ -167,7 +172,7 @@ export class Pong
 		this.borT.x = 0;
 		this.borT.y = 0;
 		this.borB.x = 0;
-		this.borB.y = GAME_HEIGHT;
+		this.borB.y = GAME_HEIGHT - BORDER.height;
 
 		// Set the corners
 		this.corTL.x = 0;
@@ -380,20 +385,22 @@ export class Pong
 		else
 			ball.frameStuck = 0;
 	}
+
+	setDefPad(pad)
+	{
+		pad.ai_enable	=	false;
+		pad.color		=	"white";
+		pad.width		=	PADW;
+		pad.height		=	PADH;
+		pad.vel			=	PADVEL;
+		pad.smoothVel	=	0;
+		pad.maxAcc		=	1;
+		pad.damping		=	0.9;
+		pad.reactionDelay	=	0;
+	}
 	/**----------------- */
 
 	/** MOVEMENT */
-	movePaddle(paddle, nextY)
-	{
-		paddle.y += paddle.vel * nextY;
-		// Ensure paddle stays within game bounds
-		if (paddle.y < 0) {
-			paddle.y = 0;
-		} else if (paddle.y + paddle.height > this.height) {
-			paddle.y = this.height - paddle.height;
-		}
-	}
-
 	updatePaddlePosition(paddle)
 	{
 		paddle.y += paddle.dirY * paddle.vel;

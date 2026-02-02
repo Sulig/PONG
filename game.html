@@ -5,6 +5,7 @@
 
         <!-- META -->
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
         <!-- CSS -->
@@ -19,27 +20,20 @@
         <!-- JS Resources -->
     </head>
     <body>
-        <!-- PONG SETTINGS -->
+        <!-- PONG -->
         <!-- #region -->
-        <div id="game-set">
-
-			<!--<label for="cars">Choose a car:</label>
-
-			<select name="cars" id="cars">
-			  <option value="volvo">Volvo</option>
-			  <option value="saab">Saab</option>
-			  <option value="mercedes">Mercedes</option>
-			  <option value="audi">Audi</option>
-			</select> -->
-			<div id="start">
-				<a href="game.html" title="Start!">START!</a>
-			</div>
+        <div id="game">
+          <canvas id="gm-canvas">
+          </canvas>
         </div>
         <!-- #endregion -->
 
         <!-- JS -->
         <!-- #region -->
-		<script type="module" src="js/settings.js"></script>
+		<script type="module" src="js/OBPong.js"></script>
+		<script type="module" src="js/AI.js"></script>
+		<script type="module" src="js/render.js"></script>
+		<script type="module" src="js/pong.js"></script>
         <!-- #endregion -->
         <!-- NOSCRIPT -->
         <noscript>

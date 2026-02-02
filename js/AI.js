@@ -7,7 +7,6 @@ export class AI
 {
 	constructor()
 	{
-		this.enabled	=	true;	// Enable/Disable the AI
 		this.level		=	"mid";	// Level of AI (easy - mid - hard)
 		this.chance		=	55;		// Chance of AI for mistakes
 		this.velMax		=	60;		// Max velocoty of pad
@@ -15,6 +14,8 @@ export class AI
 
 	setLevel(ball, pad, level)
 	{
+		pad.ai_enable = true;
+
 		if (!level)
 			level = this.level;
 
@@ -111,7 +112,7 @@ export class AI
 			console.log("I will stop for you");
 			if (Math.random() < 0.4)
 				pad.dirY = (Math.random() * 2 - 1) * 0.3;
-			pad.vel /= 2;
+			pad.vel /= 7;
 		}
 		else if (pad.vel < this.velMax)
 			pad.vel++;
@@ -148,14 +149,14 @@ export class AI
 		else if (pad.vel < this.velMax)
 			pad.vel++;
 
-		console.log(pad);
+		//console.log(pad);
 
 		this.smoothIT(pad);
 	}
 
 	ai(ball, pad)
 	{
-		if (!this.enabled)
+		if (!pad.ai_enable)
 			return ;
 
 		if (this.level == "hard")
