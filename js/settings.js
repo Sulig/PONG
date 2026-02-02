@@ -20,6 +20,8 @@ export class PongSettings
 		this.plR_mvup	= "ArrowDown"	//	Player Right Move Down key - actual - ArrowDown
 		//----------
 	}
+
+
 }
 
 export let pongSet = new PongSettings();
