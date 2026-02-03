@@ -5,42 +5,73 @@
 
         <!-- META -->
         <meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
         <!-- CSS -->
         <link rel="stylesheet" href="css/reset.css">
-
         <link rel="stylesheet" href="css/generalstyle.css">
         <link rel="stylesheet" href="css/mediastyle.css">
 
         <!-- Favicon -->
         <link rel="icon" type="image/png" sizes="64x64" href="assets/error-tile_TV.png">
-
-        <!-- JS Resources -->
     </head>
     <body>
         <!-- PONG SETTINGS -->
-        <!-- #region -->
-        <div id="game-set">
+        <div id="settings-container">
+            <form id="game-set" name="contact-form" method="post">
+                <ul>
+                    <li>
+                        <label for="max-points-set">
+                            Number of points for winning the game:
+                        </label>
+                        <input id="max-points-set" name="max-points-set"
+                            type="number" min="1" max="11" value="5"
+                            placeholder="Please enter a number of points" required>
+                    </li>
+                    <li>
+                        <ul>
+                            <li>
+                                <label for="playmode">Play Mode</label>
+                                <select name="playmode" id="playmode">
+                                    <option value="1vsAI">1 vs AI</option>
+                                    <option value="1vs1off">1 vs 1 (offline)</option>
+                                </select>
+                            </li>
+                            <li>
+                                <label for="ai-level">AI Level</label>
+                                <select name="ai-level" id="ai-level">
+                                    <option value="easy">easy</option>
+                                    <option value="mid" selected>mid</option>
+                                    <option value="hard">hard</option>
+                                </select>
+                            </li>
+                            <li>
+                                <p>Choose your paddle:</p>
+                                <ul>
+                                    <li>
+                                        <input type="radio" id="left-pad" name="yourPad" value="left" checked>
+                                        <label for="left-pad">Move left pad</label>
+                                    </li>
+                                    <li>
+                                        <input type="radio" id="right-pad" name="yourPad" value="right">
+                                        <label for="right-pad">Move right pad</label>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </form>
 
-			<!--<label for="cars">Choose a car:</label>
-
-			<select name="cars" id="cars">
-			  <option value="volvo">Volvo</option>
-			  <option value="saab">Saab</option>
-			  <option value="mercedes">Mercedes</option>
-			  <option value="audi">Audi</option>
-			</select> -->
-			<div id="start">
-				<a href="game.html" title="Start!">START!</a>
-			</div>
+            <div id="start">
+                <button id="start-button" title="Start!"><a href="game.html" title="Start!">START!</a></button>
+            </div>
         </div>
-        <!-- #endregion -->
 
         <!-- JS -->
-        <!-- #region -->
-		<script type="module" src="js/settings.js"></script>
-        <!-- #endregion -->
+        <script type="module" src="js/settings.js"></script>
+        <!-- <script type="module" src="js/setupForm.js"></script> -->
+
         <!-- NOSCRIPT -->
         <noscript>
             <p class="noscript">

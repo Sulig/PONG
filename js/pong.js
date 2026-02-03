@@ -3,9 +3,9 @@
 /* **********************************************/
 import "./fetch.js";
 import { resizeCanvas } from "./render.js";
+import { pongSet } from "./settings.js";
 import { pong } from "./OBPong.js";
 import { checkPaddleCollision, checkWallCollision } from "./phisics.js";
-import { ai } from "./AI.js"
 
 /********** EVENT && KEYINPUT LISTENERS *********/
 // Event listeners - Only when window is resized
@@ -87,24 +87,27 @@ function gameLoop()
 		pong.updateBallPosition(pong.ball);
 
 		if (pong.padL.ai_enable)
-			ai.ai(pong.ball, pong.padL); // yes, you can set the other paddle as ai too.
+			pong.ai.ai(pong.ball, pong.padL);
 		else
 			pong.updatePaddlePosition(pong.padL);
 
 		if (pong.padR.ai_enable)
-			ai.ai(pong.ball, pong.padR);
+			pong.ai.ai(pong.ball, pong.padR);
 		else
 			pong.updatePaddlePosition(pong.padR);
 
 		pong.checkIfBallStuck(pong.ball);
 	}
 
+	/*
 	if (pong.log_app != 1)
 	{
 		pong.log_app = 1;
 		console.log(pong.padL);
 		console.log(pong.padR);
+		console.log(pong.set);
 	}
+	*/
 
 	// Redibujar
 	pong.reDraw();
@@ -115,10 +118,7 @@ function gameLoop()
 
 /** ON-START */
 resizeCanvas();
-pong.initializeGame();
-ai.setLevel(pong.ball, pong.padR, "hard"); // "easy", "mid", "hard"
-//ai.setLevel(pong.ball, pong.padL, "hard"); // Funny
-
+pong.initializeGame(pongSet);
 requestAnimationFrame(gameLoop);
 /**----------------- */
 

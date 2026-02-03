@@ -3,6 +3,7 @@
 /* **********************************************/
 
 import { checkCornerCollision } from "./phisics.js";
+import { ai } from "./AI.js"
 
 /** The canvas of the game */
 export const canvas = document.getElementById("gm-canvas");	// The game canvas
@@ -124,6 +125,8 @@ export class Pong
 		this.height = GAME_HEIGHT;
 		this.margin = gm_margin;
 
+		this.set = null;
+
 		this.borT = Object.create(BORDER);		// border top
 		this.borB = Object.create(BORDER);		// border bottom
 
@@ -140,11 +143,13 @@ export class Pong
 		this.padL = Object.create(PAD);			// Left paddle
 		this.padR = Object.create(PAD);			// Right paddle
 
-		this.playerL = Object.create(PLAYER);	// Left player
-		this.playerR = Object.create(PLAYER);	// Right player
+		this.ai			=	ai;
+		this.playerL	= Object.create(PLAYER);	// Left player
+		this.playerR	= Object.create(PLAYER);	// Right player
 		this.playerR.mov_u = "ArrowUp";
 		this.playerR.mov_d = "ArrowDown";
 
+		this.maxPoints = MAX_SCORE;
 		this.serveNow = false;
 		this.waitServe = WAIT_SERVE;
 		this.screenText = Object.create(SCORE);
@@ -152,9 +157,26 @@ export class Pong
 	}
 	//*********** */
 
-	/** ON-START */
-	initializeGame()
+	setDefPad(pad)
 	{
+		pad.ai_enable	=	PAD.ai_enable;
+		pad.color		=	PAD.color;
+		pad.width		=	PADW;
+		pad.height		=	PADH;
+		pad.vel			=	PADVEL;
+		pad.smoothVel	=	0;
+		pad.maxAcc		=	1;
+		pad.damping		=	0.9;
+		pad.reactionDelay	=	0;
+	}
+
+	/** ON-START */
+	initializeGame(pongSet)
+	{
+		console.log(pongSet);
+		this.set = pongSet;
+
+		this.maxPoints = pongSet.maxPoints;
 		this.serveNow = false;
 		this.waitServe = WAIT_SERVE;
 		this.screenText.score = WAIT_SERVE / 60;
@@ -186,22 +208,36 @@ export class Pong
 
 		//* Start players
 		// Player Left
-		//this.playerL.name = "" // set this with database info
+		this.setDefPad(this.padL);
+
+		this.playerL.name = pongSet.plL_name; // set this with database info
 		this.playerL.my_pad = this.padL;
 		this.playerL.goal = this.gL;
+		this.playerL.mov_u = pongSet.plL_mvu;
+		this.playerR.mov_d = pongSet.plL_mvd;
 		// -- score
 		this.playerL.score = Object.create(SCORE);
 		this.playerL.score.score = 0;
 		this.playerL.score.x = this.width / 2 - SCORE_MARGIN * 2;
+		//-- AI
+		if (pongSet.mode == "1vsAI" && pongSet.your_pad == "right")
+			this.ai.setLevel(pong.ball, pong.padL, pongSet.ai_level);
 
 		// Player Right
-		//this.playerR.name = "" // set this with database info
+		this.setDefPad(this.padR);
+
+		this.playerR.name = pongSet.plR_name; // set this with database info
 		this.playerR.my_pad = this.padR;
 		this.playerR.goal = this.gR;
+		this.playerR.mov_u = pongSet.plR_mvu;
+		this.playerR.mov_d = pongSet.plR_mvd;
 		// -- score
 		this.playerR.score = Object.create(SCORE);
 		this.playerR.score.score = 0;
 		this.playerR.score.x = this.width / 2 + SCORE_MARGIN;
+		//-- AI
+		if (pongSet.mode == "1vsAI" && pongSet.your_pad == "left")
+			this.ai.setLevel(pong.ball, pong.padR, pongSet.ai_level);
 
 		// Draw Scenario
 		this.drawMidLine();
@@ -385,19 +421,6 @@ export class Pong
 		else
 			ball.frameStuck = 0;
 	}
-
-	setDefPad(pad)
-	{
-		pad.ai_enable	=	false;
-		pad.color		=	"white";
-		pad.width		=	PADW;
-		pad.height		=	PADH;
-		pad.vel			=	PADVEL;
-		pad.smoothVel	=	0;
-		pad.maxAcc		=	1;
-		pad.damping		=	0.9;
-		pad.reactionDelay	=	0;
-	}
 	/**----------------- */
 
 	/** MOVEMENT */
@@ -423,14 +446,14 @@ export class Pong
 		if (ball.x <= this.playerL.goal.x)
 		{
 			this.playerR.score.score++;
-			if (this.playerR.score.score >= MAX_SCORE)
+			if (this.playerR.score.score >= this.maxPoints)
 			{
 				// end game
 				console.log("Player R wins!");
 				// Saltar a la pantalla de estadisticas y resultados --
 				//--- here
 				//** Esto es solo para test y reinicia el juego -> */
-				this.initializeGame();
+				this.initializeGame(this.set);
 			}
 			else
 				this.decideServe();
@@ -438,14 +461,14 @@ export class Pong
 		if (ball.x >= this.playerR.goal.x)
 		{
 			this.playerL.score.score++;
-			if (this.playerL.score.score >= MAX_SCORE)
+			if (this.playerL.score.score >= this.maxPoints)
 			{
 				// end game
 				console.log("Player L wins!");
 				// Saltar a la pantalla de estadisticas y resultados --
 				//--- here
 				//** Esto es solo para test y reinicia el juego -> */
-				this.initializeGame();
+				this.initializeGame(this.set);
 			}
 			else
 				this.decideServe();

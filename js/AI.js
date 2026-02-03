@@ -112,7 +112,7 @@ export class AI
 			console.log("I will stop for you");
 			if (Math.random() < 0.4)
 				pad.dirY = (Math.random() * 2 - 1) * 0.3;
-			pad.vel /= 7;
+			pad.vel /= 5;
 		}
 		else if (pad.vel < this.velMax)
 			pad.vel++;
@@ -148,8 +148,6 @@ export class AI
 		}
 		else if (pad.vel < this.velMax)
 			pad.vel++;
-
-		//console.log(pad);
 
 		this.smoothIT(pad);
 	}
