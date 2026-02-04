@@ -6,11 +6,8 @@
 > This repository is IN PROGRESS
 > See `Backlog PONG` to see what i'm doing.
 
-## DESCRIPT
-For the game -- Will be PONG --
-
-### Rules
-Classic PONG game, the ball rebotes on the max top & max bottom height.
+## Rules
+Classic PONG game:
 + La pelota rebota en las palas
 + En la primera instancia, se decide aleatoriamente hacia donde se dirigira la bola (si J1 o J2)
 + Cuando un jugador marque, se le asignara un punto y la bola se sacara desde el jugador que ha perdido.
@@ -24,14 +21,13 @@ Classic PONG game, the ball rebotes on the max top & max bottom height.
 - Seleccionar la dificultad de la AI
 
 ## Controllers
-+ Decide que pala quieres usar (cuando compitas contra la AI) y -->
-+ 'w' y 's'		-> Controla la pala izquierda
+Decides que pala quieres usar (cuando compitas contra la AI).
++ 'w' y 's'				-> Controla la pala izquierda
 + Arrow up & Arrow down	-> Controla la pala derecha
 
 >> (-- el jugador puede decidir que tecla usar, solo que eso no esta implementado en el frontend)
->> (O Mediante el "scroll" del raton -> puedes subir/bajar la pala)
 
-> (En mobil) -> Deslizar horizontalmente para mover la pala.
+> (En mobil) -> Deslizar horizontalmente para mover la pala. (esto esta deshabilitado por ahora)
 > No me planteo una version multijugador en mobil (Podria añadir dos sliders, pero podria ser algo engorroso)
 ***
 
@@ -74,7 +70,7 @@ Classic PONG game, the ball rebotes on the max top & max bottom height.
 
 - Render -->
 	- Only the render method when scaling the window
-	
+
 - Settings -->
 	- The current customizable settings of the game
 	- (Falta anyadirle la funcionalidad para poder cambiar los ajustes desde la pagina "frontend")
