@@ -9,7 +9,7 @@ export class PongSettings
 	constructor()
 	{
 		this.maxPoints	= 5			// Number of points necessary for winning
-		this.mode		= "1vsAI"	// You can set it to: 1vsAI - 1vs1Off - (and 1vs1On if finally do the online )
+		this.mode		= "1vs1"	// You can set it to: 1vsAI - 1vs1Off - (and 1vs1On if finally do the online )
 		this.ai_level	= "hard"	// Level of AI (easy - mid - hard)
 		this.your_pad	= "left"	// What pad do you want to manage (left - right)
 		//----------
@@ -19,7 +19,7 @@ export class PongSettings
 		//*
 		this.plR_name	= "test"		//	Player Right name
 		this.plR_mvu	= "ArrowUp"		//	Player Right Move Up key - actual - ArrowUp
-		this.plR_mvup	= "ArrowDown"	//	Player Right Move Down key - actual - ArrowDown
+		this.plR_mvd	= "ArrowDown"	//	Player Right Move Down key - actual - ArrowDown
 		//----------
 	}
 
