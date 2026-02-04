@@ -8,7 +8,6 @@
 
 ## DESCRIPT
 For the game -- Will be PONG --
-* (Si hay tiempo, se pueden anyadir mas juegos)
 
 ### Rules
 Classic PONG game, the ball rebotes on the max top & max bottom height.
@@ -17,25 +16,23 @@ Classic PONG game, the ball rebotes on the max top & max bottom height.
 + Cuando un jugador marque, se le asignara un punto y la bola se sacara desde el jugador que ha perdido.
 + El juego termina cuando alguien haya ganado X puntos.
 
+### Game customizatation
+- Seleccionar cuantos puntos se necesitan para ganar una partida.
+- Seleccionar si se jugara 1 vs 1 (offline)
+- Seleccionar si se jugara 1 vs AI
+- Seleccionar en que lado de la pantalla se movera a AI
+- Seleccionar la dificultad de la AI
+
 ## Controllers
-+ 1 player vs 1 (CPU or online)
-	> [Aun no implementado] Mediante el "scroll" del raton puedes subir/bajar la pala
-	> Arrow up & Arrow down -> Mover la pala correspondiente
-	>> (-- Podria anyadir una modificacion donde el jugador pueda decidir que tecla usar)
++ Decide que pala quieres usar (cuando compitas contra la AI) y -->
++ 'w' y 's'		-> Controla la pala izquierda
++ Arrow up & Arrow down	-> Controla la pala derecha
 
-	> (En mobil) -> Deslizar horizontalmente para mover la pala.
+>> (-- el jugador puede decidir que tecla usar, solo que eso no esta implementado en el frontend)
+>> (O Mediante el "scroll" del raton -> puedes subir/bajar la pala)
 
-+ 1 vs 1 in local.
-	> W & S -> Para mover la pala del J1
-	> Arrow Up & Down -> Mover la pala del J2
-	>> Podria hacerlo customizable.
-
-+ 1 vs AI
-	> W & S -> para mover la pala
-	> [No implementado] - Mediante el "scroll" del raton puedes subir/bajar la pala
-	>> (-- Podria anyadir una modificacion donde el jugador pueda decidir que tecla usar)
-
-	> No me planteo una version multijugador en mobil (Podria añadir dos sliders, pero podria ser algo engorroso)
+> (En mobil) -> Deslizar horizontalmente para mover la pala.
+> No me planteo una version multijugador en mobil (Podria añadir dos sliders, pero podria ser algo engorroso)
 ***
 
 ## IDEAS:
@@ -45,6 +42,7 @@ Classic PONG game, the ball rebotes on the max top & max bottom height.
 - Hacer aparecer mas bolas
 - Aumentar/Disminuir el tamaño de las palas
 .. Etc..
+***
 
 ## CODE -> FILE DISTRIBUITION:
 
@@ -76,6 +74,10 @@ Classic PONG game, the ball rebotes on the max top & max bottom height.
 
 - Render -->
 	- Only the render method when scaling the window
+	
+- Settings -->
+	- The current customizable settings of the game
+	- (Falta anyadirle la funcionalidad para poder cambiar los ajustes desde la pagina "frontend")
 
 ***
 ~ Made by sadoming ~

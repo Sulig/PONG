@@ -12,49 +12,30 @@ For the game -- Will be PONG --
  > Current Grafics
  > Keydown and event hooks.
  > All game mecanics.
-
-- Major - Implement advanced 3D graphics using a library like Three.js or Babylon.js.
-* i'm not implementing this .. unless 8=[]
----------------------
-
-****
-* SETTINGS
-****
-
-### Style --
-
 * Actual style is 2D (with the posibilitie for change the colors)
 
-** 3D Module (i will think it to do, actually is in 2D grafics)
-+ Create an immersive 3D environment.
-+ Implement advanced rendering techniques.
-+ Ensure smooth performance and user interaction.
+- Major - Implement advanced 3D graphics using a library like Three.js or Babylon.js.
+* i'm not implementing this .. unless [Tv]=8
+--------------------
 
-> Los colores del juego se podrian customizar a voluntad (frontend + css)
-----------------
 ### Rules
 Classic PONG game, the ball rebotes on the max top & max bottom height.
 + La pelota rebota en las palas
 + En la primera instancia, se decide aleatoriamente hacia donde se dirigira la bola (si J1 o J2)
 + Cuando un jugador marque, se le asignara un punto y la bola se sacara desde el jugador que ha perdido.
 + El juego termina cuando alguien haya ganado X puntos.
-
->> Podria customizar cuantos puntos se necesitan para ganar (Frontend)
+++ Se puede configurar el maximo de puntos para ganar
 
 ### Controllers
-+ 1 player vs 1 (CPU or online)
-	> Mediante el "scroll" del raton puedes subir/bajar la pala
-	> Arrow up & Arrow down -> Mover la pala correspondiente
-	>> (-- Podria anyadir una modificacion donde el jugador pueda decidir que tecla usar)
++ Decide que pala quieres usar (cuando compitas contra la AI) y -->
++ 'w' y 's'		-> Controla la pala izquierda
++ Arrow up & Arrow down	-> Controla la pala derecha
 
-	> (En mobil) -> Deslizar horizontalmente para mover la pala.
+>> (-- el jugador puede decidir que tecla usar, solo que eso no esta implementado en el frontend)
+>> (O Mediante el "scroll" del raton -> puedes subir/bajar la pala)
 
-+ 1 vs 1 in local.
-	> W & S -> Para mover la pala del J1
-	> Arrow Up & Down -> Mover la pala del J2
-	>> Podria hacerlo customizable. (ademas es facil de aplicar)
-
-	> No me planteo una version multijugador en mobil (Podria añadir dos sliders, pero podria ser algo engorroso)
+> (En mobil) -> Deslizar horizontalmente para mover la pala.
+> No me planteo una version multijugador en mobil (Podria añadir dos sliders, pero podria ser algo engorroso)
 ***
 
 ** Check this for keyinput -> https://www.w3schools.com/graphics/game_controllers.asp
@@ -73,13 +54,16 @@ Classic PONG game, the ball rebotes on the max top & max bottom height.
 ****
 * Game customizatation
 ****
-		->	Seleccionar cuantos puntos se necesitan para ganar una partida.
-[--]	->	Cambiar los colores del juego
-		->	Seleccionar en que lado de la pantalla se movera a AI
-		->	Seleccionar la dificultad de la AI
-[Next]	->	Seleccionar si se jugara 1 vs 1 (offline)
-[Next]	->	Seleccionar si se jugara 1 vs AI
-[--]	->	Seleccionar 1 vs 1 (online) (esto requiriria tener un websockets)
+	->	Seleccionar cuantos puntos se necesitan para ganar una partida.
+	->	Seleccionar si se jugara 1 vs 1 (offline)
+
+	->	Seleccionar si se jugara 1 vs AI
+	->	Seleccionar en que lado de la pantalla se movera a AI
+	->	Seleccionar la dificultad de la AI
+
+	
+[No implementado]	->	Seleccionar 1 vs 1 (online) (esto requiriria tener un websockets)
+[No lo he puesto en el frontend]	->	Cambiar los colores del juego
 
 
 ****
@@ -96,48 +80,48 @@ Classic PONG game, the ball rebotes on the max top & max bottom height.
 ## TODO -->
 
 [OK] - Create a <div> where the entire PONG game will be running
-[OK --] -- LATER - Style the components (Frontend)
+[NEXT] - Test in a React tag
 
 [THIS IS FRONTEND & Game Backend] - Game customization
-	-- In a same page before the game: (This will be saved in Backend and recovered later in JS game)
 	[BACKEND] - Save this options:
 	-- PLAY MODE --
-	[] - Select if it will be 1 vs CPU
-		[] - Select difficulty (if applicable)
-	[] - Select if it will be 1 vs 1 (ONLINE)
 	[] - Select if it will be 1 vs 1 (Offline)
+	[] - Select if it will be 1 vs CPU
+		[] - Select difficulty
+
+	([] - Select if it will be 1 vs 1 (ONLINE))
 	-- STYLE --
-	[-- Idea ] -- Chose 2D or 3D stile?
-	[]				- Change nick in game (Loaded with Backend server?)
+	[]		- Change the pad you control
+	[]		- Change nick in game (Loaded with Backend server?)
 	[If applicable] - Change keyinput
 	[If applicable] - Change color
-	ONLY IF 1 VS 1 ONLINE [] - Ver que pala es la que controlas
 	----
 	[NEXT] - Save/Load the game customization
 		[] - Save
-		[NEXT] - Load (Will be important changes)
+		[Test] - Load
 
-[TEST] - Hacer las mecanicas de las palas.
-	[] - Keyhooks and eventlisteners for PC
-		[IN PROGRESS] - For 1 vs CPU
-		[IN PROGRESS] - For local 1 vs 1
-		[- IDEA (not developed yet)] - Change the key-imput for move.
+[TEST] - Control pads:
+	[OK] - Keyhooks and eventlisteners for PC
+		[OK] - For 1 vs CPU
+		[OK] - For local 1 vs 1
+		[- IDEA (not implemented yet)] - Change the key-imput for move.
 	[OK? -- Needs test] - Eventlisteners for MOBILE
-[] - Phisics
-	[] - COLISIONES
+
+[OK] - Phisics
+	[OK] - COLISIONES
 		[OK] - Rebotes de la pelota (tanto con la pared como con las palas)
 		[OK] - Saque de la bola
 		[OK] - Marcar puntos
-	[] - Velocity
+	[OK] - Velocity
 		[OK] - Starter velocity (Sobretodo en los saques, y luego se incrementaria)
-		[IN PROGRESS] - -- AI -- Velocidad de respuesta (-- mas adelante podria anyadir un ajuste de dificultad)
-	[OK] - Ball Direccion
-		[IDEA -] - (- later, podria anyadir una guia de donde va a rebotar la bola)
-[TESTING] - AI
+		[OK] - -- AI -- Velocidad de respuesta (Ademas de diferentes niveles de dificultad)
+
+[OK]	- AI & Levels of difficulty
+
 [] - WIN / LOSE CONDITIONS
 	[OK] - Marcador
-	[IN PROGRESS] - Finalizar juego cuando un jugador consiga marcar suficientes puntos.
-	[] - Effects for win/lose?
+	[Will add in the final game] - Finalizar juego cuando un jugador consiga marcar suficientes puntos. (Por ahora, el juego se reinicia cuando uno gana (por temas de testing))
+	[Thinking] - Effects for win/lose?
 
 //// --- Notas entre [[]] -->
 [OK] - > Ya terminado y no necesita TESTING
@@ -181,5 +165,9 @@ Classic PONG game, the ball rebotes on the max top & max bottom height.
 
 - Render -->
 	- Only the render method when scaling the window
+	
+- Settings -->
+	- The current customizable settings of the game
+	- (Falta anyadirle la funcionalidad para poder cambiar los ajustes desde la pagina "frontend")
 
 ~~~
