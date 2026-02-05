@@ -12,7 +12,7 @@ export const gm_margin		= 10;
 
 /* ball texture */
 export const _tx = new Image();
-_tx.src = "./assets/error-tile_TV.png";
+_tx.src = "/assets/error-tile_TV.png";
 /****/
 
 /** OBJECTS -- */
@@ -116,7 +116,7 @@ export class Pong
 	{
 		this.canvas = null;
 		this.ctx = null;
-		this.setCanvas(null);
+		//this.setCanvas(null);
 
 		this.width = GAME_WIDTH;
 		this.height = GAME_HEIGHT;
@@ -156,6 +156,7 @@ export class Pong
 
 	setCanvas(canvas)
 	{
+	    console.log("canvas is: " + canvas);
 		if (canvas != null)
 			this.canvas = canvas;
 		else
