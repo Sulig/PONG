@@ -2,12 +2,12 @@
 /*                   RENDER                     */
 /* **********************************************/
 
-import { canvas, ctx, GAME_WIDTH, GAME_HEIGHT, gm_margin } from "./OBPong.js";
+import { GAME_WIDTH, GAME_HEIGHT, gm_margin } from "./OBPong.js";
 import { pong } from "./OBPong.js";
 
 /** BETTER RENDER */
-ctx.imageSmoothingEnabled = true;
-ctx.imageSmoothingQuality = "high";
+pong.ctx.imageSmoothingEnabled = true;
+pong.ctx.imageSmoothingQuality = "high";
 
 let scale = 1;
 let offsetX = 0, offsetY = 0;
@@ -26,18 +26,18 @@ export function resizeCanvas()
 	offsetX = (winWidth - GAME_WIDTH * scale) / 2;
 	offsetY = (winHeight - GAME_HEIGHT * scale) / 2;
 
-	canvas.style.width = `${GAME_WIDTH * scale}px`;
-	canvas.style.height = `${GAME_HEIGHT * scale}px`;
-	canvas.style.position = 'absolute';
-	canvas.style.left = `${offsetX}px`;	// pos of canvas (left) -- maybe need to change these with div cnt?
-	canvas.style.top = `${offsetY}px`;	// position of canvas (top)
+	pong.canvas.style.width = `${GAME_WIDTH * scale}px`;
+	pong.canvas.style.height = `${GAME_HEIGHT * scale}px`;
+	pong.canvas.style.position = 'absolute';
+	pong.canvas.style.left = `${offsetX}px`;	// pos of canvas (left) -- maybe need to change these with div cnt?
+	pong.canvas.style.top = `${offsetY}px`;	// position of canvas (top)
 
 	const dpr = window.devicePixelRatio || 1;
-	canvas.width = GAME_WIDTH * dpr;
-	canvas.height = GAME_HEIGHT * dpr;
+	pong.canvas.width = GAME_WIDTH * dpr;
+	pong.canvas.height = GAME_HEIGHT * dpr;
 
 	// Escalar el contexto
-	ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+	pong.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 }
 
 /* **********************************************/

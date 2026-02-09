@@ -5,10 +5,6 @@
 import { checkCornerCollision } from "./phisics.js";
 import { ai } from "./AI.js"
 
-/** The canvas of the game */
-export const canvas = document.getElementById("gm-canvas");	// The game canvas
-export const ctx = canvas.getContext("2d");
-
 /**-- gmscale */
 export const GAME_WIDTH		= 640 * 2;
 export const GAME_HEIGHT	= 480 * 2;
@@ -17,7 +13,6 @@ export const gm_margin		= 10;
 /* ball texture */
 export const _tx = new Image();
 _tx.src = "./assets/error-tile_TV.png";
-export const ball_tex = ctx.createPattern(_tx, "no-repeat");
 /****/
 
 /** OBJECTS -- */
@@ -119,8 +114,10 @@ export class Pong
 {
 	constructor()
 	{
-		this.canvas = canvas;
-		this.ctx = ctx;
+		this.canvas = null;
+		this.ctx = null;
+		this.setCanvas(null);
+
 		this.width = GAME_WIDTH;
 		this.height = GAME_HEIGHT;
 		this.margin = gm_margin;
@@ -156,6 +153,15 @@ export class Pong
 		this.log_app = 0;	// Limit the console logs at only 1
 	}
 	//*********** */
+
+	setCanvas(canvas)
+	{
+		if (canvas != null)
+			this.canvas = canvas;
+		else
+			this.canvas = document.getElementById("gm-canvas");
+		this.ctx = this.canvas.getContext("2d");
+	}
 
 	setDefPad(pad)
 	{
@@ -287,65 +293,65 @@ export class Pong
 	/** DRAWING */
 	drawScore(score)
 	{
-		ctx.font = FONT_SCORE;
-		ctx.strokeStyle = score.color;
-		//ctx.fillText(score.score + "", score.x, score.y); // Texto con relleno
-		ctx.strokeText(score.score + "", score.x, score.y); // Texto con contorno (sin relleno)
+		this.ctx.font = FONT_SCORE;
+		this.ctx.strokeStyle = score.color;
+		//this.ctx.fillText(score.score + "", score.x, score.y); // Texto con relleno
+		this.ctx.strokeText(score.score + "", score.x, score.y); // Texto con contorno (sin relleno)
 	}
 	drawPaddle(paddle)
 	{
-		ctx.fillStyle = paddle.color;
-		ctx.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
+		this.ctx.fillStyle = paddle.color;
+		this.ctx.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
 	}
 	drawBall(ball)
 	{
-		ctx.strokeStyle = 'red';
-		ctx.beginPath();
-		ctx.arc(ball.x, ball.y, ball.rad, 0, 2 * Math.PI, false);
-		ctx.fillStyle = ball.color;
-		ctx.fill();
-		ctx.stroke();
+		this.ctx.strokeStyle = 'red';
+		this.ctx.beginPath();
+		this.ctx.arc(ball.x, ball.y, ball.rad, 0, 2 * Math.PI, false);
+		this.ctx.fillStyle = ball.color;
+		this.ctx.fill();
+		this.ctx.stroke();
 	}
 
 	/** Mid line (only grafic, has no collider) */
 	drawMidLine()
 	{
-		ctx.strokeStyle = 'darkviolet';
-		ctx.lineWidth = 8;
+		this.ctx.strokeStyle = 'darkviolet';
+		this.ctx.lineWidth = 8;
 		// -- Dash line - long, spacing
-		ctx.setLineDash([30, 38]);
+		this.ctx.setLineDash([30, 38]);
 		//ctx.beginPath();
-		ctx.moveTo(GAME_WIDTH / 2, BODMH);
-		ctx.lineTo(GAME_WIDTH / 2, GAME_HEIGHT - BODMH);
-		ctx.stroke();
+		this.ctx.moveTo(GAME_WIDTH / 2, BODMH);
+		this.ctx.lineTo(GAME_WIDTH / 2, GAME_HEIGHT - BODMH);
+		this.ctx.stroke();
 		//reset style
-		ctx.setLineDash([0, 0]);
+		this.ctx.setLineDash([0, 0]);
 	}
 
 	/** Boders of Pong Game */
 	drawBorders()
 	{
-		ctx.fillStyle = this.borT.color;
+		this.ctx.fillStyle = this.borT.color;
 
 		// -------- Xpos, Ypos, width, height
-		ctx.fillRect(this.borT.x, this.borT.y, GAME_WIDTH, this.borT.height);
-		ctx.fillRect(this.borB.x, this.borB.y, GAME_WIDTH, this.borB.height);
+		this.ctx.fillRect(this.borT.x, this.borT.y, GAME_WIDTH, this.borT.height);
+		this.ctx.fillRect(this.borB.x, this.borB.y, GAME_WIDTH, this.borB.height);
 	}
 
 	//For visual testing of goal goals
 	drawGoals()
 	{
-		ctx.fillStyle = this.gL.color;
-		ctx.fillRect(this.gL.x, this.gL.y, this.gL.width, this.gL.height);
-		ctx.fillStyle = this.gR.color;
-		ctx.fillRect(this.gR.x - this.gR.width, this.gR.y, this.gR.width, this.gR.height);
+		this.ctx.fillStyle = this.gL.color;
+		this.ctx.fillRect(this.gL.x, this.gL.y, this.gL.width, this.gL.height);
+		this.ctx.fillStyle = this.gR.color;
+		this.ctx.fillRect(this.gR.x - this.gR.width, this.gR.y, this.gR.width, this.gR.height);
 	}
 
 	/** Redraw the entire game screen */
 	reDraw()
 	{
 		// Clear the canvas
-		ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+		this.ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
 
 		// Draw borders and mid line
 		this.drawBorders();
