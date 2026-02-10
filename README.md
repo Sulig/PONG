@@ -7,18 +7,41 @@
 > See `Backlog PONG` to see what i'm doing.
 
 ## Important
-This branch has implemented the game in `React`, that means the `game` as self is one component.
-To make it work, you need to do a `React` project, install dependencies, and "have" an internal server.
-> The server is included in the `React` project.
+This project uses React as the frontend framework.
+The Pong game itself is implemented as a pure JavaScript game engine
+and is mounted inside React using a `<canvas>` component.
 
-To start the server and make it alive, use this command: 
-> you will need npm installed
+React controls:
+- Pages (configuration, game)
+- Routing
+- UI and layout
+
+The Pong engine controls:
+- Game logic
+- Physics
+- Rendering inside the canvas
+
+### How to run, then??
+To make it work, you will need:
+- Node.js (>=18)
+- npm
+
+Install dependencies:
+```bash
+npm install
+```
+
+And then, ejecute this command to run the local server:
+> This is not external server, is an internal and local server
 
 ```
 npm run dev -- --host
 ```
 
 Now, open a new page on your browser, and search `localhost` to start playing!
+> Normaly will be: `http://localhost:5173`
+
+Enjoy ~
 ***
 
 ## Rules
