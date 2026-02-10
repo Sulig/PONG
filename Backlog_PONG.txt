@@ -15,14 +15,14 @@ For the game -- Will be PONG --
 * Actual style is 2D (with the posibilitie for change the colors)
 
 - Major - Implement advanced 3D graphics using a library like Three.js or Babylon.js.
-* i'm not implementing this .. unless [Tv]=8
+*^ i'm not implementing this .. unless [Tv]=8
 --------------------
 
 ### Rules
 Classic PONG game:
 + La pelota rebota en las palas
-+ En la primera instancia, se decide aleatoriamente hacia donde se dirigira la bola (si J1 o J2)
-+ Cuando un jugador marque, se le asignara un punto y la bola se sacara desde el jugador que ha perdido.
++ El saque se decide aleatoriamente (si J1 o J2)
++ Cuando un jugador marque, se le asignara un punto.
 + El juego termina cuando alguien haya ganado X puntos.
 ++ Se puede configurar el maximo de puntos para ganar
 
@@ -33,9 +33,9 @@ Decides que pala quieres usar (cuando compitas contra la AI)
 + Arrow up & Arrow down	-> Controla la pala derecha
 
 >> (-- el jugador puede decidir que tecla usar, solo que eso no esta implementado en el frontend)
+>> Considerare la opcion de mover un jugador mediante el raton si juegas contra la AI
 
-> (En mobil) -> Deslizar horizontalmente para mover la pala. (Esto esta deshabilitado por ahora)
-> No me planteo una version multijugador en mobil (Podria añadir dos sliders, pero podria ser algo engorroso)
+> (En mobil) -> Voy a considerar anyadir dos sliders (que apareceran o desapareceran dependiendo de si sera 1 vs 1, + la posibilidad para escoger la pala del juego)
 ***
 
 ** Check this for keyinput -> https://www.w3schools.com/graphics/game_controllers.asp
@@ -80,7 +80,7 @@ Decides que pala quieres usar (cuando compitas contra la AI)
 ## TODO -->
 
 [OK] - Create a <div> where the entire PONG game will be running
-[NEXT] - Test in a React tag
+[OK in `react` branch] - Encapsulate in React
 
 [THIS IS FRONTEND & Game Backend] - Game customization
 	[BACKEND] - Save this options:
@@ -105,7 +105,9 @@ Decides que pala quieres usar (cuando compitas contra la AI)
 		[OK] - For 1 vs CPU
 		[OK] - For local 1 vs 1
 		[- IDEA (not implemented yet)] - Change the key-imput for move.
-	[OK? -- Needs test] - Eventlisteners for MOBILE
+	[NEXT] - Eventlisteners for MOBILE
+		[] - Sliders for the players
+		[] - Decide how will look in vertical
 
 [OK] - Phisics
 	[OK] - COLISIONES
