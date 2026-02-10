@@ -6,8 +6,8 @@ import { GAME_WIDTH, GAME_HEIGHT, gm_margin } from "./OBPong.js";
 import { pong } from "./OBPong.js";
 
 /** BETTER RENDER */
-pong.ctx.imageSmoothingEnabled = true;
-pong.ctx.imageSmoothingQuality = "high";
+//pong.ctx.imageSmoothingEnabled = true;
+//pong.ctx.imageSmoothingQuality = "high";
 
 let scale = 1;
 let offsetX = 0, offsetY = 0;

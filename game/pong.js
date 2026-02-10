@@ -117,10 +117,32 @@ function gameLoop()
 }
 
 /** ON-START */
-resizeCanvas();
-pong.initializeGame(pongSet);
-requestAnimationFrame(gameLoop);
+//** -- Only if no React actived:
+//resizeCanvas();
+//pong.initializeGame(pongSet);
+//requestAnimationFrame(gameLoop);
 /**----------------- */
+
+/** Start and Update on React */
+let animationID = null;
+
+export function startGame() {
+	if (animationID !== null) return ;
+
+	function loop() {
+		animationID = requestAnimationFrame(gameLoop);
+	}
+
+	loop();
+}
+
+export function stopGame() {
+	if (animationID !== null) {
+		cancelAnimationFrame(animationID);
+		animationID = null;
+	}
+}
+/**------------------*/
 
 /* **********************************************/
 /*                END OF PONG                   */

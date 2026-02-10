@@ -156,12 +156,16 @@ export class Pong
 
 	setCanvas(canvas)
 	{
-	    console.log("canvas is: " + canvas);
+	    console.log("canvas is: --" + canvas);
 		if (canvas != null)
 			this.canvas = canvas;
 		else
 			this.canvas = document.getElementById("gm-canvas");
 		this.ctx = this.canvas.getContext("2d");
+		console.log("canvas is: --" + this.canvas);
+		
+		this.ctx.imageSmoothingEnabled = true;
+        this.ctx.imageSmoothingQuality = "high";
 	}
 
 	setDefPad(pad)
