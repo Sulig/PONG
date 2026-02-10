@@ -27,8 +27,7 @@ Decides que pala quieres usar (cuando compitas contra la AI).
 
 >> (-- el jugador puede decidir que tecla usar, solo que eso no esta implementado en el frontend)
 
-> (En mobil) -> Deslizar horizontalmente para mover la pala. (esto esta deshabilitado por ahora)
-> No me planteo una version multijugador en mobil (Podria añadir dos sliders, pero podria ser algo engorroso)
+> (En mobil) -> Sera lo siguiente que implementare
 ***
 
 ## IDEAS:
