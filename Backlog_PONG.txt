@@ -2,7 +2,6 @@
 *** DESCRIPT
 ***************
 For the game -- Will be PONG --
-* (Si hay tiempo, se pueden añadir mas juegos)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ****

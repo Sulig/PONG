@@ -47,14 +47,33 @@ window.addEventListener("keyup", (e) => {
 });
 
 /** MOUSE INPUT */
-// Change to scroll? (look for - wheel -)
-/*
-window.addEventListener("mousemove", (e) => {
-	const rect = pong.canvas.getBoundingClientRect();
-	const mouseY = e.clientY - rect.top;
-	pong.padL.y = mouseY - pong.padL.height / 2;
+window.addEventListener("wheel", (e) => {
+	e.preventDefault();
+
+	const speed = 0.75;
+	const delta = e.deltaY * speed;
+	console.log("Delta: ", delta);
+
+	if (pong.padL.controller == "mouse")
+	{
+		pong.padL.y += delta;
+		if (pong.padL.y < 0) {
+			pong.padL.y = 0;
+		} else if (pong.padL.y + pong.padL.height > pong.height) {
+			pong.padL.y = pong.height - pong.padL.height;
+		}
+	}
+	else if (pong.padR.controller == "mouse")
+	{
+		pong.padR.y += delta;
+		if (pong.padR.y < 0) {
+			pong.padR.y = 0;
+		} else if (pong.padR.y + pong.padR.height > pong.height) {
+			pong.padR.y = pong.height - pong.padR.height;
+		}
+	}
 });
-*/
+/**/
 /*----------------- */
 
 /** MOBILE */
