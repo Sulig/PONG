@@ -141,6 +141,9 @@ export class Pong
 		this.padL = Object.create(PAD);			// Left paddle
 		this.padR = Object.create(PAD);			// Right paddle
 
+		this.sliderL = null;
+		this.sliderR = null;
+
 		this.ai			=	ai;
 		this.playerL	= Object.create(PLAYER);	// Left player
 		this.playerR	= Object.create(PLAYER);	// Right player
@@ -165,7 +168,16 @@ export class Pong
 		this.ctx = this.canvas.getContext("2d");
 		console.log("canvas is: --" + this.canvas);
 		this.ctx.imageSmoothingEnabled = true;
-        	this.ctx.imageSmoothingQuality = "high";
+		this.ctx.imageSmoothingQuality = "high";
+	}
+
+	setSliders()
+	{
+		this.sliderL = document.getElementById("sliderL");
+		this.sliderR = document.getElementById("sliderR");
+
+		this.sliderL.style.display = "block";
+		this.sliderR.style.display = "block";
 	}
 
 	setDefPad(pad)
@@ -228,9 +240,10 @@ export class Pong
 		// -- keyinput type --
 		if (pongSet.plL_mouse)
 			this.padL.controller = "mouse";
-			
-		//-- else if (detect if the device is a mobile)
+
+		//-- else if (pongSet.device == "Mobile")
 		//--		this.playerL.controller = "mobile";
+		//--		// asignar el slider a cada jugador dependiendo de la pala que hayan elegido controlar
 		else
 		{
 			this.padL.controller = "keyboard";
@@ -254,7 +267,7 @@ export class Pong
 		// -- keyinput type --
 		if (pongSet.plR_mouse)
 			this.padR.controller = "mouse";
-		//-- else if (detect if the device is a mobile)
+		//-- else if (pongSet.device == "Mobile")
 		//--		this.padR.controller = "mobile";
 		else
 		{

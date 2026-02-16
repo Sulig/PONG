@@ -77,15 +77,20 @@ window.addEventListener("wheel", (e) => {
 /*----------------- */
 
 /** MOBILE */
-// -- Tal vez utilizar la inclinacion? o incluir un slider
-// Deberia hacer el disenyo en vertical para movil??
-window.addEventListener("touchmove", (e) => {
-	const rect = pong.canvas.getBoundingClientRect();
-	const touchY = e.touches[0].clientY - rect.top;
+const deviceM = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+const isTouchable = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
-	// Realmente tendria que mover la pala asignada, pero eso ya lo configurare mas tarde
-	pong.padL.y = touchY - pong.padL.height / 2;
-});
+if (deviceM || isTouchable)
+{
+	console.log("Usar sliders!");
+	console.warn("Activa los sliders porque es tactil!");
+
+	pongSet.device = "Mobile";
+	pong.setSliders();
+}
+
+// -- Incluir un slider
+
 /*----------------- */
 /* **********************************************/
 
