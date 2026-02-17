@@ -82,15 +82,17 @@ const isTouchable = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
 if (deviceM || isTouchable)
 {
-	console.log("Usar sliders!");
-	console.warn("Activa los sliders porque es tactil!");
-
 	pongSet.device = "Mobile";
-	pong.setSliders();
+	pong.set.device = "Mobile";
+	pong.setSliders(pongSet);
 }
 
-// -- Incluir un slider
-
+pong.sliderL.addEventListener("input", (e) => {
+	pong.padL.y = e.target.value;
+})
+pong.sliderR.addEventListener("input", (e) => {
+	pong.padR.y = e.target.value;
+})
 /*----------------- */
 /* **********************************************/
 
@@ -112,12 +114,12 @@ function gameLoop()
 
 		if (pong.padL.ai_enable)
 			pong.ai.ai(pong.ball, pong.padL);
-		else
+		else if (pong.set.device == "PC")
 			pong.updatePaddlePosition(pong.padL);
 
 		if (pong.padR.ai_enable)
 			pong.ai.ai(pong.ball, pong.padR);
-		else
+		else if (pong.set.device == "PC")
 			pong.updatePaddlePosition(pong.padR);
 
 		pong.checkIfBallStuck(pong.ball);

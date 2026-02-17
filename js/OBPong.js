@@ -143,6 +143,7 @@ export class Pong
 
 		this.sliderL = null;
 		this.sliderR = null;
+		this.setSliders(null);	//en la version final, cambir a false (para que no se inicie con los sliders puestos)
 
 		this.ai			=	ai;
 		this.playerL	= Object.create(PLAYER);	// Left player
@@ -171,26 +172,44 @@ export class Pong
 		this.ctx.imageSmoothingQuality = "high";
 	}
 
-	setSliders()
+	setSliders(settings)
 	{
 		this.sliderL = document.getElementById("sliderL");
 		this.sliderR = document.getElementById("sliderR");
 
-		this.sliderL.style.display = "block";
-		this.sliderL.style.transform = "rotate(90deg)";
-		this.sliderL.style.zIndex = "10";
-		//this.sliderL.style.position = "absolute";
-		//this.sliderL.style.left = "0px";
-		//this.sliderL.style.top = "50%";
-		this.sliderL.style.transformOrigin = "center";
+		this.sliderL.max = this.height - PADH;
+		this.sliderL.value = this.height / 2;
+		this.sliderR.max = this.height - PADH;
+		this.sliderR.value = this.height / 2;
 
-		this.sliderR.style.display = "block";
-		this.sliderR.style.transform = "rotate(90deg)";
-		this.sliderR.style.zIndex = "10";
-		//this.sliderR.style.position = "absolute";
-		//this.sliderR.style.right = "10px";
-		//this.sliderR.style.top = "50%";
-		this.sliderR.style.transformOrigin = "center";
+		this.sliderL.style.display = "none";
+		this.sliderR.style.display = "none";
+
+		console.log("settings:: " + settings);
+		if (settings)
+		{
+			if (settings.your_pad == "left")
+			{
+				this.sliderL.style.display = "block";
+				this.sliderL.style.transform = "rotate(90deg)";
+				this.sliderL.style.zIndex = "10";
+				this.sliderL.style.position = "absolute";
+				this.sliderL.style.left = "0px";
+				this.sliderL.style.top = "50%";
+				this.sliderL.style.transformOrigin = "center";
+			}
+
+			if (settings.your_pad == "right")
+			{
+				this.sliderR.style.display = "block";
+				this.sliderR.style.transform = "rotate(90deg)";
+				this.sliderR.style.zIndex = "10";
+				//this.sliderR.style.position = "absolute";
+				//this.sliderR.style.right = "10px";
+				//this.sliderR.style.top = "50%";
+				this.sliderR.style.transformOrigin = "center";
+			}
+		}
 	}
 
 	setDefPad(pad)
@@ -212,6 +231,7 @@ export class Pong
 	{
 		console.log(pongSet);
 		this.set = pongSet;
+		this.setSliders(pongSet);
 
 		this.maxPoints = pongSet.maxPoints;
 		this.serveNow = false;
@@ -256,7 +276,6 @@ export class Pong
 
 		//-- else if (pongSet.device == "Mobile")
 		//--		this.playerL.controller = "mobile";
-		//--		// asignar el slider a cada jugador dependiendo de la pala que hayan elegido controlar
 		else
 		{
 			this.padL.controller = "keyboard";
