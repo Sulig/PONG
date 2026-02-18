@@ -40,6 +40,20 @@ body {
 	width: 100%;
 }
 
+#sliderL {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%) rotate(90deg);
+}
+#sliderR{
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%) rotate(90deg);
+}
+
+
 canvas
 {
 	background-color: black;

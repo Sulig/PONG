@@ -88,11 +88,16 @@ if (deviceM || isTouchable)
 }
 
 pong.sliderL.addEventListener("input", (e) => {
-	pong.padL.y = e.target.value;
-})
+	const s = e.target;
+	const normalized = s.value / s.max;
+	pong.padL.y = normalized * (pong.height - pong.padL.height);
+});
+
 pong.sliderR.addEventListener("input", (e) => {
-	pong.padR.y = e.target.value;
-})
+	const s = e.target;
+	const normalized = s.value / s.max;
+	pong.padR.y = normalized * (pong.height - pong.padR.height);
+});
 /*----------------- */
 /* **********************************************/
 

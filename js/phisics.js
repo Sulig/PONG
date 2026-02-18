@@ -25,6 +25,15 @@ export function checkPaddleCollision(ball, paddle)
 		// Ajustar dirección Y según el punto de impacto
 		const hitPoint = (ball.y - paddle.y) / paddle.height; // 0 arriba, 1 abajo
 		ball.dirY = (hitPoint - 0.5) * 2; // valores entre -1 y 1
+
+		if (ball.dirX > 0) {
+			// Rebota hacia la derecha → pala izquierda
+			ball.x = paddleRight + ball.rad;
+		}
+		else {
+			// Rebota hacia la izquierda → pala derecha
+			ball.x = paddleLeft - ball.rad;
+		}
 	}
 }
 
