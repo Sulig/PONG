@@ -5,124 +5,87 @@
 
         <!-- META -->
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
         <!-- CSS -->
         <link rel="stylesheet" href="css/reset.css">
+
         <link rel="stylesheet" href="css/generalstyle.css">
         <link rel="stylesheet" href="css/mediastyle.css">
 
         <!-- Favicon -->
         <link rel="icon" type="image/png" sizes="64x64" href="assets/error-tile_TV.png">
+
+        <!-- JS Resources -->
     </head>
     <body>
-        <!-- PONG SETTINGS -->
-        <div id="settings-container">
-            <form id="game-set" name="contact-form" method="post">
-                <ul>
-                    <li>
-                        <label for="max-points-set">
-                            Number of points for winning the game:
-                        </label>
-                        <input id="max-points-set" name="max-points-set"
-                            type="number" min="1" max="11" value="5"
-                            placeholder="Please enter a number of points" required>
-                    </li>
-                    <li>
-                        <ul>
-                            <li>
-                                <label for="playmode">Play Mode</label>
-                                <select name="playmode" id="playmode">
-                                    <option value="1vsAI">1 vs AI</option>
-                                    <option value="1vs1off">1 vs 1 (offline)</option>
-                                </select>
-                            </li>
-                            <li>
-                                <label for="ai-level">AI Level</label>
-                                <select name="ai-level" id="ai-level">
-                                    <option value="easy">easy</option>
-                                    <option value="mid" selected>mid</option>
-                                    <option value="hard">hard</option>
-                                </select>
-                            </li>
-                            <li>
-                                <p>Choose your paddle:</p>
-                                <ul>
-                                    <li>
-                                        <input type="radio" id="left-pad" name="yourPad" value="left" checked>
-                                        <label for="left-pad">Move left pad</label>
-                                    </li>
-                                    <li>
-                                        <input type="radio" id="right-pad" name="yourPad" value="right">
-                                        <label for="right-pad">Move right pad</label>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </form>
-
-            <div id="start">
-                <button id="start-button" title="Start!"><a href="game.html" title="Start!">START!</a></button>
-            </div>
+        <!-- PONG -->
+        <!-- #region -->
+        <div id="game">
+			<input type="range" id="sliderL" min="0" max="400" value="200">
+			<canvas id="gm-canvas"></canvas>
+			<input type="range" id="sliderR" min="0" max="400" value="200">
         </div>
+        <!-- #endregion -->
 
         <!-- JS -->
-        <script type="module" src="js/settings.js"></script>
-        <!-- <script type="module" src="js/setupForm.js"></script> -->
-
+        <!-- #region -->
         <script>
-(function(){
-  // sólo si quieres activarlo manualmente: ?debug=1 en la URL
-  const urlParams = new URLSearchParams(location.search);
-  if (!urlParams.has('debug')) return;
+			(function(){
+			  // sólo si quieres activarlo manualmente: ?debug=1 en la URL
+			  const urlParams = new URLSearchParams(location.search);
+			  if (!urlParams.has('debug')) return;
 
-  const dbg = document.createElement('div');
-  dbg.id = 'debug-overlay';
-  Object.assign(dbg.style, {
-    position: 'fixed',
-    left: '8px',
-    right: '8px',
-    bottom: '8px',
-    maxHeight: '40%',
-    overflowY: 'auto',
-    background: 'rgba(0,0,0,0.75)',
-    color: 'white',
-    fontSize: '12px',
-    padding: '8px',
-    zIndex: 99999,
-    borderRadius: '6px',
-    fontFamily: 'monospace',
-    whiteSpace: 'pre-wrap'
-  });
-  document.body.appendChild(dbg);
+			  const dbg = document.createElement('div');
+			  dbg.id = 'debug-overlay';
+			  Object.assign(dbg.style, {
+				position: 'fixed',
+				left: '8px',
+				right: '8px',
+				bottom: '8px',
+				maxHeight: '40%',
+				overflowY: 'auto',
+				background: 'rgba(0,0,0,0.75)',
+				color: 'white',
+				fontSize: '12px',
+				padding: '8px',
+				zIndex: 99999,
+				borderRadius: '6px',
+				fontFamily: 'monospace',
+				whiteSpace: 'pre-wrap'
+			  });
+			  document.body.appendChild(dbg);
 
-  function appendLine(type, msg){
-    const line = document.createElement('div');
-    line.textContent = `[${type}] ${msg}`;
-    dbg.appendChild(line);
-    dbg.scrollTop = dbg.scrollHeight;
-  }
+			  function appendLine(type, msg){
+				const line = document.createElement('div');
+				line.textContent = `[${type}] ${msg}`;
+				dbg.appendChild(line);
+				dbg.scrollTop = dbg.scrollHeight;
+			  }
 
-  // override logs
-  const _log = console.log, _err = console.error;
-  console.log = function(...a){ _log.apply(console,a); appendLine('LOG', a.map(String).join(' ')); };
-  console.error = function(...a){ _err.apply(console,a); appendLine('ERR', a.map(String).join(' ')); };
+			  // override logs
+			  const _log = console.log, _err = console.error;
+			  console.log = function(...a){ _log.apply(console,a); appendLine('LOG', a.map(String).join(' ')); };
+			  console.error = function(...a){ _err.apply(console,a); appendLine('ERR', a.map(String).join(' ')); };
 
-  window.addEventListener('error', function(e){
-    appendLine('ERR', (e && e.message) || String(e));
-  });
+			  window.addEventListener('error', function(e){
+				appendLine('ERR', (e && e.message) || String(e));
+			  });
 
-  window.addEventListener('unhandledrejection', function(ev){
-    appendLine('ERR', 'UnhandledRejection: ' + (ev.reason && ev.reason.stack ? ev.reason.stack : String(ev.reason)));
-  });
+			  window.addEventListener('unhandledrejection', function(ev){
+				appendLine('ERR', 'UnhandledRejection: ' + (ev.reason && ev.reason.stack ? ev.reason.stack : String(ev.reason)));
+			  });
 
-  appendLine('INFO', 'Debug overlay active — añade ?debug=1 a la URL');
-})();
-</script>
+			  appendLine('INFO', 'Debug overlay active — añade ?debug=1 a la URL');
+			})();
+			</script>
 
-
+		<script type="module" src="js/OBPong.js"></script>
+		<script type="module" src="js/AI.js"></script>
+		<script type="module" src="js/render.js"></script>
+		<script type="module" src="js/pong.js"></script>
+        <!-- #endregion -->
         <!-- NOSCRIPT -->
         <noscript>
             <p class="noscript">
