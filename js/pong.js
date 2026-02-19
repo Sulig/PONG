@@ -82,6 +82,8 @@ const isTouchable = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
 if (deviceM || isTouchable)
 {
+	console.log(pongSet);
+	console.warn(pong.set);
 	pongSet.device = "Mobile";
 	pong.set.device = "Mobile";
 	pong.setSliders(pongSet);
@@ -121,11 +123,15 @@ function gameLoop()
 			pong.ai.ai(pong.ball, pong.padL);
 		else if (pong.set.device == "PC")
 			pong.updatePaddlePosition(pong.padL);
+		else
+			pong.drawPaddle(pong.padL);
 
 		if (pong.padR.ai_enable)
 			pong.ai.ai(pong.ball, pong.padR);
 		else if (pong.set.device == "PC")
 			pong.updatePaddlePosition(pong.padR);
+		else
+			pong.drawPaddle(pong.padR);
 
 		pong.checkIfBallStuck(pong.ball);
 	}
