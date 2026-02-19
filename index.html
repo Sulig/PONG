@@ -72,6 +72,57 @@
         <script type="module" src="js/settings.js"></script>
         <!-- <script type="module" src="js/setupForm.js"></script> -->
 
+        <script>
+(function(){
+  // sólo si quieres activarlo manualmente: ?debug=1 en la URL
+  const urlParams = new URLSearchParams(location.search);
+  if (!urlParams.has('debug')) return;
+
+  const dbg = document.createElement('div');
+  dbg.id = 'debug-overlay';
+  Object.assign(dbg.style, {
+    position: 'fixed',
+    left: '8px',
+    right: '8px',
+    bottom: '8px',
+    maxHeight: '40%',
+    overflowY: 'auto',
+    background: 'rgba(0,0,0,0.75)',
+    color: 'white',
+    fontSize: '12px',
+    padding: '8px',
+    zIndex: 99999,
+    borderRadius: '6px',
+    fontFamily: 'monospace',
+    whiteSpace: 'pre-wrap'
+  });
+  document.body.appendChild(dbg);
+
+  function appendLine(type, msg){
+    const line = document.createElement('div');
+    line.textContent = `[${type}] ${msg}`;
+    dbg.appendChild(line);
+    dbg.scrollTop = dbg.scrollHeight;
+  }
+
+  // override logs
+  const _log = console.log, _err = console.error;
+  console.log = function(...a){ _log.apply(console,a); appendLine('LOG', a.map(String).join(' ')); };
+  console.error = function(...a){ _err.apply(console,a); appendLine('ERR', a.map(String).join(' ')); };
+
+  window.addEventListener('error', function(e){
+    appendLine('ERR', (e && e.message) || String(e));
+  });
+
+  window.addEventListener('unhandledrejection', function(ev){
+    appendLine('ERR', 'UnhandledRejection: ' + (ev.reason && ev.reason.stack ? ev.reason.stack : String(ev.reason)));
+  });
+
+  appendLine('INFO', 'Debug overlay active — añade ?debug=1 a la URL');
+})();
+</script>
+
+
         <!-- NOSCRIPT -->
         <noscript>
             <p class="noscript">
