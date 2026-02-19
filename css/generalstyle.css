@@ -41,17 +41,19 @@ body {
 }
 
 #sliderL {
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%) rotate(90deg);
+	position: absolute;
+	z-index: 10;
+	left: 0;
+	top: 50%;
+	transform: translateY(-50%) rotate(90deg);
 	opacity: 0.5;
 }
 #sliderR{
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%) rotate(90deg);
+	position: absolute;
+	z-index: 10;
+	right: 0;
+	top: 50%;
+	transform: translateY(-50%) rotate(90deg);
 	opacity: 0.5;
 }
 

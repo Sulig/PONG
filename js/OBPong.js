@@ -188,26 +188,17 @@ export class Pong
 		console.log("settings:: " + settings);
 		if (settings)
 		{
-			if (settings.your_pad == "left")
+			if (settings.device == "Mobile")
 			{
-				this.sliderL.style.display = "block";
-				this.sliderL.style.transform = "rotate(90deg)";
-				this.sliderL.style.zIndex = "10";
-				this.sliderL.style.position = "absolute";
-				this.sliderL.style.left = "0px";
-				this.sliderL.style.top = "50%";
-				this.sliderL.style.transformOrigin = "center";
-			}
-
-			if (settings.your_pad == "right")
-			{
-				this.sliderR.style.display = "block";
-				this.sliderR.style.transform = "rotate(90deg)";
-				this.sliderR.style.zIndex = "10";
-				//this.sliderR.style.position = "absolute";
-				//this.sliderR.style.right = "10px";
-				//this.sliderR.style.top = "50%";
-				this.sliderR.style.transformOrigin = "center";
+				if (settings.mode == "1vs1")
+				{
+					this.sliderL.style.display = "block";
+					this.sliderR.style.display = "block";
+				}
+				else if (settings.your_pad == "left")
+					this.sliderL.style.display = "block";
+				else if (settings.your_pad == "right")
+					this.sliderR.style.display = "block";
 			}
 		}
 	}

@@ -8,9 +8,9 @@ export class PongSettings
 {
 	constructor()
 	{
-		this.device		= "Mobile"		// Localy changed, if you are playing in PC - Mobile
+		this.device		= "Mobile"	// Localy changed, if you are playing in PC - Mobile
 		this.maxPoints	= 5			// Number of points necessary for winning
-		this.mode		= "1vsAI"	// You can set it to: 1vsAI - 1vs1Off - (and 1vs1On if finally do the online )
+		this.mode		= "1vs1"	// You can set it to: 1vsAI - 1vs1Off - (and 1vs1On if finally do the online )
 		this.ai_level	= "hard"	// Level of AI (easy - mid - hard)
 		this.your_pad	= "left"	// What pad do you want to manage (left - right)
 		//----------
