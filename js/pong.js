@@ -82,10 +82,7 @@ const isTouchable = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
 if (deviceM || isTouchable)
 {
-	console.log(pongSet);
-	console.warn(pong.set);
 	pongSet.device = "Mobile";
-	pong.set.device = "Mobile";
 	pong.setSliders(pongSet);
 }
 
