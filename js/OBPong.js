@@ -25,7 +25,7 @@ const BALL_ACCELERATION = 0.15;
 const BALL_VEL	=	12;
 const BALL_RAD	=	20;
 const BALL = {
-	color:	"black",
+	color:	"white",
 	rad:	BALL_RAD,
 	vel:	BALL_VEL,
 	maxVel:	BALL_VEL,
@@ -75,18 +75,19 @@ const SCORE = {
 	score: 0,
 	size: SCORE_SIZE,
 	font: "Arial",
-	color:	'yellow',
+	color:	'lightyellow',
 	x: 0,
 	y: SCORE_SIZE + SCORE_MARGIN
 };
+/** */
 
-// 	** PADDLE */
+//** PADDLES */
 // -- width, height, velocity
 const PADW = 16, PADH = 100, PADVEL = 18;
 const PAD = {
 	ai_enable:	false,	// Enable/disable
 	controller:	"keyboard",	// keyboard - mouse - slider (on mobile)
-	color:	"burlywood",
+	color:	"white",
 	width:	PADW,
 	height:	PADH,
 	vel:	PADVEL,
@@ -367,7 +368,7 @@ export class Pong
 	}
 	drawBall(ball)
 	{
-		this.ctx.strokeStyle = 'red';
+		this.ctx.strokeStyle = 'lightgray';
 		this.ctx.beginPath();
 		this.ctx.arc(ball.x, ball.y, ball.rad, 0, 2 * Math.PI, false);
 		this.ctx.fillStyle = ball.color;
@@ -378,7 +379,7 @@ export class Pong
 	/** Mid line (only grafic, has no collider) */
 	drawMidLine()
 	{
-		this.ctx.strokeStyle = 'darkviolet';
+		this.ctx.strokeStyle = 'gray';
 		this.ctx.lineWidth = 8;
 		// -- Dash line - long, spacing
 		this.ctx.setLineDash([30, 38]);
