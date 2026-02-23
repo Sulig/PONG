@@ -25,9 +25,16 @@ Decides que pala quieres usar (cuando compitas contra la AI).
 + 'w' y 's'				-> Controla la pala izquierda
 + Arrow up & Arrow down	-> Controla la pala derecha
 
+> Puedes decidir que lado controlar si juegas contra la AI
 >> (-- el jugador puede decidir que tecla usar, solo que eso no esta implementado en el frontend)
+>> Puedes customizar que jugador puede utilizar el raton |(si se quiere usar el raton)
 
-> (En mobil) -> Sera lo siguiente que implementare
+!En mobil ->
+- Aparecen sliders dependiendo de cuantas personas van a jugar o que lado prefieres jugar.
+-> Por ejemplo:
+	-- Barra manejable izquierda si eliges la pala izquierda
+	-- Barra manejable derecha si eliges la pala derecha
+	-- Las dos Barras si es un 1 vs 1
 ***
 
 ## IDEAS:
@@ -63,7 +70,7 @@ Decides que pala quieres usar (cuando compitas contra la AI).
 	- *Includes the collision of ball in corners for "is ball stuck?"
 
 - In "pong" -->
-	- All the key-input event listeners
+	- All the Event Listeners (included key-input down\up)
 	- Update method
 	- Call for start - inicializations of game
 
