@@ -85,19 +85,6 @@ if (deviceM || isTouchable)
 	pongSet.device = "Mobile";
 	pong.setSliders(pongSet);
 }
-
-pong.sliderL.addEventListener("input", (e) => {
-	const s = e.target;
-	const normalized = s.value / s.max;
-	pong.padL.y = normalized * (pong.height - pong.padL.height);
-});
-
-pong.sliderR.addEventListener("input", (e) => {
-	const s = e.target;
-	const normalized = s.value / s.max;
-	pong.padR.y = normalized * (pong.height - pong.padR.height);
-});
-/*----------------- */
 /* **********************************************/
 
 /** GAME LOOP */

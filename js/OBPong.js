@@ -185,6 +185,19 @@ export class Pong
 		else if (this.sliderR == null)
 			this.sliderR = document.getElementById("sliderR");
 
+		this.sliderL.addEventListener("input", (e) => {
+			const s = e.target;
+			const normalized = s.value / s.max;
+			pong.padL.y = normalized * (pong.height - pong.padL.height);
+		});
+		
+		this.sliderR.addEventListener("input", (e) => {
+			const s = e.target;
+			const normalized = s.value / s.max;
+			pong.padR.y = normalized * (pong.height - pong.padR.height);
+		});
+		/*----------------- */
+
 		this.sliderL.max = this.height - PADH;
 		this.sliderL.value = this.height / 2;
 		this.sliderR.max = this.height - PADH;
