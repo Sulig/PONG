@@ -145,7 +145,7 @@ export class Pong
 
 		this.sliderL = null;
 		this.sliderR = null;
-		this.setSliders(null);	//en la version final, cambir a false (para que no se inicie con los sliders puestos)
+		this.setSliders(null, null, null);	//en la version final, cambir a false (para que no se inicie con los sliders puestos)
 
 		this.ai			=	ai;
 		this.playerL	= Object.create(PLAYER);	// Left player
@@ -174,10 +174,16 @@ export class Pong
 		this.ctx.imageSmoothingQuality = "high";
 	}
 
-	setSliders(settings)
+	setSliders(settings, sliderL, sliderR)
 	{
-		this.sliderL = document.getElementById("sliderL");
-		this.sliderR = document.getElementById("sliderR");
+		if (sliderL != null)
+			this.sliderL = sliderL;
+		else if (this.sliderL == null)
+			this.sliderL = document.getElementById("sliderL");
+		if (sliderR != null)
+			this.sliderR = sliderR;
+		else if (this.sliderR == null)
+			this.sliderR = document.getElementById("sliderR");
 
 		this.sliderL.max = this.height - PADH;
 		this.sliderL.value = this.height / 2;
@@ -224,7 +230,7 @@ export class Pong
 	{
 		console.log(pongSet);
 		this.set = pongSet;
-		this.setSliders(pongSet);
+		this.setSliders(pongSet, null, null);
 
 		this.maxPoints = pongSet.maxPoints;
 		this.serveNow = false;
