@@ -10,7 +10,7 @@ import { checkPaddleCollision, checkWallCollision } from "./phisics.js";
 /********** EVENT && KEYINPUT LISTENERS *********/
 // Event listeners - Only when window is resized
 window.addEventListener("resize", () => {
-	resizeCanvas();
+	resizeCanvas(pong);
 	pong.reDraw();
 });
 /**----------------- */
@@ -138,7 +138,7 @@ function gameLoop()
 }
 
 /** ON-START */
-resizeCanvas();
+resizeCanvas(pong);
 pong.initializeGame(pongSet);
 requestAnimationFrame(gameLoop);
 /**----------------- */

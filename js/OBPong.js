@@ -3,6 +3,7 @@
 /*                 Objects PONG                 */
 /* **********************************************/
 
+import { resizeCanvas } from "./render.js";
 import { checkCornerCollision } from "./phisics.js";
 import { ai } from "./AI.js"
 
