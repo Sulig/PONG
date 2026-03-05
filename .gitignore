@@ -1,0 +1,23 @@
+# Environment
+certs/
+node_modules
+.env.*
+.env
+!.env.example
+.env.development
+# Secrets
+secrets/*
+!secrets/README.md
+# Editor
+*.swp
+*.swo
+*.vscode
+# Data
+server/src/prisma/generated/**
+/server/dist
+/client/dist
+# Nginx generated
+nginx/logs/
+nginx/ssl/
+# Local learning/docs (not for repo)
+learning/

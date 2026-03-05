@@ -1,0 +1,100 @@
+#Default YAML file for Transcendance
+
+networks:
+  t42bcnet:
+    name: t42bcnet
+    driver: bridge
+
+volumes:
+  db_data:
+  frontend_data:
+  prisma_migrations:
+
+services:
+  #NGINX PROXY
+  nginx:
+    container_name: nginx
+    image: nginx:stable-alpine
+    networks:
+      - t42bcnet
+    volumes:
+      - ./nginx:/etc/nginx/templates
+      - frontend_data:/var/www/:ro 
+    environment:
+      - NGINX_HOST=${NGINX_HOST}
+      - NGINX_PORT=${FRONTEND_PORT}
+    ports:
+      - ${EXPOSED_PORT}:${FRONTEND_PORT}
+    restart: unless-stopped
+
+  #POSTGRESQL
+  postgresql:
+    container_name: postgresql
+    image: postgres:17.7-alpine
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./postgresql/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    networks:
+      - t42bcnet
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  #FRONTEND
+  frontend:
+    container_name: frontend
+    build: 
+      context: ./
+      dockerfile: client/dockerfile
+      target: ${NODE_ENV:-development}
+      args:
+        - VITE_API_URL=/api/v1
+        #VITE_API_URL: http://backend:${BACKEND_PORT}
+    working_dir: /app
+    volumes:
+      - frontend_data:/app/dist
+      - ./client/src:/app/src
+    networks:
+      - t42bcnet
+    restart: no
+  
+  #BACKEND
+  backend:
+    container_name: backend
+    build: 
+      context: ./
+      dockerfile: server/dockerfile
+      #target: build
+      target: ${NODE_ENV:-development}
+      args:
+        - DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@postgresql:5432/${DB_NAME}?schema=${DB_SCHEMA}
+    working_dir: /app
+    volumes:
+      - prisma_migrations:/app/prisma/migrations
+      - ./server/prisma/migrations:/migrations
+      - ./server/src:/app/src
+      - ./server/uploads:/app/uploads
+    environment:
+      - DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@postgresql:5432/${DB_NAME}?schema=${DB_SCHEMA}
+      - GIT_BRANCH=${GIT_BRANCH}
+      - PORT=${BACKEND_PORT}
+      - JWT_SECRET=${BACKEND_JWT_SECRET}
+      - BASE_URL=${CLIENT_URL}
+      - NODE_ENV=${NODE_ENV:-development}
+      - GOOGLE_ID_CLIENT=${GOOGLE_ID_CLIENT}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - GITHUB_ID_CLIENT=${GITHUB_ID_CLIENT}
+      - GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET}
+    networks:
+      - t42bcnet
+    restart: unless-stopped
+    depends_on:
+      postgresql:
+        condition: service_healthy

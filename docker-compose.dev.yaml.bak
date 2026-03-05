@@ -1,0 +1,58 @@
+#Development YAML file for Transcendance
+
+services:
+  #ADMINER
+  adminer:
+    container_name: adminer
+    image: adminer:latest
+    ports:
+      - 8080:8080
+    networks:
+      - t42bcnet
+    depends_on:
+      postgresql:
+        condition: service_healthy
+  
+  #FRONTEND
+  frontend:
+    build: 
+      target: development
+      args:
+        NODE_ENV: development
+        NPM_CONFIG_LOGLEVEL: warn
+        PORT: ${FRONTEND_PORT}
+    user: "0:0"
+    environment:
+      - VITE_API_URL=http://localhost:${BACKEND_PORT}/api/v1
+      - VITE_APP_ENV=development
+      - NODE_ENV=development
+      - NPM_CONFIG_LOGLEVEL=warn
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    ports:
+      - ${FRONTEND_PORT}:${FRONTEND_PORT}
+    restart: unless-stopped
+  
+  #BACKEND
+  backend:
+    build: 
+      target: development
+      args:
+        DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@postgresql:5432/${DB_NAME}?schema=${DB_SCHEMA}
+        NODE_ENV: development
+        NPM_CONFIG_LOGLEVEL: warn
+        PORT: ${BACKEND_PORT}
+    working_dir: /app
+    environment:
+      - DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@postgresql:5432/${DB_NAME}?schema=${DB_SCHEMA}
+      - GIT_BRANCH=${GIT_BRANCH}
+      - PORT=${BACKEND_PORT}
+      - JWT_SECRET=${BACKEND_JWT_SECRET}
+      - BASE_URL=${CLIENT_URL}
+      - LOG_LEVEL=debug
+      - NODE_ENV=development
+      - PRISMA_QUERY_LOGGING=true
+      - PRISMA_METRICS=true
+    ports:
+      - ${BACKEND_PORT}:${BACKEND_PORT}
