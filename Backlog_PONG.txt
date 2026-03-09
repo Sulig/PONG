@@ -1,7 +1,7 @@
 ***************
 *** DESCRIPT
 ***************
-For the game -- Will be PONG --
+Is Pong with react
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ****
@@ -12,10 +12,9 @@ For the game -- Will be PONG --
  > Keydown and event hooks.
  > All game mecanics.
 * Actual style is 2D (with the posibilitie for change the colors)
----
 
-- Major - Implement advanced 3D graphics using a library like Three.js or Babylon.js.
-*^ i'm not implementing this .. unless [Tv]=8
+- React container + (in progress ) settings and score
+---
 --------------------
 
 ### Rules
@@ -90,19 +89,17 @@ Decides que pala quieres usar (cuando compitas contra la AI)
 [THIS IS FRONTEND & Game Backend] - Game customization
 	[BACKEND] - Save this options:
 	-- PLAY MODE --
-	[] - Select if it will be 1 vs 1 (Offline)
-	[] - Select if it will be 1 vs CPU
-		[] - Select difficulty
+	[OK] - Select if it will be 1 vs 1 (Offline)
+	[OK] - Select if it will be 1 vs CPU
+		[OK] - Select difficulty
 
 	([] - Select if it will be 1 vs 1 (ONLINE))
 	-- STYLE --
-	[]		- Change the pad you control
-	[]		- Change nick in game (Loaded with Backend server?)
-	[If applicable] - Change keyinput
-	[If applicable] - Change color
+	[OK]		- Change the pad you control
+	[OK]		- Change nick in game (Loaded with Backend server?)
 	----
-	[NEXT -- in final version] - Save/Load the game customization
-		[BACKEND] - Save
+	[IN PROGRESS] - Save/Load the game customization
+		[IN PROGRESS] - Save
 		[Test] - Load
 
 [OK] - Control pads:
@@ -126,8 +123,7 @@ Decides que pala quieres usar (cuando compitas contra la AI)
 
 [NEXT -- IN FINAL VERSION] - WIN / LOSE CONDITIONS
 	[OK] - Marcador
-	[Will add in the final game] - Finalizar juego cuando un jugador consiga marcar suficientes puntos. (Por ahora, el juego se reinicia cuando uno gana (por temas de testing))
-	[Thinking] - Effects for win/lose?
+	[OK] - Finalizar juego cuando un jugador consiga marcar suficientes puntos.
 
 //// --- Notas entre [[]] -->
 [OK] - > Ya terminado y no necesita TESTING

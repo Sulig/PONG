@@ -1,0 +1,7 @@
+/*CREATE SCHEMA IF NOT EXISTS prisma;*/
+/*CREATE TABLE IF NOT EXISTS pg_users (
+    id SERIAL PRIMARY KEY,
+    name TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);*/

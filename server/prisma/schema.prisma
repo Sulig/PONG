@@ -1,0 +1,124 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/prisma/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model user {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  googleId  String?  @unique
+  githubId  String?  @unique
+  password  String?
+  createdAt DateTime @default(now())
+
+  profile             profile?
+  matches             match[]
+  apiKeys             apiKeys[]
+  feedback            feedback[]
+  sentFriendships     friends[]  @relation("FriendSender")
+  receivedFriendships friends[]  @relation("FriendReceiver")
+}
+
+model profile {
+  userId Int  @id
+  user   user @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  name      String
+  avatarUrl String  @default("/avatars/avatar_default.png") @db.VarChar(2048)
+  bio       String? @db.VarChar(255)
+
+  level Int @default(1)
+  xp    Int @default(0)
+
+  achievements achievement[]
+}
+
+model match {
+  id            Int       @id @default(autoincrement())
+  userId        Int
+  user          user      @relation(fields: [userId], references: [id])
+  guestName     String?
+  userScore     Int       @default(0)
+  opponentScore Int       @default(0)
+  status        String    @default("pending")
+  createdAt     DateTime  @default(now())
+  completedAt   DateTime?
+
+  winPoints Int      @default(5)
+  playMode  PlayMode @default(AI)
+  aiLevel   AiLevel  @default(EASY)
+  paddle    Paddle   @default(LEFT)
+}
+
+model achievement {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  profile    profile  @relation(fields: [userId], references: [userId])
+  type       String
+  unlockedAt DateTime @default(now())
+
+  @@unique([userId, type])
+}
+
+model apiKeys {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  name      String?
+  createdAt DateTime  @default(now())
+  expiresAt DateTime?
+  hashedKey String    @unique
+
+  user user @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model feedback {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      user     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  text      String   @db.VarChar(500)
+  createdAt DateTime @default(now())
+}
+
+model friends {
+  id         Int          @id @default(autoincrement())
+  senderId   Int
+  receiverId Int
+  status     FriendStatus @default(PENDING)
+  createdAt  DateTime     @default(now())
+
+  sender   user @relation("FriendSender", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver user @relation("FriendReceiver", fields: [receiverId], references: [id], onDelete: Cascade)
+
+  @@unique([senderId, receiverId])
+}
+
+enum FriendStatus {
+  PENDING
+  ACCEPTED
+}
+
+enum PlayMode {
+  AI
+  LOCAL
+}
+
+enum AiLevel {
+  EASY
+  MID
+  HARD
+}
+
+enum Paddle {
+  LEFT
+  RIGHT
+}

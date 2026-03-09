@@ -1,86 +1,45 @@
-# PONG
+<b>
+   
+### Need to Install
 
-~ Started on: 11/12/2025 ~ *** ~ Ended on: IN PROGRESS
+- [Docker](https://www.docker.com/) and Docker Compose
 
-> [!WARNING]\
-> This repository is IN PROGRESS
-> See `Backlog PONG` to see what i'm doing.
+</b>
+<b>
 
-## Rules
-Classic PONG game:
-+ La pelota rebota en las palas
-+ En la primera instancia, se decide aleatoriamente hacia donde se dirigira la bola (si J1 o J2)
-+ Cuando un jugador marque, se le asignara un punto y la bola se sacara desde el jugador que ha perdido.
-+ El juego termina cuando alguien haya ganado X puntos.
+### Detailed explanations on the architecture
 
-### Game customizatation
-- Seleccionar cuantos puntos se necesitan para ganar una partida.
-- Seleccionar si se jugara 1 vs 1 (offline)
-- Seleccionar si se jugara 1 vs AI
-- Seleccionar en que lado de la pantalla se movera a AI
-- Seleccionar la dificultad de la AI
+Read this before, perhaps the answer to your question is already here! More details about the structure are explained here.
+https://www.notion.so/Docker-services-2cbaa892ab4b8030b2dbce06ca8cfc09
 
-## Controllers
-Decides que pala quieres usar (cuando compitas contra la AI).
-+ 'w' y 's'				-> Controla la pala izquierda
-+ Arrow up & Arrow down	-> Controla la pala derecha
+### Create and populate the environment variables files
 
-> Puedes decidir que lado controlar si juegas contra la AI
->> (-- el jugador puede decidir que tecla usar, solo que eso no esta implementado en el frontend)
->> Puedes customizar que jugador puede utilizar el raton |(si se quiere usar el raton)
+The values of the variables must be shared privately so you'll have to ask me for them. We can use the service share.doppler.com to share env values securely.
 
-!En mobil ->
-- Aparecen sliders dependiendo de cuantas personas van a jugar o que lado prefieres jugar.
--> Por ejemplo:
-	-- Barra manejable izquierda si eliges la pala izquierda
-	-- Barra manejable derecha si eliges la pala derecha
-	-- Las dos Barras si es un 1 vs 1
-***
+1. In the root folder, create a .env and a .env.development ile and put in it all the variables that you find in ./.env.example. 
+2. Move into nginx/ folder, delete the ssl folder if already existing and run ./generate-ssh.sh
+3. Back to root folder, run ./scripts/setup-secrets.sh to create secret files. 5 empty secret files are created
+4. Now populate those files: 
+    - for github and google files, do 'echo "the_secret_key" > secrets/google_xxxx' for each file
+    - for passwords and token files, 'openssl rand -hex 32 > secrets/the_file_to_feed'for each file
 
-## IDEAS:
+</b>
+<b>
 
-* Implement Arkanoid Random "Ventajas" & Power-ups
-- Aumentar velocidad de la bola
-- Hacer aparecer mas bolas
-- Aumentar/Disminuir el tamaño de las palas
-.. Etc..
-***
+### Run the containers with Makefile
 
-## CODE -> FILE DISTRIBUITION:
+Simply type make to launch a production environment.The website can be tested on https://localhost:NGINX_PORT_HTTPS
 
-- AI -->
-	- Only the AI mechanic and choses of difficulty of it.
+make help provide a brief description of available make commands.
 
-- fetch -->
-	- The method for restoring data saved in a JSON
+this links provides more details explanations: https://www.notion.so/Docker-services-2cbaa892ab4b8030b2dbce06ca8cfc09?source=copy_link#2eeaa892ab4b801fb45bf01738d7b7ce
 
-- OBJPong -->
-	- All the necessary objects and structs for pong game
-	- All the "Deffault" attributes and inicializations
-	- All the Object Drawing for pong
-	- An update function position for ball
-	- An update function position for paddles
-	- Some utilities:
-		- Check if ball is stucked
-		- Decide serve
-		- First count down before first serve
+### And that's it!
+That's it basically, you can start working accessing the website through the browser while everything will run on containers in detached mode so you will be able to use the terminal :D
 
-- phisics -->
-	- All the collisions of the ball with the environment
-	- *Includes the collision of ball in corners for "is ball stuck?"
+</b>
 
-- In "pong" -->
-	- All the Event Listeners (included key-input down\up)
-	- Update method
-	- Call for start - inicializations of game
+**Access API Documentation:**
+-  Go to `http://localhost:3001/api-docs` to view the Swagger API documentation.
 
-- Render -->
-	- Only the render method when scaling the window
 
-- Settings -->
-	- The current customizable settings of the game
-	- (Falta anyadirle la funcionalidad para poder cambiar los ajustes desde la pagina "frontend")
-
-***
-~ Made by sadoming ~
-***
