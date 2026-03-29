@@ -7,21 +7,21 @@
 > See `Backlog PONG` to see what i'm doing.
 
 ## Rules
-Classic PONG game:
+Demo of the classic PONG game.
 + La pelota rebota en las palas
 + En la primera instancia, se decide aleatoriamente hacia donde se dirigira la bola (si J1 o J2)
 + Cuando un jugador marque, se le asignara un punto y la bola se sacara desde el jugador que ha perdido.
 + El juego termina cuando alguien haya ganado X puntos.
 
 ### Game customizatation
+Por ahora, aunque no se puede cambiar los ajustes, esto es lo que podrias customizar:
 - Seleccionar cuantos puntos se necesitan para ganar una partida.
 - Seleccionar si se jugara 1 vs 1 (offline)
 - Seleccionar si se jugara 1 vs AI
-- Seleccionar en que lado de la pantalla se movera a AI
+- Seleccionar que lado de la pantalla controlas
 - Seleccionar la dificultad de la AI
 
-## Controllers
-Decides que pala quieres usar (cuando compitas contra la AI).
+## Controlles
 + 'w' y 's'				-> Controla la pala izquierda
 + Arrow up & Arrow down	-> Controla la pala derecha
 
@@ -35,15 +35,6 @@ Decides que pala quieres usar (cuando compitas contra la AI).
 	-- Barra manejable izquierda si eliges la pala izquierda
 	-- Barra manejable derecha si eliges la pala derecha
 	-- Las dos Barras si es un 1 vs 1
-***
-
-## IDEAS:
-
-* Implement Arkanoid Random "Ventajas" & Power-ups
-- Aumentar velocidad de la bola
-- Hacer aparecer mas bolas
-- Aumentar/Disminuir el tamaño de las palas
-.. Etc..
 ***
 
 ## CODE -> FILE DISTRIBUITION:
