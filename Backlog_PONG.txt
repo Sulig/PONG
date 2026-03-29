@@ -15,7 +15,7 @@ For the game -- Will be PONG --
 ---
 
 - Major - Implement advanced 3D graphics using a library like Three.js or Babylon.js.
-*^ i'm not implementing this .. unless [Tv]=8
+*^ i'm not implementing this .. [Tv]=8
 --------------------
 
 ### Rules
@@ -63,12 +63,12 @@ Decides que pala quieres usar (cuando compitas contra la AI)
 ->	Seleccionar si se jugara 1 vs 1 (offline)
 
 ->	Seleccionar si se jugara 1 vs AI
-->	Seleccionar en que lado de la pantalla se movera a AI
 ->	Seleccionar la dificultad de la AI
-
+->	Seleccionar en que lado de la pantalla controlas
 
 [No implementado]	->	Seleccionar 1 vs 1 (online) (esto requiriria tener un websockets)
 [No lo he puesto en el frontend]	->	Cambiar los colores del juego
+[No implementado] 	-> Guardar los ajustes y aplicarlos en la partida
 ------------------
 
 ****
@@ -94,10 +94,8 @@ Decides que pala quieres usar (cuando compitas contra la AI)
 	[] - Select if it will be 1 vs CPU
 		[] - Select difficulty
 
-	([] - Select if it will be 1 vs 1 (ONLINE))
 	-- STYLE --
 	[]		- Change the pad you control
-	[]		- Change nick in game (Loaded with Backend server?)
 	[If applicable] - Change keyinput
 	[If applicable] - Change color
 	----
@@ -126,7 +124,8 @@ Decides que pala quieres usar (cuando compitas contra la AI)
 
 [NEXT -- IN FINAL VERSION] - WIN / LOSE CONDITIONS
 	[OK] - Marcador
-	[Will add in the final game] - Finalizar juego cuando un jugador consiga marcar suficientes puntos. (Por ahora, el juego se reinicia cuando uno gana (por temas de testing))
+	[Will add in the final game] - Finalizar juego cuando un jugador consiga marcar suficientes puntos. 
+	(Por ahora, el juego se reinicia cuando uno gana (por temas de testing))
 	[Thinking] - Effects for win/lose?
 
 //// --- Notas entre [[]] -->
