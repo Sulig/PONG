@@ -1,27 +1,30 @@
 # PONG
 
-~ Started on: 11/12/2025 ~ *** ~ Ended on: IN PROGRESS
+~ Started on: 11/12/2025 ~ *** ~ Ended on: 28/03/26 -- As a Demo
 
 > [!WARNING]\
-> This repository is IN PROGRESS
-> See `Backlog PONG` to see what i'm doing.
+> Este repositorio es una DEMO, por lo cual, algunas cosas no estan terminadas (y no tengo intencion de terminarlas)
+> La version final esta localizada en un proyecto en equipo, puedes verlo [aqui](https://github.com/git-robi/ft_transcendence)
+> Mira `Backlog PONG` para comprobar mi trabajo.
 
-## Rules
-Demo of the classic PONG game.
-+ La pelota rebota en las palas
+## Reglas
+Esto es una demo del PONG clasico.
 + En la primera instancia, se decide aleatoriamente hacia donde se dirigira la bola (si J1 o J2)
-+ Cuando un jugador marque, se le asignara un punto y la bola se sacara desde el jugador que ha perdido.
-+ El juego termina cuando alguien haya ganado X puntos.
++ Cuando un jugador marque, se le asignara un punto y el saque se selecciona de forma aleatoria.
++ El juego termina cuando alguien haya ganado X puntos. (Aunque en esta demo, las partidas son infinitas)
++ Aprovecha los topes de las palas para lograr un efecto de aceleracion!
++ Tiene un reset si la bola se queda atascada en los bordes
++ Es compatible con movil! (apareceran unos sliders)
 
-### Game customizatation
-Por ahora, aunque no se puede cambiar los ajustes, esto es lo que podrias customizar:
+### Customizacion del juego
+Por ahora, aunque no se pueden cambiar los ajustes, esto es lo que podrias customizar:
 - Seleccionar cuantos puntos se necesitan para ganar una partida.
 - Seleccionar si se jugara 1 vs 1 (offline)
 - Seleccionar si se jugara 1 vs AI
-- Seleccionar que lado de la pantalla controlas
 - Seleccionar la dificultad de la AI
+- Seleccionar que lado de la pantalla controlas
 
-## Controlles
+## Controles
 + 'w' y 's'				-> Controla la pala izquierda
 + Arrow up & Arrow down	-> Controla la pala derecha
 
@@ -37,15 +40,14 @@ Por ahora, aunque no se puede cambiar los ajustes, esto es lo que podrias custom
 	-- Las dos Barras si es un 1 vs 1
 ***
 
-## CODE -> FILE DISTRIBUITION:
-
+## Distribucion del codigo y arquitectura
 - AI -->
-	- Only the AI mechanic and choses of difficulty of it.
+	- Only the AI mechanic and the levels of difficulty.
 
 - fetch -->
 	- The method for restoring data saved in a JSON
 
-- OBJPong -->
+- OBPong -->
 	- All the necessary objects and structs for pong game
 	- All the "Deffault" attributes and inicializations
 	- All the Object Drawing for pong
